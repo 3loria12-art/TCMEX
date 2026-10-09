@@ -1,0 +1,185 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCMEX — Bouge autrement</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f4f4f0;
+      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    header {
+      padding: 22px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+    .logo span { color: #91aa00; }
+    nav a {
+      margin-left: 20px;
+      color: #111;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .hero {
+      padding: 80px 6%;
+      min-height: 490px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #e5e5df;
+    }
+    .tag {
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+    h1 {
+      font-size: clamp(55px, 12vw, 130px);
+      line-height: .85;
+      letter-spacing: -8px;
+      margin: 35px 0;
+    }
+    h1 span {
+      color: transparent;
+      -webkit-text-stroke: 2px #111;
+    }
+    .hero p { line-height: 1.7; }
+    .button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 16px 22px;
+      background: #111;
+      color: white;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: bold;
+      width: fit-content;
+    }
+    .shop { padding: 70px 6%; }
+    h2 {
+      font-size: clamp(32px, 5vw, 55px);
+      letter-spacing: -3px;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .product { min-width: 0; }
+    .visual {
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+    .black { background: #252523; color: white; }
+    .grey { background: #d0d0ca; color: #222; }
+    .green { background: #d7ff36; color: #111; }
+    .product h3 { font-size: 13px; margin-bottom: 6px; }
+    .product p { font-size: 13px; color: #666; }
+    .price { font-weight: bold; }
+    .note { color: #777; font-size: 12px; margin-top: 25px; }
+    .banner {
+      padding: 70px 6%;
+      background: #111;
+      color: white;
+    }
+    .banner h2 { font-size: clamp(45px, 9vw, 90px); }
+    footer {
+      padding: 28px 6%;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 11px;
+    }
+    @media (max-width: 650px) {
+      header { padding: 18px 5%; }
+      nav a { margin-left: 10px; font-size: 10px; }
+      .hero { padding: 65px 5%; }
+      h1 { letter-spacing: -4px; }
+      .shop { padding: 50px 5%; }
+      .products { grid-template-columns: 1fr; gap: 30px; }
+      .visual { height: 330px; }
+      footer { padding: 25px 5%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">TCMEX<span>.</span></div>
+    <nav>
+      <a href="#boutique">BOUTIQUE</a>
+      <a href="#air">TCMEX AIR</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="tag">MARQUE INDÉPENDANTE · 2026</div>
+    <h1>BOUGE<br><span>AUTREMENT.</span></h1>
+    <p>Pensé pour bouger.<br>Créé pour le quotidien.</p>
+    <a class="button" href="#boutique">DÉCOUVRIR LA COLLECTION ↘</a>
+  </section>
+
+  <section class="shop" id="boutique">
+    <p class="tag">01 — LA COLLECTION</p>
+    <h2>LES ESSENTIELS<span>.</span></h2>
+
+    <div class="products">
+      <article class="product">
+        <div class="visual black">TCMEX</div>
+        <h3>TCMEX CORE TEE</h3>
+        <p>T-shirt · Noir</p>
+        <div class="price">CHF 29.90</div>
+      </article>
+
+      <article class="product">
+        <div class="visual grey">TCMEX</div>
+        <h3>TCMEX HEAVY HOODIE</h3>
+        <p>Sweat · Gris</p>
+        <div class="price">CHF 59.90</div>
+      </article>
+
+      <article class="product" id="air">
+        <div class="visual green">TCMEX AIR</div>
+        <h3>TCMEX AIR 01</h3>
+        <p>Baskets · Concept</p>
+        <div class="price">CHF 89.90</div>
+      </article>
+    </div>
+
+    <p class="note">
+      Les produits présentés sont des concepts. Les commandes et les paiements ne sont pas encore disponibles.
+    </p>
+  </section>
+
+  <section class="banner">
+    <p class="tag">02 — TCMEX AIR</p>
+    <h2>TOUJOURS<br>EN MOUVEMENT.</h2>
+    <p>Une identité. Un mouvement. TCMEX.</p>
+  </section>
+
+  <footer>
+    <div class="logo">TCMEX<span>.</span></div>
+    <p>MODE URBAINE / SPORT / MOUVEMENT</p>
+    <p>© TCMEX 2026</p>
+  </footer>
+</body>
+</html>
+```
