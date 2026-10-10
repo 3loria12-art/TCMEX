@@ -2,184 +2,133 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TCMEX — Bouge autrement</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #f4f4f0;
-      color: #111;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    header {
-      padding: 22px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-    }
-    .logo {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -2px;
-    }
-    .logo span { color: #91aa00; }
-    nav a {
-      margin-left: 20px;
-      color: #111;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .hero {
-      padding: 80px 6%;
-      min-height: 490px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: #e5e5df;
-    }
-    .tag {
-      font-size: 11px;
-      letter-spacing: 2px;
-      font-weight: bold;
-    }
-    h1 {
-      font-size: clamp(55px, 12vw, 130px);
-      line-height: .85;
-      letter-spacing: -8px;
-      margin: 35px 0;
-    }
-    h1 span {
-      color: transparent;
-      -webkit-text-stroke: 2px #111;
-    }
-    .hero p { line-height: 1.7; }
-    .button {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 16px 22px;
-      background: #111;
-      color: white;
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: bold;
-      width: fit-content;
-    }
-    .shop { padding: 70px 6%; }
-    h2 {
-      font-size: clamp(32px, 5vw, 55px);
-      letter-spacing: -3px;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .product { min-width: 0; }
-    .visual {
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-    .black { background: #252523; color: white; }
-    .grey { background: #d0d0ca; color: #222; }
-    .green { background: #d7ff36; color: #111; }
-    .product h3 { font-size: 13px; margin-bottom: 6px; }
-    .product p { font-size: 13px; color: #666; }
-    .price { font-weight: bold; }
-    .note { color: #777; font-size: 12px; margin-top: 25px; }
-    .banner {
-      padding: 70px 6%;
-      background: #111;
-      color: white;
-    }
-    .banner h2 { font-size: clamp(45px, 9vw, 90px); }
-    footer {
-      padding: 28px 6%;
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      flex-wrap: wrap;
-      font-size: 11px;
-    }
-    @media (max-width: 650px) {
-      header { padding: 18px 5%; }
-      nav a { margin-left: 10px; font-size: 10px; }
-      .hero { padding: 65px 5%; }
-      h1 { letter-spacing: -4px; }
-      .shop { padding: 50px 5%; }
-      .products { grid-template-columns: 1fr; gap: 30px; }
-      .visual { height: 330px; }
-      footer { padding: 25px 5%; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TCMEX — Bouge autrement</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#090909;--white:#f2f2ed;--lime:#d7ff00;--gray:#858585}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+header{height:78px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #303030}
+.logo{font-size:30px;font-weight:1000;font-style:italic;letter-spacing:-2px}
+.logo span{color:var(--lime)}
+nav{display:flex;gap:26px}
+nav a,.cart{font-size:10px;font-weight:900;letter-spacing:1px}
+.cart{border:1px solid var(--lime);padding:12px;background:transparent;color:var(--lime)}
+.hero{min-height:610px;padding:30px 6% 55px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(ellipse at 80% 45%,#292d16 0%,#090909 50%)}
+.topline{display:flex;justify-content:space-between;gap:15px;font-size:10px;font-weight:bold;letter-spacing:2px;color:#bbb}
+h1{font-size:clamp(70px,14vw,175px);line-height:.77;letter-spacing:-.095em;font-weight:1000;font-style:italic;margin:75px 0 55px;position:relative;z-index:1}
+h1 span{color:var(--lime)}
+.hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:20px;position:relative;z-index:1}
+.hero-bottom p{font-size:13px;line-height:1.7;color:#ccc}
+.btn{display:inline-block;background:var(--lime);color:#090909;padding:17px 23px;font-size:10px;font-weight:1000;letter-spacing:1px}
+.big-t{position:absolute;right:4%;top:18%;font-size:370px;font-weight:1000;font-style:italic;color:#ffffff08;transform:rotate(-12deg)}
+section.shop{padding:90px 6%}
+.kicker{font-size:10px;letter-spacing:2px;color:var(--lime);font-weight:bold;margin-bottom:15px}
+.heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:35px}
+h2{font-size:clamp(36px,6vw,70px);line-height:.9;letter-spacing:-.07em;font-weight:1000;font-style:italic}
+.heading>p{font-size:10px;color:#aaa;line-height:1.8;text-align:right}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.visual{height:350px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:17px}
+.tee{background:linear-gradient(145deg,#242424,#101010)}
+.hoodie{background:linear-gradient(145deg,#777,#292929)}
+.shoe{background:linear-gradient(145deg,#d7ff00,#829900);color:#090909}
+.art-logo{border:2px solid currentColor;border-radius:50%;padding:16px 24px;font-size:27px;font-weight:1000;font-style:italic;transform:rotate(-12deg)}
+.tee .art-logo{background:#111;color:var(--lime);box-shadow:0 0 45px #d7ff0033}
+.hoodie .art-logo{background:#333;color:white;box-shadow:0 0 45px #0005}
+.shoe .art-logo{font-size:29px;border-radius:0;border-width:3px}
+.visual small{position:absolute;bottom:15px;left:15px;font-size:9px;letter-spacing:2px;font-weight:bold}
+.product-info{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
+.product-info h3{font-size:12px;margin-bottom:7px}
+.product-info p{font-size:11px;color:#999}
+.price{font-size:12px;font-weight:bold;white-space:nowrap}
+.product button{width:100%;padding:15px 8px;border:1px solid #555;background:transparent;color:white;font-size:10px;font-weight:bold;letter-spacing:.7px}
+.product button:hover{background:var(--lime);border-color:var(--lime);color:#090909}
+.notice{font-size:11px;line-height:1.7;color:#999;margin-top:25px}
+.air{padding:85px 6%;background:var(--lime);color:#090909}
+.air .kicker{color:#333}
+.air h2{font-size:clamp(55px,10vw,120px)}
+.air p:last-child{margin-top:24px;font-size:13px;line-height:1.8}
+footer{padding:30px 6%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;border-top:1px solid #303030}
+footer p{font-size:9px;color:#999;letter-spacing:1px}
+@media(max-width:700px){
+header{height:68px;padding:0 4%}
+.logo{font-size:25px}
+nav{gap:12px}
+nav a{font-size:9px}
+.cart{font-size:9px;padding:10px 8px}
+.hero{min-height:520px;padding:25px 5% 40px}
+.topline{font-size:8px;letter-spacing:1px}
+h1{font-size:clamp(62px,13vw,100px);margin:75px 0}
+.big-t{font-size:220px;top:27%}
+.hero-bottom{align-items:start;flex-direction:column}
+section.shop{padding:60px 5%}
+.products{grid-template-columns:1fr;gap:38px}
+.visual{height:380px}
+.heading h2{font-size:37px}
+.air{padding:65px 5%}
+footer{padding:25px 5%;flex-direction:column;align-items:start}
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">TCMEX<span>.</span></div>
-    <nav>
-      <a href="#boutique">BOUTIQUE</a>
-      <a href="#air">TCMEX AIR</a>
-    </nav>
-  </header>
+<header>
+<a class="logo" href="#">TCMEX<span>.</span></a>
+<nav><a href="#shop">BOUTIQUE</a><a href="#air">TCMEX AIR</a></nav>
+<button class="cart" onclick="alert('La boutique est en préparation. Les commandes ne sont pas encore ouvertes.')">BIENTÔT ↗</button>
+</header>
 
-  <section class="hero">
-    <div class="tag">MARQUE INDÉPENDANTE · 2026</div>
-    <h1>BOUGE<br><span>AUTREMENT.</span></h1>
-    <p>Pensé pour bouger.<br>Créé pour le quotidien.</p>
-    <a class="button" href="#boutique">DÉCOUVRIR LA COLLECTION ↘</a>
-  </section>
+<main>
+<section class="hero">
+<div class="topline"><span>TCMEX — STREETWEAR</span><span>COLLECTION 001 / 2026</span></div>
+<div class="big-t">T</div>
+<h1>BOUGE<br><span>AUTREMENT.</span></h1>
+<div class="hero-bottom">
+<p>FAIT POUR AVANCER.<br>CONÇU POUR SE DÉMARQUER.</p>
+<a class="btn" href="#shop">DÉCOUVRIR TCMEX ↘</a>
+</div>
+</section>
 
-  <section class="shop" id="boutique">
-    <p class="tag">01 — LA COLLECTION</p>
-    <h2>LES ESSENTIELS<span>.</span></h2>
+<section class="shop" id="shop">
+<p class="kicker">01 / LA VISION</p>
+<div class="heading">
+<h2>PAS FAIT<br>POUR SUIVRE.</h2>
+<p>UNE IDENTITÉ.<br>UN MOUVEMENT.</p>
+</div>
+<div class="products">
+<article class="product">
+<div class="visual tee"><span class="art-logo">TCMEX</span><small>CONCEPT 001</small></div>
+<div class="product-info"><div><h3>TCMEX CORE TEE</h3><p>T-shirt oversize / Noir</p></div><span class="price">À VENIR</span></div>
+<button onclick="alert('TCMEX CORE TEE — Produit en préparation. Pas encore disponible à la vente.')">BIENTÔT DISPONIBLE ↗</button>
+</article>
+<article class="product">
+<div class="visual hoodie"><span class="art-logo">TCMEX</span><small>CONCEPT 002</small></div>
+<div class="product-info"><div><h3>TCMEX HEAVY</h3><p>Sweat oversize / Gris</p></div><span class="price">À VENIR</span></div>
+<button onclick="alert('TCMEX HEAVY — Produit en préparation. Pas encore disponible à la vente.')">BIENTÔT DISPONIBLE ↗</button>
+</article>
+<article class="product">
+<div class="visual shoe"><span class="art-logo">TCMEX<br>AIR 01</span><small>CONCEPT 003</small></div>
+<div class="product-info"><div><h3>TCMEX AIR 01</h3><p>Baskets / Concept</p></div><span class="price">À VENIR</span></div>
+<button onclick="alert('TCMEX AIR 01 — Concept en développement. Pas encore disponible à la vente.')">EN DÉVELOPPEMENT ↗</button>
+</article>
+</div>
+<p class="notice">Ces visuels sont des concepts créatifs. Les produits ne sont pas encore fabriqués ni disponibles à la vente.</p>
+</section>
 
-    <div class="products">
-      <article class="product">
-        <div class="visual black">TCMEX</div>
-        <h3>TCMEX CORE TEE</h3>
-        <p>T-shirt · Noir</p>
-        <div class="price">CHF 29.90</div>
-      </article>
+<section class="air" id="air">
+<p class="kicker">02 / TCMEX AIR</p>
+<h2>CHANGE<br>DE VITESSE.</h2>
+<p>UNE NOUVELLE VISION DU MOUVEMENT.<br>TCMEX AIR — EN PRÉPARATION.</p>
+</section>
+</main>
 
-      <article class="product">
-        <div class="visual grey">TCMEX</div>
-        <h3>TCMEX HEAVY HOODIE</h3>
-        <p>Sweat · Gris</p>
-        <div class="price">CHF 59.90</div>
-      </article>
-
-      <article class="product" id="air">
-        <div class="visual green">TCMEX AIR</div>
-        <h3>TCMEX AIR 01</h3>
-        <p>Baskets · Concept</p>
-        <div class="price">CHF 89.90</div>
-      </article>
-    </div>
-
-    <p class="note">
-      Les produits présentés sont des concepts. Les commandes et les paiements ne sont pas encore disponibles.
-    </p>
-  </section>
-
-  <section class="banner">
-    <p class="tag">02 — TCMEX AIR</p>
-    <h2>TOUJOURS<br>EN MOUVEMENT.</h2>
-    <p>Une identité. Un mouvement. TCMEX.</p>
-  </section>
-
-  <footer>
-    <div class="logo">TCMEX<span>.</span></div>
-    <p>MODE URBAINE / SPORT / MOUVEMENT</p>
-    <p>© TCMEX 2026</p>
-  </footer>
+<footer>
+<a class="logo" href="#">TCMEX<span>.</span></a>
+<p>STREETWEAR / SPORT / MOUVEMENT</p>
+<p>© TCMEX 2026</p>
+</footer>
 </body>
 </html>
 ```
