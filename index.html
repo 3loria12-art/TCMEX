@@ -361,6 +361,25 @@ supabaseClient.auth.onAuthStateChange((_event, session) => {
   const button = document.querySelector('header .cart');
   if (button) button.textContent = session ? 'MON ESPACE ✓' : 'MON ESPACE ↗';
 });
+  
+async function forgotPassword() {
+  const email = prompt("Entre ton adresse e-mail :");
+  if (!email) return;
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(
+    email,
+    {
+      redirectTo: "https://3loria12-art.github.io/TCMEX/"
+    }
+  );
+
+  if (error) {
+    alert("Erreur : " + error.message);
+  } else {
+    alert("Si l'envoi est autorisé, vérifie ta boîte mail pour réinitialiser ton mot de passe.");
+  }
+}
+
 </script>
 </body>
 </html>
