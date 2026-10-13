@@ -3,19 +3,20 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10111b">
   <title>TCMEX — Ton espace</title>
+
   <style>
     :root {
       --bg: #10111b;
       --panel: #191b2b;
-      --panel2: #22253a;
+      --panel2: #24263b;
       --text: #f4f5ff;
       --muted: #a8abc4;
       --accent: #8b7cff;
-      --accent2: #55d6be;
-      --danger: #ff7777;
+      --green: #55d6be;
+      --red: #ff7777;
       --border: #343750;
     }
 
@@ -24,10 +25,8 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background:
-        radial-gradient(ellipse at top, #292449 0%, transparent 55%),
-        var(--bg);
       color: var(--text);
+      background: radial-gradient(ellipse at top, #292449, transparent 55%), var(--bg);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -36,29 +35,28 @@
 
     .topbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       padding: 20px 7%;
       border-bottom: 1px solid var(--border);
-      background: #10111bd9;
     }
 
     .logo { font-size: 25px; font-weight: 900; letter-spacing: 2px; }
-    .logo span { color: var(--accent); }
+    .logo span, .hero h1 span { color: var(--accent); }
 
     .button {
+      padding: 11px 17px;
+      color: white;
+      background: var(--accent);
       border: 0;
       border-radius: 10px;
-      padding: 11px 17px;
-      background: var(--accent);
-      color: white;
       font-weight: 700;
     }
 
-    .button:hover { filter: brightness(1.12); }
+    .button:hover { filter: brightness(1.1); }
     .button:disabled { opacity: .6; cursor: wait; }
-    .button.secondary { background: var(--panel2); border: 1px solid var(--border); }
-    .button.green { background: #197d70; }
+    .secondary { background: var(--panel2); border: 1px solid var(--border); }
+    .full { width: 100%; }
 
     .hero {
       width: min(900px, 90%);
@@ -68,50 +66,62 @@
 
     .tag {
       display: inline-block;
-      border: 1px solid #4c477d;
-      border-radius: 30px;
       padding: 7px 13px;
       color: #c9c2ff;
       background: #282344;
+      border: 1px solid #4c477d;
+      border-radius: 30px;
       font-size: 13px;
     }
 
-    h1 { font-size: clamp(38px, 7vw, 68px); line-height: 1.05; margin: 22px 0; }
-    h1 span { color: var(--accent); }
-    .hero p { max-width: 600px; margin: 0 auto; color: var(--muted); line-height: 1.7; }
+    .hero h1 {
+      margin: 22px 0;
+      font-size: clamp(38px, 7vw, 68px);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 27px;
+    }
 
     .features {
-      width: min(1000px, 90%);
-      margin: 40px auto 70px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 16px;
+      width: min(1000px, 90%);
+      margin: 40px auto 70px;
     }
 
     .feature, .account-card {
+      padding: 23px;
       background: #191b2bd9;
       border: 1px solid var(--border);
       border-radius: 17px;
-      padding: 23px;
     }
 
     .feature h3 { margin: 10px 0; }
-    .feature p { color: var(--muted); line-height: 1.6; font-size: 14px; }
+    .feature p, .account-card p { color: var(--muted); line-height: 1.6; overflow-wrap: anywhere; }
     .feature-icon { font-size: 26px; }
 
-    .account-area {
-      width: min(700px, 90%);
-      margin: 0 auto 70px;
-    }
-
+    .account-area { width: min(700px, 90%); margin: 0 auto 70px; }
     .account-card { display: none; }
     .account-card.visible { display: block; }
-    .account-card p { color: var(--muted); overflow-wrap: anywhere; }
 
     footer {
       padding: 25px;
-      text-align: center;
       color: var(--muted);
+      text-align: center;
       border-top: 1px solid var(--border);
       font-size: 13px;
     }
@@ -125,7 +135,7 @@
       justify-content: center;
       padding: 20px;
       overflow-y: auto;
-      background: #090a12eF;
+      background: #090a12ef;
       backdrop-filter: blur(8px);
     }
 
@@ -135,30 +145,38 @@
       width: min(430px, 100%);
       margin: auto;
       padding: 30px;
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 20px;
-      background: var(--panel);
       box-shadow: 0 25px 90px #0008;
     }
 
-    .auth-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .auth-heading { display: flex; justify-content: space-between; gap: 12px; }
     .auth-heading h2 { margin: 0 0 8px; }
     .auth-heading p { margin: 0 0 22px; color: var(--muted); font-size: 14px; }
 
     .close {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      font-size: 25px;
+      align-self: flex-start;
       padding: 0 4px;
+      color: var(--muted);
+      background: none;
+      border: 0;
+      font-size: 25px;
     }
 
     .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 22px; }
-    .tab { background: var(--panel2); border: 1px solid var(--border); color: var(--muted); border-radius: 9px; padding: 10px; }
-    .tab.active { background: #353052; border-color: var(--accent); color: white; }
+    .tab {
+      padding: 10px;
+      color: var(--muted);
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .tab.active { color: white; background: #353052; border-color: var(--accent); }
 
     .field { margin-bottom: 15px; }
-    .field label { display: block; margin-bottom: 7px; font-size: 13px; color: #d8daed; }
+    .field label { display: block; margin-bottom: 7px; color: #d8daed; font-size: 13px; }
     .field input {
       width: 100%;
       padding: 12px 13px;
@@ -170,11 +188,20 @@
     }
 
     .field input:focus { border-color: var(--accent); }
-    .full { width: 100%; }
-    .forgot { display: block; margin: 0 0 17px auto; color: #b9b0ff; background: none; border: 0; font-size: 13px; padding: 0; }
+
+    .forgot {
+      display: block;
+      margin: 0 0 17px auto;
+      padding: 0;
+      color: #b9b0ff;
+      background: none;
+      border: 0;
+      font-size: 13px;
+    }
+
     .status { min-height: 20px; margin: 13px 0 0; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
-    .status.error { color: var(--danger); }
-    .status.success { color: var(--accent2); }
+    .status.error { color: var(--red); }
+    .status.success { color: var(--green); }
     .small { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.6; text-align: center; }
     .hidden { display: none !important; }
 
@@ -190,18 +217,18 @@
 <body>
   <header class="topbar">
     <div class="logo">TCM<span>EX</span></div>
-    <button class="button" id="headerAuthButton" type="button" onclick="openAuthScreen('login')">Connexion</button>
+    <button class="button" id="headerAuthButton" type="button">Connexion</button>
   </header>
 
   <main>
     <section class="hero">
       <span class="tag">Bienvenue sur TCMEX</span>
       <h1>Ton espace.<br><span>Ton univers.</span></h1>
-      <p>Connecte-toi pour accéder à ton espace personnel, ou crée un compte pour commencer.</p>
-      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:27px">
-        <button class="button" type="button" onclick="openAuthScreen('signup')">Créer un compte</button>
-        <button class="button secondary" type="button" onclick="openAuthScreen('login')">Se connecter</button>
-        <button class="button secondary" type="button" onclick="enterDemo()">Mode démo</button>
+      <p>Connecte-toi à ton espace personnel ou crée un compte pour commencer.</p>
+      <div class="hero-actions">
+        <button class="button" id="createAccountButton" type="button">Créer un compte</button>
+        <button class="button secondary" id="loginButton" type="button">Se connecter</button>
+        <button class="button secondary" id="demoButton" type="button">Mode démo</button>
       </div>
     </section>
 
@@ -209,7 +236,7 @@
       <article class="feature">
         <div class="feature-icon">🔐</div>
         <h3>Compte sécurisé</h3>
-        <p>Connecte-toi à ton compte avec l'authentification Supabase.</p>
+        <p>Connecte-toi grâce au service d'authentification Supabase.</p>
       </article>
       <article class="feature">
         <div class="feature-icon">👤</div>
@@ -228,7 +255,7 @@
         <h2>Mon compte</h2>
         <p id="accountEmail"></p>
         <p id="accountState"></p>
-        <button class="button secondary" type="button" onclick="signOut()">Se déconnecter</button>
+        <button class="button secondary" id="logoutButton" type="button">Se déconnecter</button>
         <p class="status" id="accountStatus" aria-live="polite"></p>
       </article>
     </section>
@@ -243,55 +270,55 @@
           <h2 id="authTitle">Connexion</h2>
           <p id="authSubtitle">Ravi de te revoir.</p>
         </div>
-        <button class="close" type="button" aria-label="Fermer" onclick="closeAuthScreen()">×</button>
+        <button class="close" id="closeAuthButton" type="button" aria-label="Fermer">×</button>
       </div>
 
       <div class="tabs" id="authTabs">
-        <button class="tab active" id="loginTab" type="button" onclick="setAuthMode('login')">Connexion</button>
-        <button class="tab" id="signupTab" type="button" onclick="setAuthMode('signup')">Inscription</button>
+        <button class="tab active" id="loginTab" type="button">Connexion</button>
+        <button class="tab" id="signupTab" type="button">Inscription</button>
       </div>
 
       <form id="authForm">
-        <div class="field">
+        <div class="field" id="emailField">
           <label for="authEmail">Adresse e-mail</label>
-          <input id="authEmail" name="email" type="email" autocomplete="email" placeholder="toi@exemple.com" required>
+          <input id="authEmail" type="email" autocomplete="email" placeholder="toi@exemple.com" required>
         </div>
 
-        <div class="field" id="nameField">
+        <div class="field hidden" id="nameField">
           <label for="authName">Nom d'utilisateur (facultatif)</label>
-          <input id="authName" name="name" type="text" autocomplete="nickname" maxlength="40" placeholder="Ton pseudo">
+          <input id="authName" type="text" autocomplete="nickname" maxlength="40" placeholder="Ton pseudo">
         </div>
 
         <div class="field">
           <label for="authPassword">Mot de passe</label>
-          <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Au moins 6 caractères" required>
+          <input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Au moins 6 caractères" required>
         </div>
 
         <div class="field hidden" id="confirmPasswordField">
           <label for="authPasswordConfirm">Confirmer le mot de passe</label>
-          <input id="authPasswordConfirm" type="password" autocomplete="new-password" minlength="6" placeholder="Retape ton mot de passe">
+          <input id="authPasswordConfirm" type="password" autocomplete="new-password" minlength="6">
         </div>
 
-        <button class="forgot" id="forgotButton" type="button" onclick="forgotPassword()">Mot de passe oublié ?</button>
+        <button class="forgot" id="forgotButton" type="button">Mot de passe oublié ?</button>
         <button class="button full" id="submitButton" type="submit">Se connecter</button>
         <p class="status" id="authMessage" role="status" aria-live="polite"></p>
       </form>
 
-      <div id="resetPanel" class="hidden">
-        <p style="color:var(--muted);font-size:14px;line-height:1.6">Après avoir ouvert le lien reçu par e-mail, choisis ton nouveau mot de passe ici.</p>
-        <form id="newPasswordForm">
-          <div class="field">
-            <label for="newPassword">Nouveau mot de passe</label>
-            <input id="newPassword" type="password" minlength="6" autocomplete="new-password" required>
-          </div>
-          <div class="field">
-            <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
-            <input id="newPasswordConfirm" type="password" minlength="6" autocomplete="new-password" required>
-          </div>
-          <button class="button full" id="savePasswordButton" type="submit">Enregistrer le mot de passe</button>
-          <p class="status" id="resetMessage" role="status" aria-live="polite"></p>
-        </form>
-      </div>
+      <form id="resetPanel" class="hidden">
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">
+          Choisis ton nouveau mot de passe après avoir ouvert le lien reçu par e-mail.
+        </p>
+        <div class="field">
+          <label for="newPassword">Nouveau mot de passe</label>
+          <input id="newPassword" type="password" minlength="6" autocomplete="new-password" required>
+        </div>
+        <div class="field">
+          <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
+          <input id="newPasswordConfirm" type="password" minlength="6" autocomplete="new-password" required>
+        </div>
+        <button class="button full" id="savePasswordButton" type="submit">Enregistrer le mot de passe</button>
+        <p class="status" id="resetMessage" role="status" aria-live="polite"></p>
+      </form>
 
       <p class="small">Ne partage jamais ton mot de passe avec quelqu'un.</p>
     </div>
@@ -299,61 +326,31 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Configuration Supabase : remplace la valeur ci-dessous par ta clé publishable.
+    // Configuration de ton projet Supabase.
     const SUPABASE_URL = "https://rbjekzjoyiyesiinsliw.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ";
 
     let supabaseClient = null;
     let authMode = "login";
     let demoMode = false;
-    let passwordRecovery = false;
+    let recoveryMode = false;
 
     const $ = (id) => document.getElementById(id);
 
     function showMessage(message, isError = false) {
       const el = $("authMessage");
       el.textContent = message;
-      el.className = "status " + (isError ? "error" : "success");
+      el.className = "status" + (message ? (isError ? " error" : " success") : "");
     }
 
     function showResetMessage(message, isError = false) {
       const el = $("resetMessage");
       el.textContent = message;
-      el.className = "status " + (isError ? "error" : "success");
-    }
-
-    function setBusy(busy, label) {
-      $("submitButton").disabled = busy;
-      $("submitButton").textContent = busy ? "Patiente..." : label;
-    }
-
-    function setAuthMode(mode) {
-      authMode = mode === "signup" ? "signup" : "login";
-      passwordRecovery = false;
-      $("authTitle").textContent = authMode === "signup" ? "Créer un compte" : "Connexion";
-      $("authSubtitle").textContent = authMode === "signup"
-        ? "Inscris-toi pour commencer."
-        : "Ravi de te revoir.";
-      $("loginTab").classList.toggle("active", authMode === "login");
-      $("signupTab").classList.toggle("active", authMode === "signup");
-      $("authTabs").classList.remove("hidden");
-      $("authForm").classList.remove("hidden");
-      $("resetPanel").classList.add("hidden");
-      $("nameField").classList.toggle("hidden", authMode !== "signup");
-      $("confirmPasswordField").classList.toggle("hidden", authMode !== "signup");
-      $("forgotButton").classList.toggle("hidden", authMode !== "login");
-      $("authPassword").autocomplete = authMode === "signup" ? "new-password" : "current-password";
-      $("authPasswordConfirm").required = authMode === "signup";
-      $("submitButton").textContent = authMode === "signup" ? "Créer mon compte" : "Se connecter";
-      $("authMessage").textContent = "";
-      $("authMessage").className = "status";
+      el.className = "status" + (message ? (isError ? " error" : " success") : "");
     }
 
     function openAuthScreen(mode = "login") {
-      if (demoMode) {
-        demoMode = false;
-        updateAccount(null);
-      }
+      demoMode = false;
       $("authScreen").classList.add("open");
       setAuthMode(mode);
     }
@@ -362,58 +359,75 @@
       $("authScreen").classList.remove("open");
     }
 
+    function setAuthMode(mode) {
+      authMode = mode;
+      recoveryMode = false;
+
+      $("authTitle").textContent = mode === "signup" ? "Créer un compte" : "Connexion";
+      $("authSubtitle").textContent = mode === "signup" ? "Inscris-toi pour commencer." : "Ravi de te revoir.";
+      $("loginTab").classList.toggle("active", mode === "login");
+      $("signupTab").classList.toggle("active", mode === "signup");
+
+      $("authTabs").classList.remove("hidden");
+      $("authForm").classList.remove("hidden");
+      $("resetPanel").classList.add("hidden");
+
+      $("nameField").classList.toggle("hidden", mode !== "signup");
+      $("confirmPasswordField").classList.toggle("hidden", mode !== "signup");
+      $("forgotButton").classList.toggle("hidden", mode !== "login");
+
+      $("authPasswordConfirm").required = mode === "signup";
+      $("authPassword").autocomplete = mode === "signup" ? "new-password" : "current-password";
+      $("submitButton").textContent = mode === "signup" ? "Créer mon compte" : "Se connecter";
+      showMessage("");
+    }
+
     function updateAccount(user) {
       const card = $("accountCard");
+
       if (user) {
+        demoMode = false;
         card.classList.add("visible");
         $("accountEmail").textContent = "E-mail : " + (user.email || "Non disponible");
         $("accountState").textContent = "Connecté à ton compte TCMEX.";
         $("headerAuthButton").textContent = "Mon compte";
-        $("headerAuthButton").onclick = openAccount;
       } else {
         card.classList.remove("visible");
         $("headerAuthButton").textContent = "Connexion";
-        $("headerAuthButton").onclick = () => openAuthScreen("login");
       }
     }
 
     function openAccount() {
-      if (demoMode) {
-        $("accountCard").classList.add("visible");
-        $("accountEmail").textContent = "Mode démo";
-        $("accountState").textContent = "Ceci est une démonstration locale, pas un compte connecté.";
-        $("accountCard").scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
       $("accountCard").scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     function enterDemo() {
       demoMode = true;
-      updateAccount(null);
       $("accountCard").classList.add("visible");
       $("accountEmail").textContent = "Mode démo activé";
       $("accountState").textContent = "Tu explores le site sans créer de compte. Les données ne sont pas enregistrées.";
-      $("accountCard").scrollIntoView({ behavior: "smooth", block: "center" });
+      $("headerAuthButton").textContent = "Mode démo";
+      openAccount();
     }
 
     async function forgotPassword() {
-      if (!supabaseClient) {
-        showMessage("La connexion au service est indisponible. Vérifie la configuration Supabase.", true);
+      const email = $("authEmail").value.trim();
+
+      if (!email) {
+        showMessage("Entre d'abord ton adresse e-mail dans le champ ci-dessus.", true);
+        $("authEmail").focus();
         return;
       }
 
-      const email = $("authEmail").value.trim();
-      if (!email) {
-        showMessage("Entre ton adresse e-mail dans le champ ci-dessus.", true);
-        $("authEmail").focus();
+      if (!supabaseClient) {
+        showMessage("Supabase n'est pas initialisé. Vérifie la clé publique et recharge la page.", true);
         return;
       }
 
       const button = $("forgotButton");
       button.disabled = true;
       button.textContent = "Envoi en cours...";
-      showMessage("");
+      showMessage("Envoi de la demande...");
 
       try {
         const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
@@ -421,12 +435,12 @@
         });
 
         if (error) {
-          showMessage(error.message, true);
+          showMessage("Erreur Supabase : " + error.message, true);
         } else {
-          showMessage("Demande envoyée si cette adresse est enregistrée. Vérifie ta boîte mail et tes courriers indésirables.");
+          showMessage("Demande traitée. Vérifie ta boîte de réception et tes courriers indésirables.");
         }
       } catch (error) {
-        showMessage("Impossible d'envoyer la demande. Réessaie plus tard.", true);
+        showMessage("Erreur JavaScript : " + (error.message || String(error)), true);
       } finally {
         button.disabled = false;
         button.textContent = "Mot de passe oublié ?";
@@ -442,11 +456,14 @@
       }
 
       if (!supabaseClient) return;
+
       const { error } = await supabaseClient.auth.signOut();
+
       if (error) {
-        $("accountStatus").textContent = error.message;
+        $("accountStatus").textContent = "Erreur : " + error.message;
         return;
       }
+
       updateAccount(null);
       $("accountStatus").textContent = "Tu es déconnecté.";
       openAuthScreen("login");
@@ -456,7 +473,7 @@
       event.preventDefault();
 
       if (!supabaseClient) {
-        showMessage("Supabase n'est pas configuré. Vérifie la clé publique dans le code.", true);
+        showMessage("Supabase n'est pas initialisé. Vérifie ta clé publishable.", true);
         return;
       }
 
@@ -475,8 +492,10 @@
         return;
       }
 
-      const originalLabel = authMode === "signup" ? "Créer mon compte" : "Se connecter";
-      setBusy(true, originalLabel);
+      const originalText = authMode === "signup" ? "Créer mon compte" : "Se connecter";
+      $("submitButton").disabled = true;
+      $("submitButton").textContent = "Patiente...";
+      showMessage("");
 
       try {
         if (authMode === "signup") {
@@ -490,25 +509,22 @@
           });
 
           if (error) {
-            showMessage(error.message, true);
+            showMessage("Erreur Supabase : " + error.message, true);
           } else if (data.session) {
-            showMessage("Compte créé. Tu es connecté.");
+            showMessage("Compte créé et connexion réussie.");
             updateAccount(data.user);
             setTimeout(closeAuthScreen, 900);
           } else {
-            showMessage("Compte créé. Vérifie ta boîte mail pour confirmer ton adresse avant de te connecter.");
+            showMessage("Compte créé. Vérifie tes e-mails pour confirmer ton adresse avant de te connecter.");
           }
         } else {
-          const { data, error } = await supabaseClient.auth.signInWithPassword({
-            email,
-            password
-          });
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
           if (error) {
             showMessage(
               error.message.includes("Email not confirmed")
-                ? "Ton adresse e-mail n'est pas encore confirmée. Vérifie tes e-mails."
-                : error.message,
+                ? "Ton adresse e-mail n'est pas confirmée. Vérifie tes e-mails."
+                : "Erreur de connexion : " + error.message,
               true
             );
           } else {
@@ -518,15 +534,20 @@
           }
         }
       } catch (error) {
-        showMessage("Une erreur est survenue. Réessaie plus tard.", true);
+        showMessage("Erreur JavaScript : " + (error.message || String(error)), true);
       } finally {
-        setBusy(false, originalLabel);
+        $("submitButton").disabled = false;
+        $("submitButton").textContent = originalText;
       }
     });
 
-    $("newPasswordForm").addEventListener("submit", async (event) => {
+    $("resetPanel").addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!supabaseClient) return;
+
+      if (!supabaseClient) {
+        showResetMessage("Supabase n'est pas initialisé.", true);
+        return;
+      }
 
       const password = $("newPassword").value;
       const confirm = $("newPasswordConfirm").value;
@@ -535,8 +556,9 @@
         showResetMessage("Le mot de passe doit contenir au moins 6 caractères.", true);
         return;
       }
+
       if (password !== confirm) {
-        showResetMessage("Les deux mots de passe ne correspondent pas.", true);
+        showResetMessage("Les mots de passe ne correspondent pas.", true);
         return;
       }
 
@@ -545,11 +567,11 @@
 
       try {
         const { error } = await supabaseClient.auth.updateUser({ password });
+
         if (error) {
-          showResetMessage(error.message, true);
+          showResetMessage("Erreur Supabase : " + error.message, true);
         } else {
           showResetMessage("Mot de passe modifié. Tu peux maintenant te connecter.");
-          passwordRecovery = false;
           setTimeout(() => {
             $("resetPanel").classList.add("hidden");
             $("authForm").classList.remove("hidden");
@@ -558,12 +580,29 @@
           }, 1200);
         }
       } catch (error) {
-        showResetMessage("Impossible de modifier le mot de passe. Ouvre à nouveau le lien reçu par e-mail.", true);
+        showResetMessage("Erreur JavaScript : " + (error.message || String(error)), true);
       } finally {
         $("savePasswordButton").disabled = false;
         $("savePasswordButton").textContent = "Enregistrer le mot de passe";
       }
     });
+
+    $("headerAuthButton").addEventListener("click", () => {
+      if (demoMode) {
+        openAccount();
+      } else {
+        openAuthScreen("login");
+      }
+    });
+
+    $("createAccountButton").addEventListener("click", () => openAuthScreen("signup"));
+    $("loginButton").addEventListener("click", () => openAuthScreen("login"));
+    $("demoButton").addEventListener("click", enterDemo);
+    $("closeAuthButton").addEventListener("click", closeAuthScreen);
+    $("loginTab").addEventListener("click", () => setAuthMode("login"));
+    $("signupTab").addEventListener("click", () => setAuthMode("signup"));
+    $("forgotButton").addEventListener("click", forgotPassword);
+    $("logoutButton").addEventListener("click", signOut);
 
     $("authScreen").addEventListener("click", (event) => {
       if (event.target === $("authScreen")) closeAuthScreen();
@@ -574,43 +613,50 @@
     });
 
     async function initializeSupabase() {
-      if (!window.supabase || SUPABASE_ANON_KEY === "COLLE_TA_CLE_SUPABASE_ICI") {
-        console.error("Configuration Supabase manquante.");
+      if (!window.supabase) {
+        showMessage("La bibliothèque Supabase n'a pas pu être chargée. Vérifie ta connexion Internet.", true);
         return;
       }
 
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true
-        }
-      });
+      if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === "COLLE_TA_CLE_PUBLISHABLE_ICI") {
+        console.error("Clé publishable Supabase manquante.");
+        return;
+      }
 
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (session?.user) updateAccount(session.user);
+      try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true
+          }
+        });
 
-      supabaseClient.auth.onAuthStateChange((event, session) => {
-        if (session?.user) updateAccount(session.user);
+        const { data, error } = await supabaseClient.auth.getSession();
 
-        if (event === "PASSWORD_RECOVERY") {
-          passwordRecovery = true;
-          $("authScreen").classList.add("open");
-          $("authTabs").classList.add("hidden");
-          $("authForm").classList.add("hidden");
-          $("resetPanel").classList.remove("hidden");
-          $("authTitle").textContent = "Nouveau mot de passe";
-          $("authSubtitle").textContent = "Choisis un nouveau mot de passe pour ton compte.";
-          showResetMessage("");
+        if (error) {
+          console.error("Erreur de session Supabase :", error.message);
+        } else if (data.session?.user) {
+          updateAccount(data.session.user);
         }
 
-        if (event === "SIGNED_OUT") updateAccount(null);
-      });
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+          if (session?.user) updateAccount(session.user);
+          if (event === "SIGNED_OUT") updateAccount(null);
 
-      // Affiche la récupération si le lien de réinitialisation contient un code dans l'URL.
-      if (window.location.hash.includes("type=recovery") ||
-          new URLSearchParams(window.location.search).has("code")) {
-        $("authScreen").classList.add("open");
+          if (event === "PASSWORD_RECOVERY") {
+            recoveryMode = true;
+            $("authScreen").classList.add("open");
+            $("authTitle").textContent = "Nouveau mot de passe";
+            $("authSubtitle").textContent = "Choisis un nouveau mot de passe.";
+            $("authTabs").classList.add("hidden");
+            $("authForm").classList.add("hidden");
+            $("resetPanel").classList.remove("hidden");
+            showResetMessage("");
+          }
+        });
+      } catch (error) {
+        console.error("Initialisation Supabase impossible :", error);
       }
     }
 
