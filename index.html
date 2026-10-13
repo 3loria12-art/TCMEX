@@ -2,384 +2,619 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090909">
-<title>TCMEX — Bouge autrement</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10111b">
+  <title>TCMEX — Ton espace</title>
+  <style>
+    :root {
+      --bg: #10111b;
+      --panel: #191b2b;
+      --panel2: #22253a;
+      --text: #f4f5ff;
+      --muted: #a8abc4;
+      --accent: #8b7cff;
+      --accent2: #55d6be;
+      --danger: #ff7777;
+      --border: #343750;
+    }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--black:#090909;--white:#f2f2ed;--lime:#d7ff00}
-html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:Arial,Helvetica,sans-serif}
-body.auth-open{overflow:hidden}
-a{color:inherit;text-decoration:none}
-button,input{font:inherit}
-button{cursor:pointer}
-header{height:78px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #303030}
-.logo{font-size:30px;font-weight:1000;font-style:italic;letter-spacing:-2px}
-.logo span{color:var(--lime)}
-nav{display:flex;gap:26px}
-nav a,.cart{font-size:10px;font-weight:900;letter-spacing:1px}
-.cart{border:1px solid var(--lime);padding:12px;background:transparent;color:var(--lime)}
-.hero{min-height:610px;padding:30px 6% 55px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(ellipse at 80% 45%,#292d16 0%,#090909 50%)}
-.topline{display:flex;justify-content:space-between;gap:15px;font-size:10px;font-weight:bold;letter-spacing:2px;color:#bbb}
-h1{font-size:clamp(70px,14vw,175px);line-height:.77;letter-spacing:-.095em;font-weight:1000;font-style:italic;margin:75px 0 55px;position:relative;z-index:1}
-h1 span{color:var(--lime)}
-.hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:20px;position:relative;z-index:1}
-.hero-bottom p{font-size:13px;line-height:1.7;color:#ccc}
-.btn{display:inline-block;background:var(--lime);color:#090909;padding:17px 23px;font-size:10px;font-weight:1000;letter-spacing:1px}
-.big-t{position:absolute;right:4%;top:18%;font-size:370px;font-weight:1000;font-style:italic;color:#ffffff08;transform:rotate(-12deg)}
-section.shop{padding:90px 6%}
-.kicker{font-size:10px;letter-spacing:2px;color:var(--lime);font-weight:bold;margin-bottom:15px}
-.heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:35px}
-h2{font-size:clamp(36px,6vw,70px);line-height:.9;letter-spacing:-.07em;font-weight:1000;font-style:italic}
-.heading>p{font-size:10px;color:#aaa;line-height:1.8;text-align:right}
-.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.visual{height:350px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:17px}
-.tee{background:linear-gradient(145deg,#242424,#101010)}
-.hoodie{background:linear-gradient(145deg,#777,#292929)}
-.shoe{background:linear-gradient(145deg,#d7ff00,#829900);color:#090909}
-.art-logo{border:2px solid currentColor;border-radius:50%;padding:16px 24px;font-size:27px;font-weight:1000;font-style:italic;transform:rotate(-12deg)}
-.tee .art-logo{background:#111;color:var(--lime);box-shadow:0 0 45px #d7ff0033}
-.hoodie .art-logo{background:#333;color:white;box-shadow:0 0 45px #0005}
-.shoe .art-logo{font-size:29px;border-radius:0;border-width:3px}
-.visual small{position:absolute;bottom:15px;left:15px;font-size:9px;letter-spacing:2px;font-weight:bold}
-.product-info{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
-.product-info h3{font-size:12px;margin-bottom:7px}
-.product-info p{font-size:11px;color:#999}
-.price{font-size:12px;font-weight:bold;white-space:nowrap}
-.product button{width:100%;padding:15px 8px;border:1px solid #555;background:transparent;color:white;font-size:10px;font-weight:bold;letter-spacing:.7px}
-.product button:hover{background:var(--lime);border-color:var(--lime);color:#090909}
-.notice{font-size:11px;line-height:1.7;color:#999;margin-top:25px}
-.air{padding:85px 6%;background:var(--lime);color:#090909}
-.air .kicker{color:#333}
-.air h2{font-size:clamp(55px,10vw,120px)}
-.air p:last-child{margin-top:24px;font-size:13px;line-height:1.8}
-footer{padding:30px 6%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;border-top:1px solid #303030}
-footer p{font-size:9px;color:#999;letter-spacing:1px}
-.auth-screen{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at 80% 20%,#242916 0%,#090909 55%);display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
-.auth-screen.hidden{display:none}
-.auth-card{width:100%;max-width:460px;padding:38px;border:1px solid #333;background:#101010;box-shadow:0 20px 80px #0008}
-.auth-logo{font-size:35px;font-weight:1000;font-style:italic;letter-spacing:-2px;margin-bottom:36px}
-.auth-logo span{color:var(--lime)}
-.auth-tag{color:var(--lime);font-size:10px;font-weight:bold;letter-spacing:2px;margin-bottom:14px}
-.auth-card h2{font-size:clamp(36px,8vw,54px);line-height:.95;letter-spacing:-2px;margin-bottom:14px}
-.auth-description{color:#999;font-size:12px;line-height:1.7;margin-bottom:26px}
-.auth-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #333;margin-bottom:25px}
-.auth-tab{background:transparent;border:0;border-bottom:2px solid transparent;padding:14px 5px;color:#888;font-weight:bold;font-size:11px}
-.auth-tab.active{color:var(--lime);border-bottom-color:var(--lime)}
-.auth-form label{display:block;font-size:10px;font-weight:bold;letter-spacing:1px;margin:18px 0 9px}
-.auth-form input{width:100%;padding:15px;background:#090909;border:1px solid #393939;color:#f2f2ed;outline:none;font-size:13px}
-.auth-form input:focus{border-color:var(--lime)}
-.auth-submit{width:100%;padding:17px;margin-top:25px;border:0;background:var(--lime);color:#090909;font-size:11px;font-weight:1000;letter-spacing:1px}
-.auth-submit:disabled{opacity:.6;cursor:wait}
-.auth-extra{margin-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.auth-link{color:#aaa;font-size:11px;text-decoration:underline;background:transparent;border:0}
-.auth-message{font-size:12px;line-height:1.6;margin-top:16px;color:var(--lime);overflow-wrap:anywhere}
-.auth-message.error{color:#ff7777}
-.auth-terms{font-size:10px;line-height:1.7;color:#777;margin-top:24px}
-.auth-screen [hidden]{display:none!important}
-@media(max-width:700px){
-header{height:68px;padding:0 4%}
-.logo{font-size:25px}
-nav{gap:12px}
-nav a{font-size:9px}
-.cart{font-size:9px;padding:10px 8px}
-.hero{min-height:520px;padding:25px 5% 40px}
-.topline{font-size:8px;letter-spacing:1px}
-h1{font-size:clamp(62px,13vw,100px);margin:75px 0}
-.big-t{font-size:220px;top:27%}
-.hero-bottom{align-items:start;flex-direction:column}
-section.shop{padding:60px 5%}
-.products{grid-template-columns:1fr;gap:38px}
-.visual{height:380px}
-.heading h2{font-size:37px}
-.air{padding:65px 5%}
-footer{padding:25px 5%;flex-direction:column;align-items:start}
-.auth-card{padding:25px 20px}
-}
-</style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top, #292449 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 7%;
+      border-bottom: 1px solid var(--border);
+      background: #10111bd9;
+    }
+
+    .logo { font-size: 25px; font-weight: 900; letter-spacing: 2px; }
+    .logo span { color: var(--accent); }
+
+    .button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 17px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+
+    .button:hover { filter: brightness(1.12); }
+    .button:disabled { opacity: .6; cursor: wait; }
+    .button.secondary { background: var(--panel2); border: 1px solid var(--border); }
+    .button.green { background: #197d70; }
+
+    .hero {
+      width: min(900px, 90%);
+      margin: 70px auto 35px;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid #4c477d;
+      border-radius: 30px;
+      padding: 7px 13px;
+      color: #c9c2ff;
+      background: #282344;
+      font-size: 13px;
+    }
+
+    h1 { font-size: clamp(38px, 7vw, 68px); line-height: 1.05; margin: 22px 0; }
+    h1 span { color: var(--accent); }
+    .hero p { max-width: 600px; margin: 0 auto; color: var(--muted); line-height: 1.7; }
+
+    .features {
+      width: min(1000px, 90%);
+      margin: 40px auto 70px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .feature, .account-card {
+      background: #191b2bd9;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 23px;
+    }
+
+    .feature h3 { margin: 10px 0; }
+    .feature p { color: var(--muted); line-height: 1.6; font-size: 14px; }
+    .feature-icon { font-size: 26px; }
+
+    .account-area {
+      width: min(700px, 90%);
+      margin: 0 auto 70px;
+    }
+
+    .account-card { display: none; }
+    .account-card.visible { display: block; }
+    .account-card p { color: var(--muted); overflow-wrap: anywhere; }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+      background: #090a12eF;
+      backdrop-filter: blur(8px);
+    }
+
+    .overlay.open { display: flex; }
+
+    .auth-card {
+      width: min(430px, 100%);
+      margin: auto;
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: 0 25px 90px #0008;
+    }
+
+    .auth-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .auth-heading h2 { margin: 0 0 8px; }
+    .auth-heading p { margin: 0 0 22px; color: var(--muted); font-size: 14px; }
+
+    .close {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 25px;
+      padding: 0 4px;
+    }
+
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 22px; }
+    .tab { background: var(--panel2); border: 1px solid var(--border); color: var(--muted); border-radius: 9px; padding: 10px; }
+    .tab.active { background: #353052; border-color: var(--accent); color: white; }
+
+    .field { margin-bottom: 15px; }
+    .field label { display: block; margin-bottom: 7px; font-size: 13px; color: #d8daed; }
+    .field input {
+      width: 100%;
+      padding: 12px 13px;
+      color: var(--text);
+      background: #10111b;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+    }
+
+    .field input:focus { border-color: var(--accent); }
+    .full { width: 100%; }
+    .forgot { display: block; margin: 0 0 17px auto; color: #b9b0ff; background: none; border: 0; font-size: 13px; padding: 0; }
+    .status { min-height: 20px; margin: 13px 0 0; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+    .status.error { color: var(--danger); }
+    .status.success { color: var(--accent2); }
+    .small { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.6; text-align: center; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 500px) {
+      .topbar { padding: 16px 5%; }
+      .logo { font-size: 21px; }
+      .hero { margin-top: 48px; }
+      .auth-card { padding: 23px; }
+    }
+  </style>
 </head>
-<body class="auth-open">
 
-<div class="auth-screen" id="authScreen">
-  <div class="auth-card">
-    <div class="auth-logo">TCMEX<span>.</span></div>
-    <p class="auth-tag">TON MOUVEMENT. TON IDENTITÉ.</p>
-    <h2 id="authTitle">ENTRE DANS<br>LE MOUVEMENT.</h2>
-    <p class="auth-description" id="authDescription">Crée ton espace TCMEX et découvre l'univers de la marque.</p>
-    <div class="auth-tabs">
-      <button type="button" class="auth-tab active" id="loginTab" onclick="showAuth('login')">SE CONNECTER</button>
-      <button type="button" class="auth-tab" id="registerTab" onclick="showAuth('register')">CRÉER UN COMPTE</button>
+<body>
+  <header class="topbar">
+    <div class="logo">TCM<span>EX</span></div>
+    <button class="button" id="headerAuthButton" type="button" onclick="openAuthScreen('login')">Connexion</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="tag">Bienvenue sur TCMEX</span>
+      <h1>Ton espace.<br><span>Ton univers.</span></h1>
+      <p>Connecte-toi pour accéder à ton espace personnel, ou crée un compte pour commencer.</p>
+      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:27px">
+        <button class="button" type="button" onclick="openAuthScreen('signup')">Créer un compte</button>
+        <button class="button secondary" type="button" onclick="openAuthScreen('login')">Se connecter</button>
+        <button class="button secondary" type="button" onclick="enterDemo()">Mode démo</button>
+      </div>
+    </section>
+
+    <section class="features">
+      <article class="feature">
+        <div class="feature-icon">🔐</div>
+        <h3>Compte sécurisé</h3>
+        <p>Connecte-toi à ton compte avec l'authentification Supabase.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-icon">👤</div>
+        <h3>Espace personnel</h3>
+        <p>Retrouve les informations de ton compte après connexion.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-icon">✉️</div>
+        <h3>Récupération</h3>
+        <p>Demande un lien par e-mail si tu as oublié ton mot de passe.</p>
+      </article>
+    </section>
+
+    <section class="account-area">
+      <article class="account-card" id="accountCard">
+        <h2>Mon compte</h2>
+        <p id="accountEmail"></p>
+        <p id="accountState"></p>
+        <button class="button secondary" type="button" onclick="signOut()">Se déconnecter</button>
+        <p class="status" id="accountStatus" aria-live="polite"></p>
+      </article>
+    </section>
+  </main>
+
+  <footer>TCMEX · Espace personnel</footer>
+
+  <section class="overlay" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <div class="auth-heading">
+        <div>
+          <h2 id="authTitle">Connexion</h2>
+          <p id="authSubtitle">Ravi de te revoir.</p>
+        </div>
+        <button class="close" type="button" aria-label="Fermer" onclick="closeAuthScreen()">×</button>
+      </div>
+
+      <div class="tabs" id="authTabs">
+        <button class="tab active" id="loginTab" type="button" onclick="setAuthMode('login')">Connexion</button>
+        <button class="tab" id="signupTab" type="button" onclick="setAuthMode('signup')">Inscription</button>
+      </div>
+
+      <form id="authForm">
+        <div class="field">
+          <label for="authEmail">Adresse e-mail</label>
+          <input id="authEmail" name="email" type="email" autocomplete="email" placeholder="toi@exemple.com" required>
+        </div>
+
+        <div class="field" id="nameField">
+          <label for="authName">Nom d'utilisateur (facultatif)</label>
+          <input id="authName" name="name" type="text" autocomplete="nickname" maxlength="40" placeholder="Ton pseudo">
+        </div>
+
+        <div class="field">
+          <label for="authPassword">Mot de passe</label>
+          <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Au moins 6 caractères" required>
+        </div>
+
+        <div class="field hidden" id="confirmPasswordField">
+          <label for="authPasswordConfirm">Confirmer le mot de passe</label>
+          <input id="authPasswordConfirm" type="password" autocomplete="new-password" minlength="6" placeholder="Retape ton mot de passe">
+        </div>
+
+        <button class="forgot" id="forgotButton" type="button" onclick="forgotPassword()">Mot de passe oublié ?</button>
+        <button class="button full" id="submitButton" type="submit">Se connecter</button>
+        <p class="status" id="authMessage" role="status" aria-live="polite"></p>
+      </form>
+
+      <div id="resetPanel" class="hidden">
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Après avoir ouvert le lien reçu par e-mail, choisis ton nouveau mot de passe ici.</p>
+        <form id="newPasswordForm">
+          <div class="field">
+            <label for="newPassword">Nouveau mot de passe</label>
+            <input id="newPassword" type="password" minlength="6" autocomplete="new-password" required>
+          </div>
+          <div class="field">
+            <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
+            <input id="newPasswordConfirm" type="password" minlength="6" autocomplete="new-password" required>
+          </div>
+          <button class="button full" id="savePasswordButton" type="submit">Enregistrer le mot de passe</button>
+          <p class="status" id="resetMessage" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <p class="small">Ne partage jamais ton mot de passe avec quelqu'un.</p>
     </div>
-    <form class="auth-form" id="authForm">
-      <div id="nameField" hidden>
-        <label for="authName">TON PSEUDO</label>
-        <input id="authName" name="name" type="text" autocomplete="nickname" placeholder="Ex : TCMEX01">
-      </div>
-      <label for="authEmail">ADRESSE E-MAIL</label>
-      <input id="authEmail" name="email" type="email" autocomplete="email" placeholder="toi@exemple.com" required>
-      <label for="authPassword">MOT DE PASSE</label>
-      <input id="authPassword" name="password" type="password" minlength="8" autocomplete="current-password" placeholder="8 caractères minimum" required>
-      <div id="confirmField" hidden>
-        <label for="authConfirm">CONFIRME TON MOT DE PASSE</label>
-        <input id="authConfirm" name="confirm" type="password" minlength="8" autocomplete="new-password">
-      </div>
-      <button type="submit" class="auth-submit" id="authSubmit">SE CONNECTER ↗</button>
-      <div class="auth-extra">
-        <button type="button" class="auth-link" id="forgotPassword" onclick="forgotPassword()">Mot de passe oublié ?</button>
-        <button type="button" class="auth-link" onclick="enterDemo()">Découvrir le site →</button>
-      </div>
-      <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
-      <p class="auth-terms">Protège ton mot de passe et confirme ton adresse e-mail si un message de validation est envoyé.</p>
-    </form>
-  </div>
-</div>
+  </section>
 
-<header>
-  <a class="logo" href="#">TCMEX<span>.</span></a>
-  <nav><a href="#shop">BOUTIQUE</a><a href="#air">TCMEX AIR</a></nav>
-  <button class="cart" onclick="openAccount()">MON ESPACE ↗</button>
-</header>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Configuration Supabase : remplace la valeur ci-dessous par ta clé publishable.
+    const SUPABASE_URL = "https://rbjekzjoyiyesiinsliw.supabase.co";
+    const SUPABASE_ANON_KEY = "COLLE_TA_CLE_SUPABASE_ICI";
 
-<main>
-<section class="hero">
-  <div class="topline"><span>TCMEX — STREETWEAR</span><span>COLLECTION 001 / 2026</span></div>
-  <div class="big-t">T</div>
-  <h1>BOUGE<br><span>AUTREMENT.</span></h1>
-  <div class="hero-bottom">
-    <p>FAIT POUR AVANCER.<br>CONÇU POUR SE DÉMARQUER.</p>
-    <a class="btn" href="#shop">DÉCOUVRIR TCMEX ↘</a>
-  </div>
-</section>
-<section class="shop" id="shop">
-  <p class="kicker">01 / LA VISION</p>
-  <div class="heading">
-    <h2>PAS FAIT<br>POUR SUIVRE.</h2>
-    <p>UNE IDENTITÉ.<br>UN MOUVEMENT.</p>
-  </div>
-  <div class="products">
-    <article class="product">
-      <div class="visual tee"><span class="art-logo">TCMEX</span><small>CONCEPT 001</small></div>
-      <div class="product-info"><div><h3>TCMEX CORE TEE</h3><p>T-shirt oversize / Noir</p></div><span class="price">À VENIR</span></div>
-      <button onclick="productNotice('TCMEX CORE TEE')">BIENTÔT DISPONIBLE ↗</button>
-    </article>
-    <article class="product">
-      <div class="visual hoodie"><span class="art-logo">TCMEX</span><small>CONCEPT 002</small></div>
-      <div class="product-info"><div><h3>TCMEX HEAVY</h3><p>Sweat oversize / Gris</p></div><span class="price">À VENIR</span></div>
-      <button onclick="productNotice('TCMEX HEAVY')">BIENTÔT DISPONIBLE ↗</button>
-    </article>
-    <article class="product">
-      <div class="visual shoe"><span class="art-logo">TCMEX<br>AIR 01</span><small>CONCEPT 003</small></div>
-      <div class="product-info"><div><h3>TCMEX AIR 01</h3><p>Baskets / Concept</p></div><span class="price">À VENIR</span></div>
-      <button onclick="productNotice('TCMEX AIR 01')">EN DÉVELOPPEMENT ↗</button>
-    </article>
-  </div>
-  <p class="notice">Ces visuels sont des concepts créatifs. Les produits ne sont pas encore fabriqués ni disponibles à la vente.</p>
-</section>
-<section class="air" id="air">
-  <p class="kicker">02 / TCMEX AIR</p>
-  <h2>CHANGE<br>DE VITESSE.</h2>
-  <p>UNE NOUVELLE VISION DU MOUVEMENT.<br>TCMEX AIR — EN PRÉPARATION.</p>
-</section>
-</main>
+    let supabaseClient = null;
+    let authMode = "login";
+    let demoMode = false;
+    let passwordRecovery = false;
 
-<footer>
-  <a class="logo" href="#">TCMEX<span>.</span></a>
-  <p>STREETWEAR / SPORT / MOUVEMENT</p>
-  <p>© TCMEX 2026</p>
-</footer>
+    const $ = (id) => document.getElementById(id);
 
-<script>
-/* REMPLACE CES DEUX VALEURS PAR CELLES DE TON PROJET SUPABASE */
-const SUPABASE_URL = "https://rbjekzjoyiyesiinsliw.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-let authMode = 'login';
-
-function showAuth(mode) {
-  authMode = mode;
-  const register = mode === 'register';
-
-  document.getElementById('loginTab').classList.toggle('active', !register);
-  document.getElementById('registerTab').classList.toggle('active', register);
-  document.getElementById('nameField').hidden = !register;
-  document.getElementById('confirmField').hidden = !register;
-  document.getElementById('authName').required = register;
-  document.getElementById('authConfirm').required = register;
-  document.getElementById('authTitle').innerHTML = register
-    ? 'REJOINS LE<br>MOUVEMENT.'
-    : 'ENTRE DANS<br>LE MOUVEMENT.';
-  document.getElementById('authDescription').textContent = register
-    ? 'Crée ton espace TCMEX et découvre l’univers de la marque.'
-    : 'Connecte-toi pour retrouver ton espace membre.';
-  document.getElementById('authSubmit').textContent = register
-    ? 'CRÉER MON COMPTE ↗'
-    : 'SE CONNECTER ↗';
-  document.getElementById('authPassword').setAttribute(
-    'autocomplete', register ? 'new-password' : 'current-password'
-  );
-  document.getElementById('forgotPassword').hidden = register;
-  showMessage('');
-}
-
-function showMessage(message, error = false) {
-  const box = document.getElementById('authMessage');
-  box.textContent = message;
-  box.classList.toggle('error', error);
-}
-
-function enterDemo() {
-  document.getElementById('authScreen').classList.add('hidden');
-  document.body.classList.remove('auth-open');
-}
-
-function openAuthScreen(mode = 'login') {
-  document.getElementById('authScreen').classList.remove('hidden');
-  document.body.classList.add('auth-open');
-  showAuth(mode);
-}
-
-async function openAccount() {
-  const { data, error } = await supabaseClient.auth.getSession();
-  if (error) {
-    openAuthScreen();
-    showMessage('Impossible de vérifier la session. Réessaie.', true);
-    return;
-  }
-
-  if (data.session) {
-    if (confirm('Veux-tu te déconnecter de TCMEX ?')) {
-      const { error: signOutError } = await supabaseClient.auth.signOut();
-      if (signOutError) showMessage(signOutError.message, true);
-      else openAuthScreen();
+    function showMessage(message, isError = false) {
+      const el = $("authMessage");
+      el.textContent = message;
+      el.className = "status " + (isError ? "error" : "success");
     }
-  } else {
-    openAuthScreen();
-  }
-}
 
-async function forgotPassword() {
-  const email = document.getElementById('authEmail').value.trim();
-  if (!email) {
-    showMessage('Entre ton adresse e-mail avant de demander un lien.', true);
-    return;
-  }
-
-  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + window.location.pathname
-  });
-
-  if (error) showMessage(error.message, true);
-  else showMessage('Si cette adresse est enregistrée, un e-mail de récupération va être envoyé.');
-}
-
-function productNotice(product) {
-  alert(product + ' — Produit en préparation. Pas encore disponible à la vente.');
-}
-
-document.getElementById('authForm').addEventListener('submit', async function(event) {
-  event.preventDefault();
-
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-  const name = document.getElementById('authName').value.trim();
-  const confirmPassword = document.getElementById('authConfirm').value;
-  const submit = document.getElementById('authSubmit');
-
-  if (password.length < 8) {
-    showMessage('Ton mot de passe doit contenir au moins 8 caractères.', true);
-    return;
-  }
-
-  if (authMode === 'register') {
-    if (!name) {
-      showMessage('Choisis un pseudo.', true);
-      return;
+    function showResetMessage(message, isError = false) {
+      const el = $("resetMessage");
+      el.textContent = message;
+      el.className = "status " + (isError ? "error" : "success");
     }
-    if (password !== confirmPassword) {
-      showMessage('Les deux mots de passe ne correspondent pas.', true);
-      return;
+
+    function setBusy(busy, label) {
+      $("submitButton").disabled = busy;
+      $("submitButton").textContent = busy ? "Patiente..." : label;
     }
-  }
 
-  submit.disabled = true;
-  showMessage('Chargement...');
+    function setAuthMode(mode) {
+      authMode = mode === "signup" ? "signup" : "login";
+      passwordRecovery = false;
+      $("authTitle").textContent = authMode === "signup" ? "Créer un compte" : "Connexion";
+      $("authSubtitle").textContent = authMode === "signup"
+        ? "Inscris-toi pour commencer."
+        : "Ravi de te revoir.";
+      $("loginTab").classList.toggle("active", authMode === "login");
+      $("signupTab").classList.toggle("active", authMode === "signup");
+      $("authTabs").classList.remove("hidden");
+      $("authForm").classList.remove("hidden");
+      $("resetPanel").classList.add("hidden");
+      $("nameField").classList.toggle("hidden", authMode !== "signup");
+      $("confirmPasswordField").classList.toggle("hidden", authMode !== "signup");
+      $("forgotButton").classList.toggle("hidden", authMode !== "login");
+      $("authPassword").autocomplete = authMode === "signup" ? "new-password" : "current-password";
+      $("authPasswordConfirm").required = authMode === "signup";
+      $("submitButton").textContent = authMode === "signup" ? "Créer mon compte" : "Se connecter";
+      $("authMessage").textContent = "";
+      $("authMessage").className = "status";
+    }
 
-  try {
-    if (authMode === 'register') {
-      const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { display_name: name },
-          emailRedirectTo: window.location.origin + window.location.pathname
+    function openAuthScreen(mode = "login") {
+      if (demoMode) {
+        demoMode = false;
+        updateAccount(null);
+      }
+      $("authScreen").classList.add("open");
+      setAuthMode(mode);
+    }
+
+    function closeAuthScreen() {
+      $("authScreen").classList.remove("open");
+    }
+
+    function updateAccount(user) {
+      const card = $("accountCard");
+      if (user) {
+        card.classList.add("visible");
+        $("accountEmail").textContent = "E-mail : " + (user.email || "Non disponible");
+        $("accountState").textContent = "Connecté à ton compte TCMEX.";
+        $("headerAuthButton").textContent = "Mon compte";
+        $("headerAuthButton").onclick = openAccount;
+      } else {
+        card.classList.remove("visible");
+        $("headerAuthButton").textContent = "Connexion";
+        $("headerAuthButton").onclick = () => openAuthScreen("login");
+      }
+    }
+
+    function openAccount() {
+      if (demoMode) {
+        $("accountCard").classList.add("visible");
+        $("accountEmail").textContent = "Mode démo";
+        $("accountState").textContent = "Ceci est une démonstration locale, pas un compte connecté.";
+        $("accountCard").scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      $("accountCard").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function enterDemo() {
+      demoMode = true;
+      updateAccount(null);
+      $("accountCard").classList.add("visible");
+      $("accountEmail").textContent = "Mode démo activé";
+      $("accountState").textContent = "Tu explores le site sans créer de compte. Les données ne sont pas enregistrées.";
+      $("accountCard").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    async function forgotPassword() {
+      if (!supabaseClient) {
+        showMessage("La connexion au service est indisponible. Vérifie la configuration Supabase.", true);
+        return;
+      }
+
+      const email = $("authEmail").value.trim();
+      if (!email) {
+        showMessage("Entre ton adresse e-mail dans le champ ci-dessus.", true);
+        $("authEmail").focus();
+        return;
+      }
+
+      const button = $("forgotButton");
+      button.disabled = true;
+      button.textContent = "Envoi en cours...";
+      showMessage("");
+
+      try {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + window.location.pathname
+        });
+
+        if (error) {
+          showMessage(error.message, true);
+        } else {
+          showMessage("Demande envoyée si cette adresse est enregistrée. Vérifie ta boîte mail et tes courriers indésirables.");
+        }
+      } catch (error) {
+        showMessage("Impossible d'envoyer la demande. Réessaie plus tard.", true);
+      } finally {
+        button.disabled = false;
+        button.textContent = "Mot de passe oublié ?";
+      }
+    }
+
+    async function signOut() {
+      if (demoMode) {
+        demoMode = false;
+        updateAccount(null);
+        $("accountStatus").textContent = "Mode démo terminé.";
+        return;
+      }
+
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) {
+        $("accountStatus").textContent = error.message;
+        return;
+      }
+      updateAccount(null);
+      $("accountStatus").textContent = "Tu es déconnecté.";
+      openAuthScreen("login");
+    }
+
+    $("authForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!supabaseClient) {
+        showMessage("Supabase n'est pas configuré. Vérifie la clé publique dans le code.", true);
+        return;
+      }
+
+      const email = $("authEmail").value.trim();
+      const password = $("authPassword").value;
+      const username = $("authName").value.trim();
+      const confirmPassword = $("authPasswordConfirm").value;
+
+      if (authMode === "signup" && password !== confirmPassword) {
+        showMessage("Les deux mots de passe ne correspondent pas.", true);
+        return;
+      }
+
+      if (authMode === "signup" && password.length < 6) {
+        showMessage("Le mot de passe doit contenir au moins 6 caractères.", true);
+        return;
+      }
+
+      const originalLabel = authMode === "signup" ? "Créer mon compte" : "Se connecter";
+      setBusy(true, originalLabel);
+
+      try {
+        if (authMode === "signup") {
+          const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: window.location.origin + window.location.pathname,
+              data: { username: username || "" }
+            }
+          });
+
+          if (error) {
+            showMessage(error.message, true);
+          } else if (data.session) {
+            showMessage("Compte créé. Tu es connecté.");
+            updateAccount(data.user);
+            setTimeout(closeAuthScreen, 900);
+          } else {
+            showMessage("Compte créé. Vérifie ta boîte mail pour confirmer ton adresse avant de te connecter.");
+          }
+        } else {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) {
+            showMessage(
+              error.message.includes("Email not confirmed")
+                ? "Ton adresse e-mail n'est pas encore confirmée. Vérifie tes e-mails."
+                : error.message,
+              true
+            );
+          } else {
+            showMessage("Connexion réussie.");
+            updateAccount(data.user);
+            setTimeout(closeAuthScreen, 700);
+          }
+        }
+      } catch (error) {
+        showMessage("Une erreur est survenue. Réessaie plus tard.", true);
+      } finally {
+        setBusy(false, originalLabel);
+      }
+    });
+
+    $("newPasswordForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!supabaseClient) return;
+
+      const password = $("newPassword").value;
+      const confirm = $("newPasswordConfirm").value;
+
+      if (password.length < 6) {
+        showResetMessage("Le mot de passe doit contenir au moins 6 caractères.", true);
+        return;
+      }
+      if (password !== confirm) {
+        showResetMessage("Les deux mots de passe ne correspondent pas.", true);
+        return;
+      }
+
+      $("savePasswordButton").disabled = true;
+      $("savePasswordButton").textContent = "Enregistrement...";
+
+      try {
+        const { error } = await supabaseClient.auth.updateUser({ password });
+        if (error) {
+          showResetMessage(error.message, true);
+        } else {
+          showResetMessage("Mot de passe modifié. Tu peux maintenant te connecter.");
+          passwordRecovery = false;
+          setTimeout(() => {
+            $("resetPanel").classList.add("hidden");
+            $("authForm").classList.remove("hidden");
+            $("authTabs").classList.remove("hidden");
+            setAuthMode("login");
+          }, 1200);
+        }
+      } catch (error) {
+        showResetMessage("Impossible de modifier le mot de passe. Ouvre à nouveau le lien reçu par e-mail.", true);
+      } finally {
+        $("savePasswordButton").disabled = false;
+        $("savePasswordButton").textContent = "Enregistrer le mot de passe";
+      }
+    });
+
+    $("authScreen").addEventListener("click", (event) => {
+      if (event.target === $("authScreen")) closeAuthScreen();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeAuthScreen();
+    });
+
+    async function initializeSupabase() {
+      if (!window.supabase || SUPABASE_ANON_KEY === "COLLE_TA_CLE_SUPABASE_ICI") {
+        console.error("Configuration Supabase manquante.");
+        return;
+      }
+
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
         }
       });
 
-      if (error) throw error;
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session?.user) updateAccount(session.user);
 
-      if (data.session) {
-        showMessage('Compte créé ! Bienvenue chez TCMEX.');
-      } else {
-        showMessage('Inscription envoyée ! Vérifie tes e-mails pour confirmer ton compte.');
-      }
-    } else {
-      const { error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (session?.user) updateAccount(session.user);
+
+        if (event === "PASSWORD_RECOVERY") {
+          passwordRecovery = true;
+          $("authScreen").classList.add("open");
+          $("authTabs").classList.add("hidden");
+          $("authForm").classList.add("hidden");
+          $("resetPanel").classList.remove("hidden");
+          $("authTitle").textContent = "Nouveau mot de passe";
+          $("authSubtitle").textContent = "Choisis un nouveau mot de passe pour ton compte.";
+          showResetMessage("");
+        }
+
+        if (event === "SIGNED_OUT") updateAccount(null);
       });
 
-      if (error) throw error;
-
-      showMessage('Connexion réussie ! Bienvenue chez TCMEX.');
-      document.getElementById('authScreen').classList.add('hidden');
-      document.body.classList.remove('auth-open');
+      // Affiche la récupération si le lien de réinitialisation contient un code dans l'URL.
+      if (window.location.hash.includes("type=recovery") ||
+          new URLSearchParams(window.location.search).has("code")) {
+        $("authScreen").classList.add("open");
+      }
     }
-  } catch (error) {
-    showMessage(error.message || 'Une erreur est survenue. Réessaie.', true);
-  } finally {
-    submit.disabled = false;
-  }
-});
 
-supabaseClient.auth.getSession().then(({ data, error }) => {
-  if (!error && data.session) {
-    document.getElementById('authScreen').classList.add('hidden');
-    document.body.classList.remove('auth-open');
-  }
-});
-
-supabaseClient.auth.onAuthStateChange((_event, session) => {
-  const button = document.querySelector('header .cart');
-  if (button) button.textContent = session ? 'MON ESPACE ✓' : 'MON ESPACE ↗';
-});
-  
-async function forgotPassword() {
-  const email = prompt("Entre ton adresse e-mail :");
-  if (!email) return;
-
-  const { error } = await supabaseClient.auth.resetPasswordForEmail(
-    email,
-    {
-      redirectTo: "https://3loria12-art.github.io/TCMEX/"
-    }
-  );
-
-  if (error) {
-    alert("Erreur : " + error.message);
-  } else {
-    alert("Si l'envoi est autorisé, vérifie ta boîte mail pour réinitialiser ton mot de passe.");
-  }
-}
-
-</script>
+    initializeSupabase();
+  </script>
 </body>
 </html>
