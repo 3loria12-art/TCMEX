@@ -264,28 +264,7 @@ async function refreshSession(){
  const params = new URLSearchParams(window.location.search);
  const confirmed = params.get('confirmed') === 'true';
 
- if(confirmed){
-  document.body.style.opacity = '0.5';
- }
-
- const {data,error} = await supabase.auth.getSession();
- if(error) throw error;
-
- currentSession = data.session;
- updateAccountUI();
-
- if(confirmed){
-  window.history.replaceState({},document.title,window.location.pathname);
-  document.body.style.opacity = '1';
-
-  if(currentSession){
-   message('authMessage','Adresse confirmée et connexion réussie.');
-  }else{
-   message('authMessage','Adresse confirmée ! Connecte-toi pour continuer.');
-  }
- }
-}
-  
+ 
  if(confirmed){
   document.body.style.opacity = '0.5';
  }
