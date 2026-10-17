@@ -337,22 +337,66 @@ $('checkoutStartButton').onclick=async()=>{
  open('checkoutOverlay');
 };
 
-$('checkoutForm').addEventListener('submit',async e=>{
- e.preventDefault();
- if(!cart.length){message('checkoutMessage','Panier vide.',true);return;}
- const {data,error:sessionError}=await supabase.auth.getSession();
- if(sessionError||!data.session?.user){message('checkoutMessage','Reconnecte-toi puis réessaie.',true);return;}
- currentSession=data.session;const btn=$('checkoutSubmit');btn.disabled=true;
- try{
-  const items=cart.map(line=>{const p=products.find(x=>x.id===line.id);return{id:p.id,name:p.name,quantity:line.qty,unit_price:p.price}});
-  const total=items.reduce((s,x)=>s+x.quantity*x.unit_price,0);
-  const {error}=await supabase.from('orders').insert({
-   user_id:currentSession.user.id,
-   customer_name:$('buyerName').value.trim(),
-   customer_email:$('buyerEmail').value.trim(),
-   shipping_address:$('buyerAddress').value.trim(),
-   items,total_chf:total,status:'pending'
-  });
+
+$('checkoutForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  if (!cart.length) {
+    message('checkoutMessage', 'Ton panier est vide.', true);
+    return;
+  }
+
+  const btn = $('checkoutSubmit');
+  btn.disabled = true;
+  hideMessage('checkoutMessage');
+
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+
+    const session = data.session;
+    if (!session?.access_token) {
+      throw new Error('Reconnecte-toi avant de payer.');
+    }
+
+    const response = await fetch(
+      `${SUPABASE_URL}/functions/v1/create-checkout`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          items: cart.map(line => ({
+            id: line.id,
+            qty: line.qty
+          })),
+          email: $('buyerEmail').value.trim(),
+          name: $('buyerName').value.trim()
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Impossible de préparer le paiement.');
+    }
+
+    if (!result.url || !result.url.startsWith('https://checkout.stripe.com/')) {
+      throw new Error('Stripe n’a pas renvoyé de lien de paiement valide.');
+    }
+
+    window.location.href = result.url;
+  } catch (err) {
+    console.error(err);
+    message('checkoutMessage', err.message || 'Erreur de paiement.', true);
+    btn.disabled = false;
+  }
+});
+
   if(error)throw error;
   cart=[];saveCart();$('checkoutForm').reset();
   message('checkoutMessage','Demande enregistrée. Aucun paiement effectué. La boutique doit confirmer la commande.');
