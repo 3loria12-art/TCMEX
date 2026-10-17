@@ -260,8 +260,31 @@ function updateAccountUI(){
  if(logged){$('accountInfo').textContent='Connecté avec : '+(user.email||'');$('authTitle').textContent='Mon compte';$('authForm').classList.add('hidden');$('newPasswordForm').classList.add('hidden');$('forgotButton').classList.add('hidden');$('signupButton').classList.add('hidden');$('loginButton').classList.add('hidden');}
  else if(!recoveryMode){$('accountInfo').classList.add('hidden');setAuthMode(authMode);}
 }
-async function refreshSession(){const {data,error}=await supabase.auth.getSession();if(error)throw error;currentSession=data.session;updateAccountUI();}
+async function refreshSession(){
+ const params = new URLSearchParams(window.location.search);
+ const confirmed = params.get('confirmed') === 'true';
 
+ if(confirmed){
+  document.body.style.opacity = '0.5';
+ }
+
+ const {data,error} = await supabase.auth.getSession();
+ if(error) throw error;
+
+ currentSession = data.session;
+ updateAccountUI();
+
+ if(confirmed){
+  window.history.replaceState({},document.title,window.location.pathname);
+  document.body.style.opacity = '1';
+
+  if(currentSession){
+   message('authMessage','Adresse confirmée et connexion réussie.');
+  }else{
+   message('authMessage','Adresse confirmée ! Connecte-toi pour continuer.');
+  }
+ }
+}
 $('accountButton').onclick=async()=>{try{await refreshSession();}catch(e){message('authMessage',e.message||'Erreur de session.',true)}if(!currentSession?.user&&!recoveryMode)setAuthMode('login');open('accountOverlay');};
 $('cartButton').onclick=()=>{renderCart();open('cartOverlay')};
 $('forgotButton').onclick=()=>setAuthMode('reset');
