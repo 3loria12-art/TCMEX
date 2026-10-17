@@ -69,6 +69,17 @@ footer strong{color:var(--lime)}
 .total{display:flex;justify-content:space-between;padding:20px 0;font-weight:bold}
 @media(max-width:760px){header{padding:15px 5%}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}}
 @media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}.product-bottom{flex-direction:row;align-items:center}}
+
+
+.product-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 12px;
+}
+
+ 
 </style>
 </head>
 <body>
@@ -181,10 +192,45 @@ function hideMessage(id){$(id).classList.add('hidden');}
 function open(id){$(id).classList.add('open');}
 function close(id){$(id).classList.remove('open');}
 
+
 function renderProducts(){
- $('products').innerHTML=products.map(p=>`<article class="product"><div class="art"><div class="${p.type==='hoodie'?'hoodie':'garment'}" style="background:${p.color}"><b style="color:${['#c8ff00','#e6e6e6'].includes(p.color.toLowerCase())?'#080808':'#c8ff00'}">TCMEX</b></div></div><div class="product-info"><h3>${safeText(p.name)}</h3><p>${safeText(p.description)}</p><div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" data-add="${p.id}" type="button">Ajouter +</button></div></div></article>`).join('');
- document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>addToCart(b.dataset.add));
+ const photos = {
+  'tee-essential': './images/tshirt-noir.png',
+  'tee-neon': './images/tshirt-gris.png',
+  'hoodie-street': './images/TCMEX Air 1, élégance monochrome.png',
+  'tee-air': './images/tshirt-blanc.png',
+  'hoodie-neon': './images/tshirt-noir.png',
+  'tee-classic': './images/tshirt-gris.png'
+ };
+
+ $('products').innerHTML = products.map(p => `
+  <article class="product">
+   <div class="art">
+    <img
+     class="product-photo"
+     src="${photos[p.id]}"
+     alt="${safeText(p.name)}"
+     loading="lazy"
+    >
+   </div>
+   <div class="product-info">
+    <h3>${safeText(p.name)}</h3>
+    <p>${safeText(p.description)}</p>
+    <div class="product-bottom">
+     <span class="price">${money(p.price)}</span>
+     <button class="add" data-add="${p.id}" type="button">
+      Ajouter +
+     </button>
+    </div>
+   </div>
+  </article>
+ `).join('');
+
+ document.querySelectorAll('[data-add]').forEach(b => {
+  b.onclick = () => addToCart(b.dataset.add);
+ });
 }
+
 function saveCart(){try{localStorage.setItem('tcmex_cart',JSON.stringify(cart));}catch{}renderCart();}
 function addToCart(id){const p=products.find(p=>p.id===id);if(!p)return;const line=cart.find(x=>x.id===id);if(line)line.qty=Math.min(20,line.qty+1);else cart.push({id,qty:1});saveCart();}
 function changeQty(id,delta){const line=cart.find(x=>x.id===id);if(!line)return;line.qty+=delta;if(line.qty<=0)cart=cart.filter(x=>x.id!==id);if(line)line.qty=Math.min(20,line.qty);saveCart();}
