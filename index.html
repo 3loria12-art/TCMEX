@@ -167,6 +167,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL = 'https://rbjekzjoyiyesiinsliw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ';
 const SITE_URL = 'https://3loria12-art.github.io/TCMEX/';
+const CONFIRM_URL = SITE_URL + '?confirmed=true';
 
 const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
@@ -271,7 +272,7 @@ $('authForm').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('authEmail').value.trim(),password=$('authPassword').value,btn=$('authSubmit');btn.disabled=true;hideMessage('authMessage');
  try{
   if(authMode==='signup'){
-   const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:SITE_URL,data:{first_name:$('authName').value.trim()}}});
+   const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:CONFIRM_URL,data:{first_name:$('authName').value.trim()}}});
    if(error)throw error;
    if(data.session){currentSession=data.session;updateAccountUI();message('authMessage','Compte créé et connecté.');}
    else message('authMessage','Inscription envoyée. Consulte tes e-mails pour confirmer ton adresse.');
