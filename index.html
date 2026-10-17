@@ -285,6 +285,28 @@ async function refreshSession(){
   }
  }
 }
+  
+ if(confirmed){
+  document.body.style.opacity = '0.5';
+ }
+
+ const {data,error} = await supabase.auth.getSession();
+ if(error) throw error;
+
+ currentSession = data.session;
+ updateAccountUI();
+
+ if(confirmed){
+  window.history.replaceState({},document.title,window.location.pathname);
+  document.body.style.opacity = '1';
+
+  if(currentSession){
+   message('authMessage','Adresse confirmée et connexion réussie.');
+  }else{
+   message('authMessage','Adresse confirmée ! Connecte-toi pour continuer.');
+  }
+ }
+}
 $('accountButton').onclick=async()=>{try{await refreshSession();}catch(e){message('authMessage',e.message||'Erreur de session.',true)}if(!currentSession?.user&&!recoveryMode)setAuthMode('login');open('accountOverlay');};
 $('cartButton').onclick=()=>{renderCart();open('cartOverlay')};
 $('forgotButton').onclick=()=>setAuthMode('reset');
