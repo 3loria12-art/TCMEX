@@ -173,12 +173,14 @@ const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
 });
 
+
 const products=[
-{id:'tee-essential',name:'TCMEX Essential',description:'T-shirt noir • Logo signature',price:35,type:'tee',color:'#252525'},
-{id:'tee-neon',name:'Neon Edition',description:'T-shirt gris • Détails fluo',price:39,type:'tee',color:'#c8ff00'},
-{id:'tee-air',name:'TCMEX Air',description:'T-shirt blanc • Collection Air',price:42,type:'tee',color:'#e6e6e6'},
-{id:'hoodie-street',name:'TCMEX Air',description:'Chaussure • Collection Air',price:69,type:'hoodie',color:'#252525'}
+{id:'tee-essential',name:'TCMEX Essential',description:'T-shirt noir • Logo signature',price:29.75,type:'tee',color:'#252525'},
+{id:'tee-neon',name:'Neon Edition',description:'T-shirt gris • Détails fluo',price:29.75,type:'tee',color:'#c8ff00'},
+{id:'tee-air',name:'TCMEX Air',description:'T-shirt blanc • Collection Air',price:29.75,type:'tee',color:'#e6e6e6'},
+{id:'hoodie-street',name:'TCMEX Air',description:'Chaussures • Collection Air',price:69.75,type:'hoodie',color:'#252525'}
 ];
+
 
   
 const $=id=>document.getElementById(id);
