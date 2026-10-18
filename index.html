@@ -158,12 +158,14 @@ const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
 });
 
+
 const products=[
 {id:'tee-essential',name:'TCMEX Essential',description:'T-shirt noir • Logo signature',price:29.75,image:'./images/tshirt-noir.png'},
 {id:'tee-neon',name:'Neon Edition',description:'T-shirt gris • Détails fluo',price:29.75,image:'./images/tshirt-gris.png'},
 {id:'tee-air',name:'TCMEX Air',description:'T-shirt blanc • Collection Air',price:29.75,image:'./images/tshirt-blanc.png'},
-{id:'hoodie-street',name:'TCMEX Air',description:'Chaussures • Collection Air',price:69.75,image:'./images/TCMEX%20Air%201,%20%C3%A9l%C3%A9gance%20monochrome.png'}
+{id:'hoodie-street',name:'TCMEX Air',description:'Chaussures • Collection Air',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
 ];
+
 
 const $=id=>document.getElementById(id);
 const money=n=>'CHF '+Number(n).toFixed(2);
