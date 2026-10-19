@@ -68,6 +68,9 @@ details[open] summary::after{content:"−"}
 details p{color:var(--gray);margin-top:12px;font-size:14px;max-width:62ch}
 .contact{text-align:center}
 .contact p{color:var(--gray);margin:0 auto 22px;max-width:46ch}
+.mailbox{display:flex;flex-direction:column;align-items:center;gap:14px}
+.mailbox strong{font-size:20px;color:var(--lime);overflow-wrap:anywhere}
+.mailbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 footer{border-top:1px solid var(--line);padding:30px 7%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;color:var(--gray);font-size:12px}
 footer .links{display:flex;gap:18px;flex-wrap:wrap}
 footer .links button{background:none;color:var(--gray);padding:0;font-weight:400;font-size:12px;text-decoration:underline}
@@ -138,7 +141,9 @@ footer .links button:hover{color:var(--lime)}
 <details><summary data-i="q4"></summary><p data-i="a4"></p></details>
 </div></section>
 
-<section class="contact" id="contact"><div class="label" data-i="ct_label"></div><h2 data-i="nav_ct"></h2><p data-i="ct_p"></p><a class="btn" id="mailLink" href="mailto:contact@tcmex.ch" data-i="ct_btn"></a></section>
+<section class="contact" id="contact"><div class="label" data-i="ct_label"></div><h2 data-i="nav_ct"></h2><p data-i="ct_p"></p>
+<div class="mailbox"><strong id="mailText"></strong><div class="mailbtns"><button id="copyMail" type="button" data-i="copy_mail"></button><a class="btn outline" id="mailLink" href="#" data-i="ct_btn"></a></div></div>
+</section>
 </main>
 
 <footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span data-i="copy"></span>
@@ -203,7 +208,7 @@ const SUPABASE_KEY = 'sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ';
 const SITE_URL = 'https://3loria12-art.github.io/TCMEX/';
 const CONFIRM_URL = SITE_URL + '?confirmed=true';
 const TEST_MODE = true; // passe à false quand Stripe est en mode réel
-const CONTACT_EMAIL = '3loria12@gmail.com'; // à remplacer par ton adresse
+const CONTACT_EMAIL = '3loria12@gmail.com'; // à remplacer par ton adresse (elle est affichée sur le site)
 
 const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
@@ -230,7 +235,7 @@ faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Ajoute tes 
 q2:'Quels moyens de paiement ?',a2:'Ceux proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).',
 q3:'Livraison et retours ?',a3:'Les frais et délais te sont communiqués lors de la commande. Pour un retour, écris-nous avec ton numéro de commande.',
 q4:'J\'ai oublié mon mot de passe.',a4:'Clique sur « Connexion » puis « Mot de passe oublié ? ». Tu recevras un lien par e-mail (vérifie tes indésirables).',
-ct_label:'UNE QUESTION ?',ct_p:'Écris-nous pour une commande, un retour ou une collaboration.',ct_btn:'Envoyer un e-mail',
+ct_label:'UNE QUESTION ?',ct_p:'Écris-nous pour une commande, un retour ou une collaboration.',ct_btn:'Ouvrir mon app e-mail',copy_mail:'Copier l\'adresse',copied:'Adresse copiée',
 copy:'© 2026 TCMEX — Tous droits réservés.',cgv:'CGV',mentions:'Mentions légales',privacy:'Confidentialité',close:'Fermer',
 your_space:'TON ESPACE TCMEX',t_login:'Connexion',t_signup:'Créer un compte',t_reset:'Mot de passe oublié',name_opt:'Prénom (facultatif)',email:'Adresse e-mail',pw:'Mot de passe (6 caractères minimum)',
 b_login:'Se connecter',b_signup:'Créer mon compte',b_reset:'Envoyer le lien',forgot:'Mot de passe oublié ?',signup:'Créer un compte',have_acc:'J\'ai déjà un compte',logout:'Se déconnecter',
@@ -260,7 +265,7 @@ faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Add ite
 q2:'Which payment methods?',a2:'Those offered by Stripe Checkout at the time of your order (credit and debit cards in particular).',
 q3:'Delivery and returns?',a3:'Fees and delivery times are shown when you order. For a return, email us with your order number.',
 q4:'I forgot my password.',a4:'Click “Log in” then “Forgot password?”. You will receive a link by email (check your spam folder).',
-ct_label:'A QUESTION?',ct_p:'Write to us about an order, a return or a collaboration.',ct_btn:'Send an email',
+ct_label:'A QUESTION?',ct_p:'Write to us about an order, a return or a collaboration.',ct_btn:'Open my email app',copy_mail:'Copy address',copied:'Address copied',
 copy:'© 2026 TCMEX — All rights reserved.',cgv:'Terms of sale',mentions:'Legal notice',privacy:'Privacy',close:'Close',
 your_space:'YOUR TCMEX SPACE',t_login:'Log in',t_signup:'Create an account',t_reset:'Forgot password',name_opt:'First name (optional)',email:'Email address',pw:'Password (6 characters minimum)',
 b_login:'Log in',b_signup:'Create my account',b_reset:'Send the link',forgot:'Forgot password?',signup:'Create an account',have_acc:'I already have an account',logout:'Log out',
@@ -290,7 +295,7 @@ faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Lege Artikel in den Waren
 q2:'Welche Zahlungsmethoden gibt es?',a2:'Die Methoden, die Stripe Checkout bei der Bestellung anbietet (insbesondere Kreditkarte).',
 q3:'Lieferung und Rückgabe?',a3:'Kosten und Lieferzeiten siehst du bei der Bestellung. Für eine Rückgabe schreib uns mit deiner Bestellnummer.',
 q4:'Ich habe mein Passwort vergessen.',a4:'Klicke auf «Anmelden» und dann auf «Passwort vergessen?». Du erhältst einen Link per E-Mail (prüfe deinen Spam-Ordner).',
-ct_label:'EINE FRAGE?',ct_p:'Schreib uns zu einer Bestellung, einer Rückgabe oder einer Zusammenarbeit.',ct_btn:'E-Mail senden',
+ct_label:'EINE FRAGE?',ct_p:'Schreib uns zu einer Bestellung, einer Rückgabe oder einer Zusammenarbeit.',ct_btn:'E-Mail-App öffnen',copy_mail:'Adresse kopieren',copied:'Adresse kopiert',
 copy:'© 2026 TCMEX — Alle Rechte vorbehalten.',cgv:'AGB',mentions:'Impressum',privacy:'Datenschutz',close:'Schliessen',
 your_space:'DEIN TCMEX-BEREICH',t_login:'Anmelden',t_signup:'Konto erstellen',t_reset:'Passwort vergessen',name_opt:'Vorname (optional)',email:'E-Mail-Adresse',pw:'Passwort (mindestens 6 Zeichen)',
 b_login:'Anmelden',b_signup:'Konto erstellen',b_reset:'Link senden',forgot:'Passwort vergessen?',signup:'Konto erstellen',have_acc:'Ich habe bereits ein Konto',logout:'Abmelden',
@@ -333,7 +338,15 @@ function placeholder(name){
 document.addEventListener('error',e=>{const img=e.target;if(img&&img.tagName==='IMG'&&img.dataset.name&&!img.dataset.fb){img.dataset.fb='1';img.src=placeholder(img.dataset.name);}},true);
 
 if(!TEST_MODE)document.querySelectorAll('.test-only').forEach(e=>e.remove());
+
+// Contact : adresse affichée + bouton copier (rien ne s'ouvre tout seul)
+$('mailText').textContent=CONTACT_EMAIL;
 $('mailLink').href='mailto:'+CONTACT_EMAIL;
+$('copyMail').onclick=async()=>{
+ try{await navigator.clipboard.writeText(CONTACT_EMAIL);}
+ catch{const i=document.createElement('input');i.value=CONTACT_EMAIL;document.body.appendChild(i);i.select();document.execCommand('copy');i.remove();}
+ toast(t('copied'));
+};
 
 function renderProducts(){
  $('products').innerHTML=products.map(p=>`
