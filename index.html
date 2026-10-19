@@ -37,14 +37,12 @@ button:active{transform:scale(.97)}
 button:disabled{opacity:.5;cursor:wait}
 .outline{background:transparent;color:var(--lime);border:1px solid var(--lime)}
 .outline:hover{background:#c8ff0018}
-.topbar{background:var(--lime);color:#080808;text-align:center;padding:9px;font-size:12px;font-weight:700}
 .hero{min-height:72vh;padding:85px 8%;display:flex;align-items:center;background:radial-gradient(ellipse at 83% 50%,#293500,transparent 42%)}
 .hero-content{max-width:760px}
 .label{color:var(--lime);font-size:12px;font-weight:700;letter-spacing:2px}
 h1{font-size:clamp(50px,10vw,110px);line-height:.9;letter-spacing:-4px;margin:22px 0;font-weight:900}
 h1 span{display:block;color:var(--lime)}
 .hero p{max-width:440px;color:#bbb;line-height:1.8;margin:25px 0}
-.hero .btn+.btn{margin-left:8px}
 section{padding:70px 7%}
 h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;margin:12px 0 25px;font-weight:900;line-height:1}
 .section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px;gap:15px}
@@ -60,12 +58,6 @@ h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;m
 .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
 .price{font-weight:700;color:var(--lime)}
 .add{padding:10px 12px;font-size:12px}
-.air{background:var(--lime);color:#080808;text-align:center}
-.air .label{color:#394800}
-.air h2{font-size:clamp(45px,9vw,90px)}
-.air p{max-width:480px;margin:20px auto;line-height:1.7}
-.dark{background:#080808;color:var(--lime)}
-.dark:hover{background:#1a1a1a}
 .about{text-align:center;max-width:850px;margin:auto}
 .about p{max-width:620px;margin:20px auto;color:var(--gray);line-height:1.9}
 .faq{max-width:780px;margin:auto}
@@ -108,16 +100,15 @@ footer .links button:hover{color:var(--lime)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:var(--lime);color:#080808;padding:12px 18px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:40}
 .toast.show{opacity:1;transform:translateX(-50%)}
 @media(max-width:980px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}.hero .btn+.btn{margin:10px 0 0}}
+@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}}
 @media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}.product-bottom{flex-direction:row;align-items:center}nav{gap:14px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="topbar" data-i="topbar"></div>
 <header>
 <a class="logo" href="#accueil">TCM<span>EX</span></a>
-<nav><a href="#accueil" data-i="nav_home"></a><a href="#collection" data-i="nav_col"></a><a href="#air">TCMEX Air</a><a href="#faq" data-i="nav_faq"></a><a href="#contact" data-i="nav_ct"></a></nav>
+<nav><a href="#accueil" data-i="nav_home"></a><a href="#collection" data-i="nav_col"></a><a href="#faq" data-i="nav_faq"></a><a href="#contact" data-i="nav_ct"></a></nav>
 <div class="tools">
 <select id="langSelect" data-ia="lang_label"><option value="fr">FR</option><option value="en">EN</option><option value="de">DE</option></select>
 <button id="accountButton" class="outline"></button>
@@ -129,7 +120,7 @@ footer .links button:hover{color:var(--lime)}
 <div class="label" data-i="hero_label"></div>
 <h1><b data-i="h1a"></b> <span data-i="h1b"></span></h1>
 <p data-i="hero_p"></p>
-<a class="btn" href="#collection" data-i="see_col"></a><a class="btn outline" href="#air" data-i="disc_air"></a>
+<a class="btn" href="#collection" data-i="see_col"></a>
 </div></section>
 
 <section id="collection">
@@ -137,8 +128,6 @@ footer .links button:hover{color:var(--lime)}
 <div class="products" id="products"></div>
 <p class="notice test-only" data-i="test_note"></p>
 </section>
-
-<section class="air" id="air"><div class="label" data-i="air_label"></div><h2>TCMEX AIR.</h2><p data-i="air_p"></p><a class="btn dark" href="#collection" data-i="air_btn"></a></section>
 
 <section class="about"><div class="label" data-i="about_label"></div><h2 data-i="about_t"></h2><p data-i="about_p"></p></section>
 
@@ -214,7 +203,7 @@ const SUPABASE_KEY = 'sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ';
 const SITE_URL = 'https://3loria12-art.github.io/TCMEX/';
 const CONFIRM_URL = SITE_URL + '?confirmed=true';
 const TEST_MODE = true; // passe à false quand Stripe est en mode réel
-const CONTACT_EMAIL = 'contact@tcmex.ch'; // à remplacer par ton adresse
+const CONTACT_EMAIL = '3loria12@gmail.com'; // à remplacer par ton adresse
 
 const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
@@ -222,7 +211,7 @@ const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:tr
 const products=[
 {id:'tee-essential',name:'TCMEX Essential',d:'d1',price:29.75,image:'./images/tshirt-noir.png'},
 {id:'tee-neon',name:'Neon Edition',d:'d2',price:29.75,image:'./images/tshirt-gris.png'},
-{id:'tee-air',name:'TCMEX Air',d:'d3',price:29.75,image:'./images/tshirt-blanc.png'},
+{id:'tee-air',name:'TCMEX White',d:'d3',price:29.75,image:'./images/tshirt-blanc.png'},
 {id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
 ];
 
@@ -230,12 +219,12 @@ const products=[
 const T={
 fr:{
 title:'TCMEX — Streetwear suisse, bouge autrement',meta:'TCMEX : t-shirts et chaussures streetwear. Paiement sécurisé, prix en CHF.',
-topbar:'Streetwear TCMEX — Bouge autrement.',nav_home:'Accueil',nav_col:'Collection',nav_faq:'FAQ',nav_ct:'Contact',cart:'Panier',lang_label:'Langue',
+nav_home:'Accueil',nav_col:'Collection',nav_faq:'FAQ',nav_ct:'Contact',cart:'Panier',lang_label:'Langue',
 login:'Connexion',account:'Mon compte',hero_label:'PAS COMME LES AUTRES.',h1a:'BOUGE',h1b:'AUTREMENT.',
-hero_p:'Une attitude. Une identité. Un mouvement. Bienvenue dans l\'univers TCMEX.',see_col:'Voir la collection',disc_air:'Découvrir TCMEX Air',
+hero_p:'Une attitude. Une identité. Un mouvement. Bienvenue dans l\'univers TCMEX.',see_col:'Voir la collection',
 col_label:'LE STYLE TCMEX',col_title:'La collection.',prices:'Prix en CHF',test_note:'Mode test : aucun paiement réel n\'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.',
-d1:'T-shirt noir • Logo signature',d2:'T-shirt gris • Détails fluo',d3:'T-shirt blanc • Collection Air',d4:'Chaussures • Collection Air',
-add:'Ajouter +',added:'Ajouté au panier',air_label:'LÉGER. LIBRE. TCMEX.',air_p:'Le mouvement ne s\'arrête jamais. Découvre une autre façon de vivre le streetwear : un t-shirt blanc et des chaussures assorties.',air_btn:'Explorer la collection',
+d1:'T-shirt noir • Logo signature',d2:'T-shirt gris • Détails fluo',d3:'T-shirt blanc • Minimal',d4:'Chaussures • Monochrome',
+add:'Ajouter +',added:'Ajouté au panier',
 about_label:'NOTRE IDENTITÉ',about_t:'Pas besoin de suivre.',about_p:'TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.',
 faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Ajoute tes articles au panier, connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.',
 q2:'Quels moyens de paiement ?',a2:'Ceux proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).',
@@ -260,12 +249,12 @@ lg_privacy:['Politique de confidentialité',[['Données collectées','E-mail, pr
 },
 en:{
 title:'TCMEX — Swiss streetwear, move differently',meta:'TCMEX: streetwear t-shirts and shoes. Secure payment, prices in CHF.',
-topbar:'TCMEX Streetwear — Move differently.',nav_home:'Home',nav_col:'Collection',nav_faq:'FAQ',nav_ct:'Contact',cart:'Cart',lang_label:'Language',
+nav_home:'Home',nav_col:'Collection',nav_faq:'FAQ',nav_ct:'Contact',cart:'Cart',lang_label:'Language',
 login:'Log in',account:'My account',hero_label:'NOT LIKE THE OTHERS.',h1a:'MOVE',h1b:'DIFFERENT.',
-hero_p:'An attitude. An identity. A movement. Welcome to the TCMEX universe.',see_col:'View the collection',disc_air:'Discover TCMEX Air',
+hero_p:'An attitude. An identity. A movement. Welcome to the TCMEX universe.',see_col:'View the collection',
 col_label:'THE TCMEX STYLE',col_title:'The collection.',prices:'Prices in CHF',test_note:'Test mode: no real payment is taken. Stripe test card: 4242 4242 4242 4242.',
-d1:'Black tee • Signature logo',d2:'Grey tee • Neon details',d3:'White tee • Air collection',d4:'Shoes • Air collection',
-add:'Add +',added:'Added to cart',air_label:'LIGHT. FREE. TCMEX.',air_p:'The movement never stops. Discover another way to live streetwear: a white tee and matching shoes.',air_btn:'Explore the collection',
+d1:'Black tee • Signature logo',d2:'Grey tee • Neon details',d3:'White tee • Minimal',d4:'Shoes • Monochrome',
+add:'Add +',added:'Added to cart',
 about_label:'OUR IDENTITY',about_t:'No need to follow.',about_p:'TCMEX blends character, simplicity and energy. Stay yourself. Create your own movement.',
 faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Add items to your cart, log in or create an account, enter your delivery address, then pay on the secure Stripe page.',
 q2:'Which payment methods?',a2:'Those offered by Stripe Checkout at the time of your order (credit and debit cards in particular).',
@@ -290,12 +279,12 @@ lg_privacy:['Privacy policy',[['Data collected','Email, first name (optional) an
 },
 de:{
 title:'TCMEX — Schweizer Streetwear, bewege dich anders',meta:'TCMEX: Streetwear-T-Shirts und Schuhe. Sichere Zahlung, Preise in CHF.',
-topbar:'TCMEX Streetwear — Bewege dich anders.',nav_home:'Start',nav_col:'Kollektion',nav_faq:'FAQ',nav_ct:'Kontakt',cart:'Warenkorb',lang_label:'Sprache',
+nav_home:'Start',nav_col:'Kollektion',nav_faq:'FAQ',nav_ct:'Kontakt',cart:'Warenkorb',lang_label:'Sprache',
 login:'Anmelden',account:'Mein Konto',hero_label:'NICHT WIE DIE ANDEREN.',h1a:'BEWEGE DICH',h1b:'ANDERS.',
-hero_p:'Eine Haltung. Eine Identität. Eine Bewegung. Willkommen in der Welt von TCMEX.',see_col:'Kollektion ansehen',disc_air:'TCMEX Air entdecken',
+hero_p:'Eine Haltung. Eine Identität. Eine Bewegung. Willkommen in der Welt von TCMEX.',see_col:'Kollektion ansehen',
 col_label:'DER TCMEX-STIL',col_title:'Die Kollektion.',prices:'Preise in CHF',test_note:'Testmodus: Es wird keine echte Zahlung belastet. Stripe-Testkarte: 4242 4242 4242 4242.',
-d1:'Schwarzes T-Shirt • Signatur-Logo',d2:'Graues T-Shirt • Neon-Details',d3:'Weisses T-Shirt • Air-Kollektion',d4:'Schuhe • Air-Kollektion',
-add:'Hinzufügen +',added:'Zum Warenkorb hinzugefügt',air_label:'LEICHT. FREI. TCMEX.',air_p:'Die Bewegung hört nie auf. Entdecke eine andere Art, Streetwear zu leben: ein weisses T-Shirt und passende Schuhe.',air_btn:'Kollektion entdecken',
+d1:'Schwarzes T-Shirt • Signatur-Logo',d2:'Graues T-Shirt • Neon-Details',d3:'Weisses T-Shirt • Minimal',d4:'Schuhe • Monochrom',
+add:'Hinzufügen +',added:'Zum Warenkorb hinzugefügt',
 about_label:'UNSERE IDENTITÄT',about_t:'Du musst niemandem folgen.',about_p:'TCMEX verbindet Charakter, Einfachheit und Energie. Bleib du selbst. Schaffe deine eigene Bewegung.',
 faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Lege Artikel in den Warenkorb, melde dich an oder erstelle ein Konto, gib deine Lieferadresse ein und bezahle auf der sicheren Stripe-Seite.',
 q2:'Welche Zahlungsmethoden gibt es?',a2:'Die Methoden, die Stripe Checkout bei der Bestellung anbietet (insbesondere Kreditkarte).',
