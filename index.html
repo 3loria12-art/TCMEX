@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080808">
-<title>TCMEX — Streetwear suisse, bouge autrement</title>
-<meta name="description" content="TCMEX : t-shirts et chaussures streetwear. Paiement sécurisé, prix en CHF.">
-<meta property="og:title" content="TCMEX — Bouge autrement">
-<meta property="og:description" content="Streetwear : t-shirts et chaussures de la collection TCMEX.">
+<title>TCMEX</title>
+<meta name="description" content="TCMEX">
+<meta property="og:title" content="TCMEX">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://3loria12-art.github.io/TCMEX/images/tshirt-noir.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23080808'/%3E%3Ctext x='32' y='44' font-size='34' font-weight='900' text-anchor='middle' fill='%23c8ff00' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E">
@@ -19,8 +18,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{background:var(--bg);color:var(--white);font-family:Archivo,Arial,Helvetica,sans-serif;line-height:1.5}
-button,input,textarea{font:inherit}
-button,a{cursor:pointer}
+button,input,textarea,select{font:inherit}
+button,a,select{cursor:pointer}
 a{color:inherit;text-decoration:none}
 button{border:0}
 :focus-visible{outline:2px solid var(--lime);outline-offset:2px}
@@ -30,6 +29,8 @@ header{position:sticky;top:0;z-index:10;background:#080808ee;backdrop-filter:blu
 nav{display:flex;gap:22px;flex-wrap:wrap}
 nav a{font-size:13px;font-weight:700}
 nav a:hover{color:var(--lime)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+select{background:#080808;color:var(--white);border:1px solid #444;padding:12px 8px;font-size:13px;font-weight:700}
 button,.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;background:var(--lime);color:#080808;font-weight:900;font-size:13px;transition:transform .15s,background .15s}
 button:hover,.btn:hover{background:#d8ff4d}
 button:active{transform:scale(.97)}
@@ -40,7 +41,7 @@ button:disabled{opacity:.5;cursor:wait}
 .hero{min-height:72vh;padding:85px 8%;display:flex;align-items:center;background:radial-gradient(ellipse at 83% 50%,#293500,transparent 42%)}
 .hero-content{max-width:760px}
 .label{color:var(--lime);font-size:12px;font-weight:700;letter-spacing:2px}
-h1{font-size:clamp(55px,10vw,110px);line-height:.9;letter-spacing:-4px;margin:22px 0;font-weight:900}
+h1{font-size:clamp(50px,10vw,110px);line-height:.9;letter-spacing:-4px;margin:22px 0;font-weight:900}
 h1 span{display:block;color:var(--lime)}
 .hero p{max-width:440px;color:#bbb;line-height:1.8;margin:25px 0}
 .hero .btn+.btn{margin-left:8px}
@@ -59,9 +60,6 @@ h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;m
 .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
 .price{font-weight:700;color:var(--lime)}
 .add{padding:10px 12px;font-size:12px}
-.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;border-block:1px solid var(--line);padding-block:40px}
-.perks h3{font-size:15px;margin-bottom:6px}
-.perks p{color:var(--gray);font-size:14px;max-width:34ch}
 .air{background:var(--lime);color:#080808;text-align:center}
 .air .label{color:#394800}
 .air h2{font-size:clamp(45px,9vw,90px)}
@@ -109,106 +107,100 @@ footer .links button:hover{color:var(--lime)}
 .total{display:flex;justify-content:space-between;padding:20px 0;font-weight:700}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:var(--lime);color:#080808;padding:12px 18px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:40}
 .toast.show{opacity:1;transform:translateX(-50%)}
-@media(max-width:980px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.perks{grid-template-columns:1fr}}
+@media(max-width:980px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}.hero .btn+.btn{margin:10px 0 0}}
 @media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}.product-bottom{flex-direction:row;align-items:center}nav{gap:14px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="topbar">Streetwear TCMEX — Bouge autrement.</div>
+<div class="topbar" data-i="topbar"></div>
 <header>
-<a class="logo" href="#accueil" aria-label="TCMEX, accueil">TCM<span>EX</span></a>
-<nav aria-label="Navigation principale"><a href="#accueil">Accueil</a><a href="#collection">Collection</a><a href="#air">TCMEX Air</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></nav>
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<button id="accountButton" class="outline">Connexion</button>
-<button id="cartButton" aria-label="Ouvrir le panier">Panier (<span id="cartCount">0</span>)</button>
+<a class="logo" href="#accueil">TCM<span>EX</span></a>
+<nav><a href="#accueil" data-i="nav_home"></a><a href="#collection" data-i="nav_col"></a><a href="#air">TCMEX Air</a><a href="#faq" data-i="nav_faq"></a><a href="#contact" data-i="nav_ct"></a></nav>
+<div class="tools">
+<select id="langSelect" data-ia="lang_label"><option value="fr">FR</option><option value="en">EN</option><option value="de">DE</option></select>
+<button id="accountButton" class="outline"></button>
+<button id="cartButton"><span data-i="cart"></span>&nbsp;(<span id="cartCount">0</span>)</button>
 </div>
 </header>
 <main>
 <section class="hero" id="accueil"><div class="hero-content">
-<div class="label">PAS COMME LES AUTRES.</div>
-<h1>BOUGE <span>AUTREMENT.</span></h1>
-<p>Une attitude. Une identité. Un mouvement. Bienvenue dans l'univers TCMEX.</p>
-<a class="btn" href="#collection">Voir la collection</a><a class="btn outline" href="#air">Découvrir TCMEX Air</a>
+<div class="label" data-i="hero_label"></div>
+<h1><b data-i="h1a"></b> <span data-i="h1b"></span></h1>
+<p data-i="hero_p"></p>
+<a class="btn" href="#collection" data-i="see_col"></a><a class="btn outline" href="#air" data-i="disc_air"></a>
 </div></section>
 
 <section id="collection">
-<div class="section-head"><div><div class="label">LE STYLE TCMEX</div><h2>La collection.</h2></div><span>Prix en CHF</span></div>
+<div class="section-head"><div><div class="label" data-i="col_label"></div><h2 data-i="col_title"></h2></div><span data-i="prices"></span></div>
 <div class="products" id="products"></div>
-<p class="notice test-only">Mode test : aucun paiement réel n'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.</p>
+<p class="notice test-only" data-i="test_note"></p>
 </section>
 
-<section class="perks" aria-label="Nos engagements">
-<div><h3>Paiement sécurisé</h3><p>Le paiement se fait sur Stripe. TCMEX ne voit jamais ta carte bancaire.</p></div>
-<div><h3>Compte client</h3><p>Crée un compte pour commander et retrouver ton panier d'une visite à l'autre.</p></div>
-<div><h3>Prix clairs</h3><p>Tous les prix sont affichés en francs suisses (CHF).</p></div>
-</section>
+<section class="air" id="air"><div class="label" data-i="air_label"></div><h2>TCMEX AIR.</h2><p data-i="air_p"></p><a class="btn dark" href="#collection" data-i="air_btn"></a></section>
 
-<section class="air" id="air"><div class="label">LÉGER. LIBRE. TCMEX.</div><h2>TCMEX AIR.</h2><p>Le mouvement ne s'arrête jamais. Découvre une autre façon de vivre le streetwear : un t-shirt blanc et des chaussures assorties.</p><a class="btn dark" href="#collection">Explorer la collection</a></section>
+<section class="about"><div class="label" data-i="about_label"></div><h2 data-i="about_t"></h2><p data-i="about_p"></p></section>
 
-<section class="about" id="about"><div class="label">NOTRE IDENTITÉ</div><h2>Pas besoin de suivre.</h2><p>TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.</p></section>
-
-<section id="faq"><div class="faq"><div class="label">QUESTIONS FRÉQUENTES</div><h2>FAQ.</h2>
-<details><summary>Comment passer commande ?</summary><p>Ajoute tes articles au panier, connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.</p></details>
-<details><summary>Quels moyens de paiement sont acceptés ?</summary><p>Les moyens de paiement proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).</p></details>
-<details><summary>Où livrez-vous et en combien de temps ?</summary><p>Les délais et frais de livraison te sont communiqués lors de la commande. Pour toute question avant d'acheter, écris-nous.</p></details>
-<details><summary>Puis-je retourner un article ?</summary><p>Oui, contacte-nous rapidement après réception avec ton numéro de commande. Nous te répondons avec la marche à suivre.</p></details>
-<details><summary>J'ai oublié mon mot de passe.</summary><p>Clique sur « Connexion » puis « Mot de passe oublié ? ». Tu recevras un lien par e-mail (pense à vérifier tes courriers indésirables).</p></details>
+<section id="faq"><div class="faq"><div class="label" data-i="faq_label"></div><h2>FAQ.</h2>
+<details><summary data-i="q1"></summary><p data-i="a1"></p></details>
+<details><summary data-i="q2"></summary><p data-i="a2"></p></details>
+<details><summary data-i="q3"></summary><p data-i="a3"></p></details>
+<details><summary data-i="q4"></summary><p data-i="a4"></p></details>
 </div></section>
 
-<section class="contact" id="contact"><div class="label">UNE QUESTION ?</div><h2>Contact.</h2><p>Écris-nous pour une commande, un retour ou une collaboration. Nous répondons dès que possible.</p><a class="btn" id="mailLink" href="mailto:contact@tcmex.ch">Envoyer un e-mail</a></section>
+<section class="contact" id="contact"><div class="label" data-i="ct_label"></div><h2 data-i="nav_ct"></h2><p data-i="ct_p"></p><a class="btn" id="mailLink" href="mailto:contact@tcmex.ch" data-i="ct_btn"></a></section>
 </main>
 
-<footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span>© 2026 TCMEX — Tous droits réservés.</span>
-<div class="links"><button data-legal="cgv">CGV</button><button data-legal="mentions">Mentions légales</button><button data-legal="privacy">Confidentialité</button></div></footer>
+<footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span data-i="copy"></span>
+<div class="links"><button data-legal="cgv" data-i="cgv"></button><button data-legal="mentions" data-i="mentions"></button><button data-legal="privacy" data-i="privacy"></button></div></footer>
 
-<div class="overlay" id="accountOverlay" role="dialog" aria-modal="true" aria-label="Compte"><div class="modal">
-<button class="close" data-close="accountOverlay" aria-label="Fermer">×</button>
-<div class="label">TON ESPACE TCMEX</div><h2 id="authTitle">Connexion</h2>
+<div class="overlay" id="accountOverlay" role="dialog" aria-modal="true"><div class="modal">
+<button class="close" data-close="accountOverlay" data-ia="close">×</button>
+<div class="label" data-i="your_space"></div><h2 id="authTitle"></h2>
 <div id="authMessage" class="status hidden" role="status"></div>
 <form id="authForm">
-<div class="field hidden" id="nameField"><label for="authName">Prénom (facultatif)</label><input id="authName" autocomplete="given-name" maxlength="80"></div>
-<div class="field"><label for="authEmail">Adresse e-mail</label><input id="authEmail" type="email" autocomplete="email" required></div>
-<div class="field" id="passwordField"><label for="authPassword">Mot de passe (6 caractères minimum)</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required></div>
-<button id="authSubmit" class="full" type="submit">Se connecter</button>
+<div class="field hidden" id="nameField"><label for="authName" data-i="name_opt"></label><input id="authName" autocomplete="given-name" maxlength="80"></div>
+<div class="field"><label for="authEmail" data-i="email"></label><input id="authEmail" type="email" autocomplete="email" required></div>
+<div class="field" id="passwordField"><label for="authPassword" data-i="pw"></label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required></div>
+<button id="authSubmit" class="full" type="submit"></button>
 </form>
-<button class="small-btn" id="forgotButton">Mot de passe oublié ?</button>
-<button class="small-btn" id="signupButton">Créer un compte</button>
-<button class="small-btn hidden" id="loginButton">J'ai déjà un compte</button>
+<button class="small-btn" id="forgotButton" data-i="forgot"></button>
+<button class="small-btn" id="signupButton" data-i="signup"></button>
+<button class="small-btn hidden" id="loginButton" data-i="have_acc"></button>
 <div id="accountInfo" class="notice hidden"></div>
-<button id="logoutButton" class="outline full hidden">Se déconnecter</button>
+<button id="logoutButton" class="outline full hidden" data-i="logout"></button>
 <form id="newPasswordForm" class="hidden">
-<div class="field"><label for="newPassword">Nouveau mot de passe</label><input id="newPassword" type="password" minlength="6" required autocomplete="new-password"></div>
-<button class="full" type="submit">Changer mon mot de passe</button>
+<div class="field"><label for="newPassword" data-i="new_pw"></label><input id="newPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+<button class="full" type="submit" data-i="change_pw"></button>
 </form>
 </div></div>
 
-<div class="overlay" id="cartOverlay" role="dialog" aria-modal="true" aria-label="Panier"><div class="modal">
-<button class="close" data-close="cartOverlay" aria-label="Fermer">×</button>
-<div class="label">TA SÉLECTION</div><h2>Mon panier</h2>
+<div class="overlay" id="cartOverlay" role="dialog" aria-modal="true"><div class="modal">
+<button class="close" data-close="cartOverlay" data-ia="close">×</button>
+<div class="label" data-i="your_sel"></div><h2 data-i="my_cart"></h2>
 <div id="cartItems"></div>
-<div class="total"><span>Total</span><span id="cartTotal">CHF 0.00</span></div>
-<p class="notice">Frais de livraison éventuels précisés à l'étape de paiement.</p>
-<button id="checkoutStartButton" class="full">Passer la commande</button>
-<button class="small-btn" data-close="cartOverlay">Continuer mes achats</button>
+<div class="total"><span data-i="total"></span><span id="cartTotal">CHF 0.00</span></div>
+<p class="notice" data-i="ship_note"></p>
+<button id="checkoutStartButton" class="full" data-i="order"></button>
+<button class="small-btn" data-close="cartOverlay" data-i="continue"></button>
 </div></div>
 
-<div class="overlay" id="checkoutOverlay" role="dialog" aria-modal="true" aria-label="Commande"><div class="modal">
-<button class="close" data-close="checkoutOverlay" aria-label="Fermer">×</button>
-<div class="label">DERNIÈRE ÉTAPE</div><h2>Ta commande</h2>
-<p class="notice">Tu seras redirigé vers la page de paiement sécurisée Stripe.</p>
+<div class="overlay" id="checkoutOverlay" role="dialog" aria-modal="true"><div class="modal">
+<button class="close" data-close="checkoutOverlay" data-ia="close">×</button>
+<div class="label" data-i="last_step"></div><h2 data-i="your_order"></h2>
+<p class="notice" data-i="stripe_note"></p>
 <div id="checkoutMessage" class="status hidden" role="status"></div>
 <form id="checkoutForm">
-<div class="field"><label for="buyerName">Nom complet</label><input id="buyerName" required autocomplete="name" maxlength="120"></div>
-<div class="field"><label for="buyerEmail">Adresse e-mail</label><input id="buyerEmail" type="email" required autocomplete="email"></div>
-<div class="field"><label for="buyerAddress">Adresse de livraison</label><textarea id="buyerAddress" required rows="3" autocomplete="street-address" maxlength="1000"></textarea></div>
-<button id="checkoutSubmit" class="full" type="submit">Payer avec Stripe</button>
+<div class="field"><label for="buyerName" data-i="full_name"></label><input id="buyerName" required autocomplete="name" maxlength="120"></div>
+<div class="field"><label for="buyerEmail" data-i="email"></label><input id="buyerEmail" type="email" required autocomplete="email"></div>
+<div class="field"><label for="buyerAddress" data-i="address"></label><textarea id="buyerAddress" required rows="3" autocomplete="street-address" maxlength="1000"></textarea></div>
+<button id="checkoutSubmit" class="full" type="submit" data-i="pay"></button>
 </form>
 </div></div>
 
-<div class="overlay" id="legalOverlay" role="dialog" aria-modal="true" aria-label="Informations légales"><div class="modal legal">
-<button class="close" data-close="legalOverlay" aria-label="Fermer">×</button>
+<div class="overlay" id="legalOverlay" role="dialog" aria-modal="true"><div class="modal legal">
+<button class="close" data-close="legalOverlay" data-ia="close">×</button>
 <div id="legalContent"></div>
 </div></div>
 
@@ -228,17 +220,108 @@ const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:tr
 
 // Les id doivent rester identiques à ceux acceptés par ta fonction create-checkout
 const products=[
-{id:'tee-essential',name:'TCMEX Essential',description:'T-shirt noir • Logo signature',price:29.75,image:'./images/tshirt-noir.png'},
-{id:'tee-neon',name:'Neon Edition',description:'T-shirt gris • Détails fluo',price:29.75,image:'./images/tshirt-gris.png'},
-{id:'tee-air',name:'TCMEX Air',description:'T-shirt blanc • Collection Air',price:29.75,image:'./images/tshirt-blanc.png'},
-{id:'hoodie-street',name:'TCMEX Air 1',description:'Chaussures • Collection Air',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
+{id:'tee-essential',name:'TCMEX Essential',d:'d1',price:29.75,image:'./images/tshirt-noir.png'},
+{id:'tee-neon',name:'Neon Edition',d:'d2',price:29.75,image:'./images/tshirt-gris.png'},
+{id:'tee-air',name:'TCMEX Air',d:'d3',price:29.75,image:'./images/tshirt-blanc.png'},
+{id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
 ];
 
-const legal={
-cgv:['Conditions générales de vente',[['Commandes','Toute commande passée sur ce site vaut acceptation des présentes conditions. Les prix sont indiqués en francs suisses (CHF).'],['Paiement','Le paiement est traité par Stripe. TCMEX n\'a jamais accès à tes données de carte bancaire.'],['Livraison','Les frais et délais de livraison sont précisés lors de la commande.'],['Retours','Contacte-nous à '+CONTACT_EMAIL+' après réception avec ton numéro de commande.']]],
-mentions:['Mentions légales',[['Éditeur','TCMEX — [nom de l\'entreprise ou du responsable, adresse, pays].'],['Contact',CONTACT_EMAIL],['Hébergement','GitHub Pages (GitHub, Inc.).']]],
-privacy:['Politique de confidentialité',[['Données collectées','Adresse e-mail, prénom (facultatif) et adresse de livraison, uniquement pour gérer ton compte et tes commandes.'],['Stockage','Ton compte est géré par Supabase. Ton panier est conservé dans ton navigateur (localStorage).'],['Paiement','Les paiements sont traités par Stripe selon sa propre politique de confidentialité.'],['Tes droits','Pour consulter ou supprimer tes données, écris à '+CONTACT_EMAIL+'.']]]
-};
+/* ====== TRADUCTIONS (FR / EN / DE) ====== */
+const T={
+fr:{
+title:'TCMEX — Streetwear suisse, bouge autrement',meta:'TCMEX : t-shirts et chaussures streetwear. Paiement sécurisé, prix en CHF.',
+topbar:'Streetwear TCMEX — Bouge autrement.',nav_home:'Accueil',nav_col:'Collection',nav_faq:'FAQ',nav_ct:'Contact',cart:'Panier',lang_label:'Langue',
+login:'Connexion',account:'Mon compte',hero_label:'PAS COMME LES AUTRES.',h1a:'BOUGE',h1b:'AUTREMENT.',
+hero_p:'Une attitude. Une identité. Un mouvement. Bienvenue dans l\'univers TCMEX.',see_col:'Voir la collection',disc_air:'Découvrir TCMEX Air',
+col_label:'LE STYLE TCMEX',col_title:'La collection.',prices:'Prix en CHF',test_note:'Mode test : aucun paiement réel n\'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.',
+d1:'T-shirt noir • Logo signature',d2:'T-shirt gris • Détails fluo',d3:'T-shirt blanc • Collection Air',d4:'Chaussures • Collection Air',
+add:'Ajouter +',added:'Ajouté au panier',air_label:'LÉGER. LIBRE. TCMEX.',air_p:'Le mouvement ne s\'arrête jamais. Découvre une autre façon de vivre le streetwear : un t-shirt blanc et des chaussures assorties.',air_btn:'Explorer la collection',
+about_label:'NOTRE IDENTITÉ',about_t:'Pas besoin de suivre.',about_p:'TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.',
+faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Ajoute tes articles au panier, connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.',
+q2:'Quels moyens de paiement ?',a2:'Ceux proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).',
+q3:'Livraison et retours ?',a3:'Les frais et délais te sont communiqués lors de la commande. Pour un retour, écris-nous avec ton numéro de commande.',
+q4:'J\'ai oublié mon mot de passe.',a4:'Clique sur « Connexion » puis « Mot de passe oublié ? ». Tu recevras un lien par e-mail (vérifie tes indésirables).',
+ct_label:'UNE QUESTION ?',ct_p:'Écris-nous pour une commande, un retour ou une collaboration.',ct_btn:'Envoyer un e-mail',
+copy:'© 2026 TCMEX — Tous droits réservés.',cgv:'CGV',mentions:'Mentions légales',privacy:'Confidentialité',close:'Fermer',
+your_space:'TON ESPACE TCMEX',t_login:'Connexion',t_signup:'Créer un compte',t_reset:'Mot de passe oublié',name_opt:'Prénom (facultatif)',email:'Adresse e-mail',pw:'Mot de passe (6 caractères minimum)',
+b_login:'Se connecter',b_signup:'Créer mon compte',b_reset:'Envoyer le lien',forgot:'Mot de passe oublié ?',signup:'Créer un compte',have_acc:'J\'ai déjà un compte',logout:'Se déconnecter',
+new_pw:'Nouveau mot de passe',change_pw:'Changer mon mot de passe',t_newpw:'Nouveau mot de passe',connected_with:'Connecté avec : ',
+your_sel:'TA SÉLECTION',my_cart:'Mon panier',total:'Total',ship_note:'Frais de livraison éventuels précisés à l\'étape de paiement.',order:'Passer la commande',continue:'Continuer mes achats',
+empty:'Ton panier est vide. Ajoute un article depuis la collection.',per_item:'/ article',minus:'Diminuer la quantité',plus:'Augmenter la quantité',remove:'Retirer',
+last_step:'DERNIÈRE ÉTAPE',your_order:'Ta commande',stripe_note:'Tu seras redirigé vers la page de paiement sécurisée Stripe.',full_name:'Nom complet',address:'Adresse de livraison',pay:'Payer avec Stripe',
+m_confirmed_in:'Adresse confirmée et connexion réussie.',m_confirmed_out:'Adresse confirmée ! Connecte-toi pour continuer.',m_created:'Compte créé et connecté.',m_sent:'Inscription envoyée. Consulte tes e-mails pour confirmer ton adresse.',
+m_logged:'Connexion réussie.',m_reset:'Si cette adresse existe, un lien de récupération a été envoyé. Vérifie tes courriers indésirables.',m_out:'Tu es déconnecté.',m_pwchanged:'Mot de passe modifié. Tu peux te connecter.',
+m_need_login:'Connecte-toi ou crée un compte avant la commande.',m_empty:'Panier vide.',m_prep:'Préparation du paiement…',m_redirect:'Redirection vers Stripe…',
+e_session:'Session expirée : déconnecte-toi puis reconnecte-toi.',e_notfound:'La fonction de paiement "create-checkout" est introuvable sur Supabase.',e_prep:'Impossible de préparer le paiement.',e_stripe:'Stripe n’a pas renvoyé de lien valide.',e_login:'Session expirée : reconnecte-toi avant de payer.',
+e_generic:'Une erreur est survenue.',thanks:'Merci ! Ta commande est confirmée.',canceled:'Paiement annulé. Ton panier est conservé.',
+lg_cgv:['Conditions générales de vente',[['Commandes','Toute commande vaut acceptation des présentes conditions. Les prix sont en francs suisses (CHF).'],['Paiement','Le paiement est traité par Stripe. TCMEX n\'a jamais accès à ta carte bancaire.'],['Livraison et retours','Frais et délais précisés lors de la commande. Pour un retour, écris à {m} avec ton numéro de commande.']]],
+lg_mentions:['Mentions légales',[['Éditeur','TCMEX — [nom de l\'entreprise ou du responsable, adresse, pays].'],['Contact','{m}'],['Hébergement','GitHub Pages (GitHub, Inc.).']]],
+lg_privacy:['Politique de confidentialité',[['Données collectées','E-mail, prénom (facultatif) et adresse de livraison, uniquement pour gérer ton compte et tes commandes.'],['Stockage','Compte géré par Supabase. Panier conservé dans ton navigateur. Paiements traités par Stripe.'],['Tes droits','Pour consulter ou supprimer tes données, écris à {m}.']]]
+},
+en:{
+title:'TCMEX — Swiss streetwear, move differently',meta:'TCMEX: streetwear t-shirts and shoes. Secure payment, prices in CHF.',
+topbar:'TCMEX Streetwear — Move differently.',nav_home:'Home',nav_col:'Collection',nav_faq:'FAQ',nav_ct:'Contact',cart:'Cart',lang_label:'Language',
+login:'Log in',account:'My account',hero_label:'NOT LIKE THE OTHERS.',h1a:'MOVE',h1b:'DIFFERENT.',
+hero_p:'An attitude. An identity. A movement. Welcome to the TCMEX universe.',see_col:'View the collection',disc_air:'Discover TCMEX Air',
+col_label:'THE TCMEX STYLE',col_title:'The collection.',prices:'Prices in CHF',test_note:'Test mode: no real payment is taken. Stripe test card: 4242 4242 4242 4242.',
+d1:'Black tee • Signature logo',d2:'Grey tee • Neon details',d3:'White tee • Air collection',d4:'Shoes • Air collection',
+add:'Add +',added:'Added to cart',air_label:'LIGHT. FREE. TCMEX.',air_p:'The movement never stops. Discover another way to live streetwear: a white tee and matching shoes.',air_btn:'Explore the collection',
+about_label:'OUR IDENTITY',about_t:'No need to follow.',about_p:'TCMEX blends character, simplicity and energy. Stay yourself. Create your own movement.',
+faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Add items to your cart, log in or create an account, enter your delivery address, then pay on the secure Stripe page.',
+q2:'Which payment methods?',a2:'Those offered by Stripe Checkout at the time of your order (credit and debit cards in particular).',
+q3:'Delivery and returns?',a3:'Fees and delivery times are shown when you order. For a return, email us with your order number.',
+q4:'I forgot my password.',a4:'Click “Log in” then “Forgot password?”. You will receive a link by email (check your spam folder).',
+ct_label:'A QUESTION?',ct_p:'Write to us about an order, a return or a collaboration.',ct_btn:'Send an email',
+copy:'© 2026 TCMEX — All rights reserved.',cgv:'Terms of sale',mentions:'Legal notice',privacy:'Privacy',close:'Close',
+your_space:'YOUR TCMEX SPACE',t_login:'Log in',t_signup:'Create an account',t_reset:'Forgot password',name_opt:'First name (optional)',email:'Email address',pw:'Password (6 characters minimum)',
+b_login:'Log in',b_signup:'Create my account',b_reset:'Send the link',forgot:'Forgot password?',signup:'Create an account',have_acc:'I already have an account',logout:'Log out',
+new_pw:'New password',change_pw:'Change my password',t_newpw:'New password',connected_with:'Logged in as: ',
+your_sel:'YOUR SELECTION',my_cart:'My cart',total:'Total',ship_note:'Any shipping costs are shown at the payment step.',order:'Place order',continue:'Continue shopping',
+empty:'Your cart is empty. Add an item from the collection.',per_item:'/ item',minus:'Decrease quantity',plus:'Increase quantity',remove:'Remove',
+last_step:'LAST STEP',your_order:'Your order',stripe_note:'You will be redirected to the secure Stripe payment page.',full_name:'Full name',address:'Delivery address',pay:'Pay with Stripe',
+m_confirmed_in:'Email confirmed and logged in.',m_confirmed_out:'Email confirmed! Log in to continue.',m_created:'Account created and logged in.',m_sent:'Sign-up sent. Check your email to confirm your address.',
+m_logged:'Logged in.',m_reset:'If this address exists, a recovery link has been sent. Check your spam folder.',m_out:'You are logged out.',m_pwchanged:'Password changed. You can log in.',
+m_need_login:'Log in or create an account before ordering.',m_empty:'Cart is empty.',m_prep:'Preparing payment…',m_redirect:'Redirecting to Stripe…',
+e_session:'Session expired: log out and log back in.',e_notfound:'The "create-checkout" payment function was not found on Supabase.',e_prep:'Unable to prepare the payment.',e_stripe:'Stripe did not return a valid link.',e_login:'Session expired: log in again before paying.',
+e_generic:'An error occurred.',thanks:'Thank you! Your order is confirmed.',canceled:'Payment canceled. Your cart is saved.',
+lg_cgv:['Terms of sale',[['Orders','Placing an order means accepting these terms. Prices are in Swiss francs (CHF).'],['Payment','Payment is processed by Stripe. TCMEX never has access to your card details.'],['Delivery and returns','Fees and delivery times are shown when you order. For a return, email {m} with your order number.']]],
+lg_mentions:['Legal notice',[['Publisher','TCMEX — [company or person name, address, country].'],['Contact','{m}'],['Hosting','GitHub Pages (GitHub, Inc.).']]],
+lg_privacy:['Privacy policy',[['Data collected','Email, first name (optional) and delivery address, only to manage your account and orders.'],['Storage','Account managed by Supabase. Cart kept in your browser. Payments processed by Stripe.'],['Your rights','To view or delete your data, email {m}.']]]
+},
+de:{
+title:'TCMEX — Schweizer Streetwear, bewege dich anders',meta:'TCMEX: Streetwear-T-Shirts und Schuhe. Sichere Zahlung, Preise in CHF.',
+topbar:'TCMEX Streetwear — Bewege dich anders.',nav_home:'Start',nav_col:'Kollektion',nav_faq:'FAQ',nav_ct:'Kontakt',cart:'Warenkorb',lang_label:'Sprache',
+login:'Anmelden',account:'Mein Konto',hero_label:'NICHT WIE DIE ANDEREN.',h1a:'BEWEGE DICH',h1b:'ANDERS.',
+hero_p:'Eine Haltung. Eine Identität. Eine Bewegung. Willkommen in der Welt von TCMEX.',see_col:'Kollektion ansehen',disc_air:'TCMEX Air entdecken',
+col_label:'DER TCMEX-STIL',col_title:'Die Kollektion.',prices:'Preise in CHF',test_note:'Testmodus: Es wird keine echte Zahlung belastet. Stripe-Testkarte: 4242 4242 4242 4242.',
+d1:'Schwarzes T-Shirt • Signatur-Logo',d2:'Graues T-Shirt • Neon-Details',d3:'Weisses T-Shirt • Air-Kollektion',d4:'Schuhe • Air-Kollektion',
+add:'Hinzufügen +',added:'Zum Warenkorb hinzugefügt',air_label:'LEICHT. FREI. TCMEX.',air_p:'Die Bewegung hört nie auf. Entdecke eine andere Art, Streetwear zu leben: ein weisses T-Shirt und passende Schuhe.',air_btn:'Kollektion entdecken',
+about_label:'UNSERE IDENTITÄT',about_t:'Du musst niemandem folgen.',about_p:'TCMEX verbindet Charakter, Einfachheit und Energie. Bleib du selbst. Schaffe deine eigene Bewegung.',
+faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Lege Artikel in den Warenkorb, melde dich an oder erstelle ein Konto, gib deine Lieferadresse ein und bezahle auf der sicheren Stripe-Seite.',
+q2:'Welche Zahlungsmethoden gibt es?',a2:'Die Methoden, die Stripe Checkout bei der Bestellung anbietet (insbesondere Kreditkarte).',
+q3:'Lieferung und Rückgabe?',a3:'Kosten und Lieferzeiten siehst du bei der Bestellung. Für eine Rückgabe schreib uns mit deiner Bestellnummer.',
+q4:'Ich habe mein Passwort vergessen.',a4:'Klicke auf «Anmelden» und dann auf «Passwort vergessen?». Du erhältst einen Link per E-Mail (prüfe deinen Spam-Ordner).',
+ct_label:'EINE FRAGE?',ct_p:'Schreib uns zu einer Bestellung, einer Rückgabe oder einer Zusammenarbeit.',ct_btn:'E-Mail senden',
+copy:'© 2026 TCMEX — Alle Rechte vorbehalten.',cgv:'AGB',mentions:'Impressum',privacy:'Datenschutz',close:'Schliessen',
+your_space:'DEIN TCMEX-BEREICH',t_login:'Anmelden',t_signup:'Konto erstellen',t_reset:'Passwort vergessen',name_opt:'Vorname (optional)',email:'E-Mail-Adresse',pw:'Passwort (mindestens 6 Zeichen)',
+b_login:'Anmelden',b_signup:'Konto erstellen',b_reset:'Link senden',forgot:'Passwort vergessen?',signup:'Konto erstellen',have_acc:'Ich habe bereits ein Konto',logout:'Abmelden',
+new_pw:'Neues Passwort',change_pw:'Passwort ändern',t_newpw:'Neues Passwort',connected_with:'Angemeldet als: ',
+your_sel:'DEINE AUSWAHL',my_cart:'Mein Warenkorb',total:'Total',ship_note:'Allfällige Versandkosten werden beim Bezahlen angezeigt.',order:'Bestellung aufgeben',continue:'Weiter einkaufen',
+empty:'Dein Warenkorb ist leer. Füge einen Artikel aus der Kollektion hinzu.',per_item:'/ Artikel',minus:'Menge verringern',plus:'Menge erhöhen',remove:'Entfernen',
+last_step:'LETZTER SCHRITT',your_order:'Deine Bestellung',stripe_note:'Du wirst zur sicheren Stripe-Zahlungsseite weitergeleitet.',full_name:'Vollständiger Name',address:'Lieferadresse',pay:'Mit Stripe bezahlen',
+m_confirmed_in:'E-Mail bestätigt und angemeldet.',m_confirmed_out:'E-Mail bestätigt! Melde dich an, um fortzufahren.',m_created:'Konto erstellt und angemeldet.',m_sent:'Anmeldung gesendet. Prüfe deine E-Mails, um deine Adresse zu bestätigen.',
+m_logged:'Anmeldung erfolgreich.',m_reset:'Falls diese Adresse existiert, wurde ein Link gesendet. Prüfe deinen Spam-Ordner.',m_out:'Du bist abgemeldet.',m_pwchanged:'Passwort geändert. Du kannst dich anmelden.',
+m_need_login:'Melde dich an oder erstelle ein Konto, bevor du bestellst.',m_empty:'Warenkorb leer.',m_prep:'Zahlung wird vorbereitet…',m_redirect:'Weiterleitung zu Stripe…',
+e_session:'Sitzung abgelaufen: melde dich ab und wieder an.',e_notfound:'Die Zahlungsfunktion "create-checkout" wurde auf Supabase nicht gefunden.',e_prep:'Zahlung konnte nicht vorbereitet werden.',e_stripe:'Stripe hat keinen gültigen Link geliefert.',e_login:'Sitzung abgelaufen: melde dich vor der Zahlung erneut an.',
+e_generic:'Ein Fehler ist aufgetreten.',thanks:'Danke! Deine Bestellung ist bestätigt.',canceled:'Zahlung abgebrochen. Dein Warenkorb bleibt erhalten.',
+lg_cgv:['Allgemeine Geschäftsbedingungen',[['Bestellungen','Mit einer Bestellung akzeptierst du diese Bedingungen. Preise in Schweizer Franken (CHF).'],['Zahlung','Die Zahlung wird von Stripe abgewickelt. TCMEX hat nie Zugriff auf deine Kartendaten.'],['Lieferung und Rückgabe','Kosten und Lieferzeiten siehst du bei der Bestellung. Für eine Rückgabe schreib an {m} mit deiner Bestellnummer.']]],
+lg_mentions:['Impressum',[['Herausgeber','TCMEX — [Name des Unternehmens oder der verantwortlichen Person, Adresse, Land].'],['Kontakt','{m}'],['Hosting','GitHub Pages (GitHub, Inc.).']]],
+lg_privacy:['Datenschutzerklärung',[['Erhobene Daten','E-Mail, Vorname (optional) und Lieferadresse, nur zur Verwaltung von Konto und Bestellungen.'],['Speicherung','Konto bei Supabase. Warenkorb in deinem Browser. Zahlungen über Stripe.'],['Deine Rechte','Um deine Daten einzusehen oder zu löschen, schreib an {m}.']]]
+}};
+
+let lang='fr';
+try{const s=localStorage.getItem('tcmex_lang')||(navigator.language||'fr').slice(0,2);if(T[s])lang=s;}catch{}
+const t=k=>T[lang][k]??T.fr[k]??k;
 
 const $=id=>document.getElementById(id);
 const money=n=>'CHF '+Number(n).toFixed(2);
@@ -251,17 +334,14 @@ function message(id,text,error=false){const el=$(id);el.textContent=text;el.clas
 function hideMessage(id){$(id).classList.add('hidden');}
 function open(id){$(id).classList.add('open');document.body.style.overflow='hidden';}
 function close(id){$(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
-function toast(text){const t=$('toast');t.textContent=text;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
+function toast(text){const el=$('toast');el.textContent=text;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
 
-// Image de remplacement : s'affiche automatiquement si une photo ne charge pas
+// Image de remplacement si une photo ne charge pas
 function placeholder(name){
  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="#1a1a1a"/><text x="150" y="140" text-anchor="middle" font-family="Arial" font-weight="900" font-size="48" fill="#c8ff00">TCMEX</text><text x="150" y="180" text-anchor="middle" font-family="Arial" font-weight="700" font-size="18" fill="#f5f5f5">${safeText(name)}</text></svg>`;
  return 'data:image/svg+xml,'+encodeURIComponent(svg);
 }
-document.addEventListener('error',e=>{
- const img=e.target;
- if(img&&img.tagName==='IMG'&&img.dataset.name&&!img.dataset.fb){img.dataset.fb='1';img.src=placeholder(img.dataset.name);}
-},true);
+document.addEventListener('error',e=>{const img=e.target;if(img&&img.tagName==='IMG'&&img.dataset.name&&!img.dataset.fb){img.dataset.fb='1';img.src=placeholder(img.dataset.name);}},true);
 
 if(!TEST_MODE)document.querySelectorAll('.test-only').forEach(e=>e.remove());
 $('mailLink').href='mailto:'+CONTACT_EMAIL;
@@ -269,11 +349,11 @@ $('mailLink').href='mailto:'+CONTACT_EMAIL;
 function renderProducts(){
  $('products').innerHTML=products.map(p=>`
  <article class="product">
- <div class="art"><img class="product-photo" src="${p.image}" data-name="${safeText(p.name)}" alt="${safeText(p.name)} — ${safeText(p.description)}" loading="lazy"></div>
- <div class="product-info"><h3>${safeText(p.name)}</h3><p>${safeText(p.description)}</p>
- <div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" data-add="${p.id}" type="button" aria-label="Ajouter ${safeText(p.name)} au panier">Ajouter +</button></div>
+ <div class="art"><img class="product-photo" src="${p.image}" data-name="${safeText(p.name)}" alt="${safeText(p.name)} — ${safeText(t(p.d))}" loading="lazy"></div>
+ <div class="product-info"><h3>${safeText(p.name)}</h3><p>${safeText(t(p.d))}</p>
+ <div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" data-add="${p.id}" type="button">${safeText(t('add'))}</button></div>
  </div></article>`).join('');
- document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{addToCart(b.dataset.add);toast('Ajouté au panier');});
+ document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{addToCart(b.dataset.add);toast(t('added'));});
 }
 function saveCart(){try{localStorage.setItem('tcmex_cart',JSON.stringify(cart));}catch{}renderCart();}
 function addToCart(id){const p=products.find(p=>p.id===id);if(!p)return;const line=cart.find(x=>x.id===id);if(line)line.qty=Math.min(20,line.qty+1);else cart.push({id,qty:1});saveCart();}
@@ -282,9 +362,9 @@ function renderCart(){
  cart=cart.filter(x=>products.some(p=>p.id===x.id)&&Number.isInteger(x.qty)&&x.qty>0);
  $('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);
  $('checkoutStartButton').disabled=!cart.length;
- if(!cart.length)$('cartItems').innerHTML='<p class="notice">Ton panier est vide. Ajoute un article depuis la collection.</p>';
+ if(!cart.length)$('cartItems').innerHTML=`<p class="notice">${safeText(t('empty'))}</p>`;
  else{
- $('cartItems').innerHTML=cart.map(line=>{const p=products.find(x=>x.id===line.id);return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${money(p.price)} / article</p><div class="quantity"><button data-minus="${p.id}" type="button" aria-label="Diminuer la quantité">−</button><span>${line.qty}</span><button data-plus="${p.id}" type="button" aria-label="Augmenter la quantité">+</button></div><button class="remove" data-remove="${p.id}" type="button">Retirer</button></div><strong>${money(p.price*line.qty)}</strong></div>`}).join('');
+ $('cartItems').innerHTML=cart.map(line=>{const p=products.find(x=>x.id===line.id);return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${money(p.price)} ${safeText(t('per_item'))}</p><div class="quantity"><button data-minus="${p.id}" type="button" aria-label="${safeText(t('minus'))}">−</button><span>${line.qty}</span><button data-plus="${p.id}" type="button" aria-label="${safeText(t('plus'))}">+</button></div><button class="remove" data-remove="${p.id}" type="button">${safeText(t('remove'))}</button></div><strong>${money(p.price*line.qty)}</strong></div>`}).join('');
  document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));
  document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));
  document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.id!==b.dataset.remove);saveCart()});
@@ -295,16 +375,32 @@ function setAuthMode(mode){
  authMode=mode;recoveryMode=false;$('newPasswordForm').classList.add('hidden');$('authForm').classList.remove('hidden');hideMessage('authMessage');
  $('nameField').classList.toggle('hidden',mode!=='signup');$('passwordField').classList.toggle('hidden',mode==='reset');$('authPassword').required=mode!=='reset';$('authPassword').autocomplete=mode==='signup'?'new-password':'current-password';
  $('forgotButton').classList.toggle('hidden',mode!=='login');$('signupButton').classList.toggle('hidden',mode!=='login');$('loginButton').classList.toggle('hidden',mode==='login');
- $('authTitle').textContent=mode==='signup'?'Créer un compte':mode==='reset'?'Mot de passe oublié':'Connexion';
- $('authSubmit').textContent=mode==='signup'?'Créer mon compte':mode==='reset'?'Envoyer le lien':'Se connecter';
+ $('authTitle').textContent=t(mode==='signup'?'t_signup':mode==='reset'?'t_reset':'t_login');
+ $('authSubmit').textContent=t(mode==='signup'?'b_signup':mode==='reset'?'b_reset':'b_login');
 }
 function updateAccountUI(){
  const user=currentSession?.user;const logged=!!user;
- $('accountButton').textContent=logged?'Mon compte':'Connexion';
+ $('accountButton').textContent=t(logged?'account':'login');
  $('accountInfo').classList.toggle('hidden',!logged);$('logoutButton').classList.toggle('hidden',!logged);
- if(logged){$('accountInfo').textContent='Connecté avec : '+(user.email||'');$('authTitle').textContent='Mon compte';$('authForm').classList.add('hidden');$('newPasswordForm').classList.add('hidden');$('forgotButton').classList.add('hidden');$('signupButton').classList.add('hidden');$('loginButton').classList.add('hidden');}
+ if(logged){$('accountInfo').textContent=t('connected_with')+(user.email||'');$('authTitle').textContent=t('account');$('authForm').classList.add('hidden');$('newPasswordForm').classList.add('hidden');$('forgotButton').classList.add('hidden');$('signupButton').classList.add('hidden');$('loginButton').classList.add('hidden');}
  else if(!recoveryMode){$('accountInfo').classList.add('hidden');setAuthMode(authMode);}
 }
+
+/* ====== Application de la langue ====== */
+function applyLang(){
+ document.documentElement.lang=lang;
+ document.title=t('title');
+ document.querySelector('meta[name="description"]').content=t('meta');
+ document.querySelector('meta[property="og:title"]').content=t('title');
+ document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+ document.querySelectorAll('[data-ia]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.ia)));
+ hideMessage('authMessage');hideMessage('checkoutMessage');
+ renderProducts();renderCart();
+ if(recoveryMode)$('authTitle').textContent=t('t_newpw');else updateAccountUI();
+}
+$('langSelect').value=lang;
+$('langSelect').onchange=e=>{lang=e.target.value;try{localStorage.setItem('tcmex_lang',lang);}catch{}applyLang();};
+
 async function refreshSession(){
  const {data,error}=await supabase.auth.getSession();
  if(error)throw error;
@@ -315,14 +411,14 @@ function handleReturnParams(){
  const clean=()=>window.history.replaceState({},document.title,window.location.pathname);
  if(params.get('confirmed')==='true'){
   clean();open('accountOverlay');
-  message('authMessage',currentSession?'Adresse confirmée et connexion réussie.':'Adresse confirmée ! Connecte-toi pour continuer.');
+  message('authMessage',t(currentSession?'m_confirmed_in':'m_confirmed_out'));
  }else if(params.has('success')||params.get('checkout')==='success'||params.get('paid')==='true'){
-  clean();cart=[];saveCart();toast('Merci ! Ta commande est confirmée.');
+  clean();cart=[];saveCart();toast(t('thanks'));
  }else if(params.has('canceled')||params.has('cancel')||params.get('checkout')==='cancel'){
-  clean();toast('Paiement annulé. Ton panier est conservé.');
+  clean();toast(t('canceled'));
  }
 }
-$('accountButton').onclick=async()=>{try{await refreshSession();}catch(e){message('authMessage',e.message||'Erreur de session.',true)}if(!currentSession?.user&&!recoveryMode)setAuthMode('login');open('accountOverlay');};
+$('accountButton').onclick=async()=>{try{await refreshSession();}catch(e){message('authMessage',e.message||t('e_generic'),true)}if(!currentSession?.user&&!recoveryMode)setAuthMode('login');open('accountOverlay');};
 $('cartButton').onclick=()=>{renderCart();open('cartOverlay')};
 $('forgotButton').onclick=()=>setAuthMode('reset');
 $('signupButton').onclick=()=>setAuthMode('signup');
@@ -334,35 +430,35 @@ $('authForm').addEventListener('submit',async e=>{
   if(authMode==='signup'){
    const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:CONFIRM_URL,data:{first_name:$('authName').value.trim()}}});
    if(error)throw error;
-   if(data.session){currentSession=data.session;updateAccountUI();message('authMessage','Compte créé et connecté.');}
-   else message('authMessage','Inscription envoyée. Consulte tes e-mails pour confirmer ton adresse.');
+   if(data.session){currentSession=data.session;updateAccountUI();message('authMessage',t('m_created'));}
+   else message('authMessage',t('m_sent'));
   }else if(authMode==='login'){
    const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;
-   currentSession=data.session;updateAccountUI();message('authMessage','Connexion réussie.');
+   currentSession=data.session;updateAccountUI();message('authMessage',t('m_logged'));
   }else{
    const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});if(error)throw error;
-   message('authMessage','Si cette adresse existe, un lien de récupération a été envoyé. Vérifie tes courriers indésirables.');
+   message('authMessage',t('m_reset'));
   }
- }catch(err){console.error(err);message('authMessage',err.message||'Erreur de connexion.',true);}
+ }catch(err){console.error(err);message('authMessage',err.message||t('e_generic'),true);}
  finally{btn.disabled=false;}
 });
 $('logoutButton').onclick=async()=>{
  const {error}=await supabase.auth.signOut();
  if(error){message('authMessage',error.message,true);return;}
- currentSession=null;recoveryMode=false;setAuthMode('login');updateAccountUI();message('authMessage','Tu es déconnecté.');
+ currentSession=null;recoveryMode=false;setAuthMode('login');updateAccountUI();message('authMessage',t('m_out'));
 };
 $('newPasswordForm').addEventListener('submit',async e=>{
  e.preventDefault();const btn=$('newPasswordForm').querySelector('button');btn.disabled=true;
  try{const {error}=await supabase.auth.updateUser({password:$('newPassword').value});if(error)throw error;
- recoveryMode=false;$('newPasswordForm').classList.add('hidden');setAuthMode('login');message('authMessage','Mot de passe modifié. Tu peux te connecter.');}
- catch(err){message('authMessage',err.message||'Modification impossible.',true);}
+ recoveryMode=false;$('newPasswordForm').classList.add('hidden');setAuthMode('login');message('authMessage',t('m_pwchanged'));}
+ catch(err){message('authMessage',err.message||t('e_generic'),true);}
  finally{btn.disabled=false;}
 });
 $('checkoutStartButton').onclick=async()=>{
  if(!cart.length){close('cartOverlay');return;}
  close('cartOverlay');
  try{await refreshSession();}catch{}
- if(!currentSession?.user){open('accountOverlay');setAuthMode('login');message('authMessage','Connecte-toi ou crée un compte avant la commande.');return;}
+ if(!currentSession?.user){open('accountOverlay');setAuthMode('login');message('authMessage',t('m_need_login'));return;}
  hideMessage('checkoutMessage');$('buyerEmail').value=currentSession.user.email||'';
  if(currentSession.user.user_metadata?.first_name&&!$('buyerName').value)$('buyerName').value=currentSession.user.user_metadata.first_name;
  open('checkoutOverlay');
@@ -371,35 +467,36 @@ $('checkoutStartButton').onclick=async()=>{
 // Ouvre la page de paiement Stripe
 $('checkoutForm').addEventListener('submit',async e=>{
  e.preventDefault();
- if(!cart.length){message('checkoutMessage','Panier vide.',true);return;}
+ if(!cart.length){message('checkoutMessage',t('m_empty'),true);return;}
  const btn=$('checkoutSubmit');btn.disabled=true;hideMessage('checkoutMessage');
  try{
   const {data,error}=await supabase.auth.getSession();
   if(error)throw error;
   const session=data.session;
-  if(!session?.access_token)throw new Error('Session expirée : reconnecte-toi avant de payer.');
-  message('checkoutMessage','Préparation du paiement…');
+  if(!session?.access_token)throw new Error(t('e_login'));
+  message('checkoutMessage',t('m_prep'));
   const response=await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`,{
    method:'POST',
    headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':`Bearer ${session.access_token}`},
    body:JSON.stringify({
     items:cart.map(line=>({id:line.id,qty:line.qty})),
-    buyer:{name:$('buyerName').value.trim(),email:$('buyerEmail').value.trim(),address:$('buyerAddress').value.trim()}
+    buyer:{name:$('buyerName').value.trim(),email:$('buyerEmail').value.trim(),address:$('buyerAddress').value.trim()},
+    locale:lang
    })
   });
   const result=await response.json().catch(()=>({}));
-  if(response.status===401)throw new Error('Session expirée : déconnecte-toi puis reconnecte-toi.');
-  if(response.status===404)throw new Error('La fonction de paiement "create-checkout" est introuvable sur Supabase.');
-  if(!response.ok)throw new Error(result.error||result.message||'Impossible de préparer le paiement.');
-  if(!result.url||!result.url.startsWith('https://checkout.stripe.com/'))throw new Error('Stripe n’a pas renvoyé de lien valide.');
-  message('checkoutMessage','Redirection vers Stripe…');
+  if(response.status===401)throw new Error(t('e_session'));
+  if(response.status===404)throw new Error(t('e_notfound'));
+  if(!response.ok)throw new Error(result.error||result.message||t('e_prep'));
+  if(!result.url||!result.url.startsWith('https://checkout.stripe.com/'))throw new Error(t('e_stripe'));
+  message('checkoutMessage',t('m_redirect'));
   window.location.href=result.url;
- }catch(err){console.error(err);message('checkoutMessage',err.message||'Erreur de paiement.',true);btn.disabled=false;}
+ }catch(err){console.error(err);message('checkoutMessage',err.message||t('e_generic'),true);btn.disabled=false;}
 });
 
 document.querySelectorAll('[data-legal]').forEach(b=>b.onclick=()=>{
- const [title,blocks]=legal[b.dataset.legal];
- $('legalContent').innerHTML=`<div class="label">TCMEX</div><h2>${safeText(title)}</h2>`+blocks.map(([h,t])=>`<h3>${safeText(h)}</h3><p>${safeText(t)}</p>`).join('');
+ const [title,blocks]=t('lg_'+b.dataset.legal);
+ $('legalContent').innerHTML=`<div class="label">TCMEX</div><h2>${safeText(title)}</h2>`+blocks.map(([h,p])=>`<h3>${safeText(h)}</h3><p>${safeText(p.replace('{m}',CONTACT_EMAIL))}</p>`).join('');
  open('legalOverlay');
 });
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));
@@ -412,7 +509,7 @@ async function initAuth(){
  supabase.auth.onAuthStateChange((event,session)=>{
   currentSession=session;
   if(event==='PASSWORD_RECOVERY'){
-   recoveryMode=true;open('accountOverlay');$('authTitle').textContent='Nouveau mot de passe';
+   recoveryMode=true;open('accountOverlay');$('authTitle').textContent=t('t_newpw');
    $('authForm').classList.add('hidden');$('newPasswordForm').classList.remove('hidden');
    $('accountInfo').classList.add('hidden');$('logoutButton').classList.add('hidden');
    $('forgotButton').classList.add('hidden');$('signupButton').classList.add('hidden');$('loginButton').classList.add('hidden');
@@ -421,7 +518,7 @@ async function initAuth(){
   if(!recoveryMode)updateAccountUI();
  });
 }
-renderProducts();renderCart();initAuth();
+applyLang();initAuth();
 </script>
 </body>
 </html>
