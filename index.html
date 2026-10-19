@@ -48,16 +48,17 @@ h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;m
 .section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px;gap:15px}
 .section-head>span{color:var(--gray);font-size:13px}
 .products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.product{border:1px solid var(--line);background:var(--card);min-width:0;transition:border-color .2s}
+.product{border:1px solid var(--line);background:var(--card);min-width:0;transition:border-color .2s;cursor:pointer}
 .product:hover{border-color:var(--lime)}
-.art{height:260px;background:radial-gradient(circle,#2a2a2a,#101010 70%);display:flex;align-items:center;justify-content:center}
-.product-photo{width:100%;height:100%;object-fit:contain;display:block;padding:12px}
+.art{height:260px;background:radial-gradient(circle,#2a2a2a,#101010 70%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.product-photo{width:100%;height:100%;object-fit:contain;display:block;padding:12px;transition:transform .3s}
+.product:hover .product-photo{transform:scale(1.05)}
 .product-info{padding:16px}
 .product-info h3{font-size:14px;text-transform:uppercase}
 .product-info p{color:var(--gray);font-size:13px;margin-top:6px}
 .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
 .price{font-weight:700;color:var(--lime)}
-.add{padding:10px 12px;font-size:12px}
+.view{font-size:12px;color:var(--gray);text-decoration:underline}
 .about{text-align:center;max-width:850px;margin:auto}
 .about p{max-width:620px;margin:20px auto;color:var(--gray);line-height:1.9}
 .faq{max-width:780px;margin:auto}
@@ -81,8 +82,18 @@ footer .links button:hover{color:var(--lime)}
 .modal h2{font-size:29px;margin:12px 0 20px}
 .modal h3{font-size:14px;margin:18px 0 6px;color:var(--lime)}
 .legal p{color:#ccc;font-size:13px;line-height:1.7}
-.close{position:absolute;right:12px;top:10px;background:none;color:white;font-size:25px;padding:0 6px}
+.close{position:absolute;right:12px;top:10px;background:none;color:white;font-size:25px;padding:0 6px;z-index:2}
 .close:hover{background:none;color:var(--lime)}
+.pmodal{width:min(820px,100%);display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+.pimg{background:radial-gradient(circle,#2a2a2a,#101010 70%);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+.pimg img{width:100%;height:100%;object-fit:contain;padding:14px}
+.pmodal h2{font-size:30px;margin:0 0 8px}
+.pdesc{color:var(--gray);font-size:14px;margin-bottom:12px}
+.pprice{font-size:22px;font-weight:900;color:var(--lime);margin-bottom:20px}
+.sizes{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.size{background:transparent;color:var(--white);border:1px solid #444;padding:10px 14px;min-width:48px}
+.size:hover{background:transparent;border-color:var(--lime)}
+.size.active,.size.active:hover{background:var(--lime);color:#080808;border-color:var(--lime)}
 .field{margin:14px 0}
 .field label{display:block;color:#ccc;font-size:12px;margin-bottom:7px}
 .field input,.field textarea{width:100%;padding:12px;background:#080808;border:1px solid #444;color:white}
@@ -103,8 +114,8 @@ footer .links button:hover{color:var(--lime)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:var(--lime);color:#080808;padding:12px 18px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:40}
 .toast.show{opacity:1;transform:translateX(-50%)}
 @media(max-width:980px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}}
-@media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}.product-bottom{flex-direction:row;align-items:center}nav{gap:14px}}
+@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.pmodal{grid-template-columns:1fr;gap:16px;padding-top:40px}.pimg{aspect-ratio:4/3}}
+@media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}nav{gap:14px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -148,6 +159,22 @@ footer .links button:hover{color:var(--lime)}
 
 <footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span data-i="copy"></span>
 <div class="links"><button data-legal="cgv" data-i="cgv"></button><button data-legal="mentions" data-i="mentions"></button><button data-legal="privacy" data-i="privacy"></button></div></footer>
+
+<!-- Fenêtre produit : image, taille, ajout au panier -->
+<div class="overlay" id="productOverlay" role="dialog" aria-modal="true"><div class="modal pmodal">
+<button class="close" data-close="productOverlay" data-ia="close">×</button>
+<div class="pimg"><img id="pImg" src="" alt=""></div>
+<div>
+<div class="label" id="pLabel"></div>
+<h2 id="pName"></h2>
+<p class="pdesc" id="pDesc"></p>
+<div class="pprice" id="pPrice"></div>
+<div class="label" data-i="size_label"></div>
+<div class="sizes" id="pSizes" role="group"></div>
+<div id="pMsg" class="status hidden" role="status"></div>
+<button id="pAdd" class="full" type="button" data-i="add_cart"></button>
+</div>
+</div></div>
 
 <div class="overlay" id="accountOverlay" role="dialog" aria-modal="true"><div class="modal">
 <button class="close" data-close="accountOverlay" data-ia="close">×</button>
@@ -212,12 +239,16 @@ const CONTACT_EMAIL = '3loria12@gmail.com'; // à remplacer par ton adresse (ell
 
 const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
+// Tailles proposées
+const TEE_SIZES=['S','M','L','XL'];
+const SHOE_SIZES=['38','39','40','41','42','43','44','45'];
+
 // Les id doivent rester identiques à ceux acceptés par ta fonction create-checkout
 const products=[
-{id:'tee-essential',name:'TCMEX Essential',d:'d1',price:29.75,image:'./images/tshirt-noir.png'},
-{id:'tee-neon',name:'Neon Edition',d:'d2',price:29.75,image:'./images/tshirt-gris.png'},
-{id:'tee-air',name:'TCMEX White',d:'d3',price:29.75,image:'./images/tshirt-blanc.png'},
-{id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
+{id:'tee-essential',name:'TCMEX Essential',d:'d1',price:29.75,image:'./images/tshirt-noir.png',sizes:TEE_SIZES,shoe:false},
+{id:'tee-neon',name:'Neon Edition',d:'d2',price:29.75,image:'./images/tshirt-gris.png',sizes:TEE_SIZES,shoe:false},
+{id:'tee-air',name:'TCMEX White',d:'d3',price:29.75,image:'./images/tshirt-blanc.png',sizes:TEE_SIZES,shoe:false},
+{id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png',sizes:SHOE_SIZES,shoe:true}
 ];
 
 /* ====== TRADUCTIONS (FR / EN / DE) ====== */
@@ -229,9 +260,9 @@ login:'Connexion',account:'Mon compte',hero_label:'PAS COMME LES AUTRES.',h1a:'B
 hero_p:'Une attitude. Une identité. Un mouvement. Bienvenue dans l\'univers TCMEX.',see_col:'Voir la collection',
 col_label:'LE STYLE TCMEX',col_title:'La collection.',prices:'Prix en CHF',test_note:'Mode test : aucun paiement réel n\'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.',
 d1:'T-shirt noir • Logo signature',d2:'T-shirt gris • Détails fluo',d3:'T-shirt blanc • Minimal',d4:'Chaussures • Monochrome',
-add:'Ajouter +',added:'Ajouté au panier',
+view:'Choisir la taille',size_label:'TAILLE',size_label_shoe:'POINTURE (EU)',pick_size:'Choisis une taille avant d\'ajouter au panier.',add_cart:'Ajouter au panier',added:'Ajouté au panier',size_cart:'Taille : ',size_cart_shoe:'Pointure : ',
 about_label:'NOTRE IDENTITÉ',about_t:'Pas besoin de suivre.',about_p:'TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.',
-faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Ajoute tes articles au panier, connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.',
+faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Clique sur un article, choisis ta taille et ajoute-le au panier. Connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.',
 q2:'Quels moyens de paiement ?',a2:'Ceux proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).',
 q3:'Livraison et retours ?',a3:'Les frais et délais te sont communiqués lors de la commande. Pour un retour, écris-nous avec ton numéro de commande.',
 q4:'J\'ai oublié mon mot de passe.',a4:'Clique sur « Connexion » puis « Mot de passe oublié ? ». Tu recevras un lien par e-mail (vérifie tes indésirables).',
@@ -241,7 +272,7 @@ your_space:'TON ESPACE TCMEX',t_login:'Connexion',t_signup:'Créer un compte',t_
 b_login:'Se connecter',b_signup:'Créer mon compte',b_reset:'Envoyer le lien',forgot:'Mot de passe oublié ?',signup:'Créer un compte',have_acc:'J\'ai déjà un compte',logout:'Se déconnecter',
 new_pw:'Nouveau mot de passe',change_pw:'Changer mon mot de passe',t_newpw:'Nouveau mot de passe',connected_with:'Connecté avec : ',
 your_sel:'TA SÉLECTION',my_cart:'Mon panier',total:'Total',ship_note:'Frais de livraison éventuels précisés à l\'étape de paiement.',order:'Passer la commande',continue:'Continuer mes achats',
-empty:'Ton panier est vide. Ajoute un article depuis la collection.',per_item:'/ article',minus:'Diminuer la quantité',plus:'Augmenter la quantité',remove:'Retirer',
+empty:'Ton panier est vide. Clique sur un article de la collection pour l\'ajouter.',per_item:'/ article',minus:'Diminuer la quantité',plus:'Augmenter la quantité',remove:'Retirer',
 last_step:'DERNIÈRE ÉTAPE',your_order:'Ta commande',stripe_note:'Tu seras redirigé vers la page de paiement sécurisée Stripe.',full_name:'Nom complet',address:'Adresse de livraison',pay:'Payer avec Stripe',
 m_confirmed_in:'Adresse confirmée et connexion réussie.',m_confirmed_out:'Adresse confirmée ! Connecte-toi pour continuer.',m_created:'Compte créé et connecté.',m_sent:'Inscription envoyée. Consulte tes e-mails pour confirmer ton adresse.',
 m_logged:'Connexion réussie.',m_reset:'Si cette adresse existe, un lien de récupération a été envoyé. Vérifie tes courriers indésirables.',m_out:'Tu es déconnecté.',m_pwchanged:'Mot de passe modifié. Tu peux te connecter.',
@@ -259,9 +290,9 @@ login:'Log in',account:'My account',hero_label:'NOT LIKE THE OTHERS.',h1a:'MOVE'
 hero_p:'An attitude. An identity. A movement. Welcome to the TCMEX universe.',see_col:'View the collection',
 col_label:'THE TCMEX STYLE',col_title:'The collection.',prices:'Prices in CHF',test_note:'Test mode: no real payment is taken. Stripe test card: 4242 4242 4242 4242.',
 d1:'Black tee • Signature logo',d2:'Grey tee • Neon details',d3:'White tee • Minimal',d4:'Shoes • Monochrome',
-add:'Add +',added:'Added to cart',
+view:'Choose a size',size_label:'SIZE',size_label_shoe:'SHOE SIZE (EU)',pick_size:'Choose a size before adding to cart.',add_cart:'Add to cart',added:'Added to cart',size_cart:'Size: ',size_cart_shoe:'Size (EU): ',
 about_label:'OUR IDENTITY',about_t:'No need to follow.',about_p:'TCMEX blends character, simplicity and energy. Stay yourself. Create your own movement.',
-faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Add items to your cart, log in or create an account, enter your delivery address, then pay on the secure Stripe page.',
+faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Click an item, choose your size and add it to your cart. Log in or create an account, enter your delivery address, then pay on the secure Stripe page.',
 q2:'Which payment methods?',a2:'Those offered by Stripe Checkout at the time of your order (credit and debit cards in particular).',
 q3:'Delivery and returns?',a3:'Fees and delivery times are shown when you order. For a return, email us with your order number.',
 q4:'I forgot my password.',a4:'Click “Log in” then “Forgot password?”. You will receive a link by email (check your spam folder).',
@@ -271,7 +302,7 @@ your_space:'YOUR TCMEX SPACE',t_login:'Log in',t_signup:'Create an account',t_re
 b_login:'Log in',b_signup:'Create my account',b_reset:'Send the link',forgot:'Forgot password?',signup:'Create an account',have_acc:'I already have an account',logout:'Log out',
 new_pw:'New password',change_pw:'Change my password',t_newpw:'New password',connected_with:'Logged in as: ',
 your_sel:'YOUR SELECTION',my_cart:'My cart',total:'Total',ship_note:'Any shipping costs are shown at the payment step.',order:'Place order',continue:'Continue shopping',
-empty:'Your cart is empty. Add an item from the collection.',per_item:'/ item',minus:'Decrease quantity',plus:'Increase quantity',remove:'Remove',
+empty:'Your cart is empty. Click an item in the collection to add it.',per_item:'/ item',minus:'Decrease quantity',plus:'Increase quantity',remove:'Remove',
 last_step:'LAST STEP',your_order:'Your order',stripe_note:'You will be redirected to the secure Stripe payment page.',full_name:'Full name',address:'Delivery address',pay:'Pay with Stripe',
 m_confirmed_in:'Email confirmed and logged in.',m_confirmed_out:'Email confirmed! Log in to continue.',m_created:'Account created and logged in.',m_sent:'Sign-up sent. Check your email to confirm your address.',
 m_logged:'Logged in.',m_reset:'If this address exists, a recovery link has been sent. Check your spam folder.',m_out:'You are logged out.',m_pwchanged:'Password changed. You can log in.',
@@ -289,9 +320,9 @@ login:'Anmelden',account:'Mein Konto',hero_label:'NICHT WIE DIE ANDEREN.',h1a:'B
 hero_p:'Eine Haltung. Eine Identität. Eine Bewegung. Willkommen in der Welt von TCMEX.',see_col:'Kollektion ansehen',
 col_label:'DER TCMEX-STIL',col_title:'Die Kollektion.',prices:'Preise in CHF',test_note:'Testmodus: Es wird keine echte Zahlung belastet. Stripe-Testkarte: 4242 4242 4242 4242.',
 d1:'Schwarzes T-Shirt • Signatur-Logo',d2:'Graues T-Shirt • Neon-Details',d3:'Weisses T-Shirt • Minimal',d4:'Schuhe • Monochrom',
-add:'Hinzufügen +',added:'Zum Warenkorb hinzugefügt',
+view:'Grösse wählen',size_label:'GRÖSSE',size_label_shoe:'SCHUHGRÖSSE (EU)',pick_size:'Wähle eine Grösse, bevor du in den Warenkorb legst.',add_cart:'In den Warenkorb',added:'Zum Warenkorb hinzugefügt',size_cart:'Grösse: ',size_cart_shoe:'Grösse (EU): ',
 about_label:'UNSERE IDENTITÄT',about_t:'Du musst niemandem folgen.',about_p:'TCMEX verbindet Charakter, Einfachheit und Energie. Bleib du selbst. Schaffe deine eigene Bewegung.',
-faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Lege Artikel in den Warenkorb, melde dich an oder erstelle ein Konto, gib deine Lieferadresse ein und bezahle auf der sicheren Stripe-Seite.',
+faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Klicke auf einen Artikel, wähle deine Grösse und lege ihn in den Warenkorb. Melde dich an oder erstelle ein Konto, gib deine Lieferadresse ein und bezahle auf der sicheren Stripe-Seite.',
 q2:'Welche Zahlungsmethoden gibt es?',a2:'Die Methoden, die Stripe Checkout bei der Bestellung anbietet (insbesondere Kreditkarte).',
 q3:'Lieferung und Rückgabe?',a3:'Kosten und Lieferzeiten siehst du bei der Bestellung. Für eine Rückgabe schreib uns mit deiner Bestellnummer.',
 q4:'Ich habe mein Passwort vergessen.',a4:'Klicke auf «Anmelden» und dann auf «Passwort vergessen?». Du erhältst einen Link per E-Mail (prüfe deinen Spam-Ordner).',
@@ -301,7 +332,7 @@ your_space:'DEIN TCMEX-BEREICH',t_login:'Anmelden',t_signup:'Konto erstellen',t_
 b_login:'Anmelden',b_signup:'Konto erstellen',b_reset:'Link senden',forgot:'Passwort vergessen?',signup:'Konto erstellen',have_acc:'Ich habe bereits ein Konto',logout:'Abmelden',
 new_pw:'Neues Passwort',change_pw:'Passwort ändern',t_newpw:'Neues Passwort',connected_with:'Angemeldet als: ',
 your_sel:'DEINE AUSWAHL',my_cart:'Mein Warenkorb',total:'Total',ship_note:'Allfällige Versandkosten werden beim Bezahlen angezeigt.',order:'Bestellung aufgeben',continue:'Weiter einkaufen',
-empty:'Dein Warenkorb ist leer. Füge einen Artikel aus der Kollektion hinzu.',per_item:'/ Artikel',minus:'Menge verringern',plus:'Menge erhöhen',remove:'Entfernen',
+empty:'Dein Warenkorb ist leer. Klicke auf einen Artikel der Kollektion, um ihn hinzuzufügen.',per_item:'/ Artikel',minus:'Menge verringern',plus:'Menge erhöhen',remove:'Entfernen',
 last_step:'LETZTER SCHRITT',your_order:'Deine Bestellung',stripe_note:'Du wirst zur sicheren Stripe-Zahlungsseite weitergeleitet.',full_name:'Vollständiger Name',address:'Lieferadresse',pay:'Mit Stripe bezahlen',
 m_confirmed_in:'E-Mail bestätigt und angemeldet.',m_confirmed_out:'E-Mail bestätigt! Melde dich an, um fortzufahren.',m_created:'Konto erstellt und angemeldet.',m_sent:'Anmeldung gesendet. Prüfe deine E-Mails, um deine Adresse zu bestätigen.',
 m_logged:'Anmeldung erfolgreich.',m_reset:'Falls diese Adresse existiert, wurde ein Link gesendet. Prüfe deinen Spam-Ordner.',m_out:'Du bist abgemeldet.',m_pwchanged:'Passwort geändert. Du kannst dich anmelden.',
@@ -322,6 +353,7 @@ const money=n=>'CHF '+Number(n).toFixed(2);
 let cart=[];
 try{const saved=JSON.parse(localStorage.getItem('tcmex_cart')||'[]');if(Array.isArray(saved))cart=saved;}catch{}
 let authMode='login',currentSession=null,recoveryMode=false,toastTimer;
+let selected={id:null,size:null};
 
 function safeText(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function message(id,text,error=false){const el=$(id);el.textContent=text;el.classList.remove('hidden');el.style.borderLeftColor=error?'var(--red)':'var(--lime)';}
@@ -348,31 +380,81 @@ $('copyMail').onclick=async()=>{
  toast(t('copied'));
 };
 
+/* ====== Collection : cartes cliquables (sans bouton d'ajout) ====== */
 function renderProducts(){
  $('products').innerHTML=products.map(p=>`
- <article class="product">
+ <article class="product" data-open="${p.id}" tabindex="0" role="button" aria-label="${safeText(p.name)} — ${safeText(t('view'))}">
  <div class="art"><img class="product-photo" src="${p.image}" data-name="${safeText(p.name)}" alt="${safeText(p.name)} — ${safeText(t(p.d))}" loading="lazy"></div>
  <div class="product-info"><h3>${safeText(p.name)}</h3><p>${safeText(t(p.d))}</p>
- <div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" data-add="${p.id}" type="button">${safeText(t('add'))}</button></div>
+ <div class="product-bottom"><span class="price">${money(p.price)}</span><span class="view">${safeText(t('view'))}</span></div>
  </div></article>`).join('');
- document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{addToCart(b.dataset.add);toast(t('added'));});
+ document.querySelectorAll('[data-open]').forEach(c=>{
+  c.onclick=()=>openProduct(c.dataset.open);
+  c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProduct(c.dataset.open);}};
+ });
 }
+
+/* ====== Fenêtre produit : choix de la taille ====== */
+function openProduct(id){
+ const p=products.find(x=>x.id===id);if(!p)return;
+ selected={id,size:null};
+ const img=$('pImg');img.dataset.name=p.name;img.removeAttribute('data-fb');img.src=p.image;img.alt=p.name;
+ $('pName').textContent=p.name;
+ $('pDesc').textContent=t(p.d);
+ $('pPrice').textContent=money(p.price);
+ $('pLabel').textContent='TCMEX';
+ document.querySelector('#productOverlay [data-i="size_label"]').textContent=t(p.shoe?'size_label_shoe':'size_label');
+ hideMessage('pMsg');
+ $('pSizes').innerHTML=p.sizes.map(s=>`<button type="button" class="size" data-size="${s}" aria-pressed="false">${s}</button>`).join('');
+ document.querySelectorAll('.size').forEach(b=>b.onclick=()=>{
+  selected.size=b.dataset.size;hideMessage('pMsg');
+  document.querySelectorAll('.size').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on);});
+ });
+ open('productOverlay');
+}
+$('pAdd').onclick=()=>{
+ if(!selected.size){message('pMsg',t('pick_size'),true);return;}
+ addToCart(selected.id,selected.size);
+ close('productOverlay');
+ toast(t('added'));
+};
+
+/* ====== Panier (une ligne par article + taille) ====== */
 function saveCart(){try{localStorage.setItem('tcmex_cart',JSON.stringify(cart));}catch{}renderCart();}
-function addToCart(id){const p=products.find(p=>p.id===id);if(!p)return;const line=cart.find(x=>x.id===id);if(line)line.qty=Math.min(20,line.qty+1);else cart.push({id,qty:1});saveCart();}
-function changeQty(id,delta){const line=cart.find(x=>x.id===id);if(!line)return;line.qty+=delta;if(line.qty<=0)cart=cart.filter(x=>x.id!==id);else line.qty=Math.min(20,line.qty);saveCart();}
+function addToCart(id,size){
+ const p=products.find(p=>p.id===id);if(!p||!p.sizes.includes(size))return;
+ const line=cart.find(x=>x.id===id&&x.size===size);
+ if(line)line.qty=Math.min(20,line.qty+1);else cart.push({id,size,qty:1});
+ saveCart();
+}
+function changeQty(id,size,delta){
+ const line=cart.find(x=>x.id===id&&x.size===size);if(!line)return;
+ line.qty+=delta;
+ if(line.qty<=0)cart=cart.filter(x=>!(x.id===id&&x.size===size));else line.qty=Math.min(20,line.qty);
+ saveCart();
+}
 function renderCart(){
- cart=cart.filter(x=>products.some(p=>p.id===x.id)&&Number.isInteger(x.qty)&&x.qty>0);
+ cart=cart.filter(x=>{const p=products.find(p=>p.id===x.id);return p&&p.sizes.includes(x.size)&&Number.isInteger(x.qty)&&x.qty>0;});
  $('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);
  $('checkoutStartButton').disabled=!cart.length;
  if(!cart.length)$('cartItems').innerHTML=`<p class="notice">${safeText(t('empty'))}</p>`;
  else{
- $('cartItems').innerHTML=cart.map(line=>{const p=products.find(x=>x.id===line.id);return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${money(p.price)} ${safeText(t('per_item'))}</p><div class="quantity"><button data-minus="${p.id}" type="button" aria-label="${safeText(t('minus'))}">−</button><span>${line.qty}</span><button data-plus="${p.id}" type="button" aria-label="${safeText(t('plus'))}">+</button></div><button class="remove" data-remove="${p.id}" type="button">${safeText(t('remove'))}</button></div><strong>${money(p.price*line.qty)}</strong></div>`}).join('');
- document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));
- document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));
- document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.id!==b.dataset.remove);saveCart()});
+ $('cartItems').innerHTML=cart.map(line=>{
+  const p=products.find(x=>x.id===line.id);
+  const d=`data-id="${p.id}" data-size="${line.size}"`;
+  return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${safeText(t(p.shoe?'size_cart_shoe':'size_cart'))}${safeText(line.size)}</p><p>${money(p.price)} ${safeText(t('per_item'))}</p><div class="quantity"><button data-act="minus" ${d} type="button" aria-label="${safeText(t('minus'))}">−</button><span>${line.qty}</span><button data-act="plus" ${d} type="button" aria-label="${safeText(t('plus'))}">+</button></div><button class="remove" data-act="remove" ${d} type="button">${safeText(t('remove'))}</button></div><strong>${money(p.price*line.qty)}</strong></div>`;
+ }).join('');
+ document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
+  const {id,size}=b.dataset;
+  if(b.dataset.act==='minus')changeQty(id,size,-1);
+  else if(b.dataset.act==='plus')changeQty(id,size,1);
+  else{cart=cart.filter(x=>!(x.id===id&&x.size===size));saveCart();}
+ });
  }
  $('cartTotal').textContent=money(cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0));
 }
+
+/* ====== Compte ====== */
 function setAuthMode(mode){
  authMode=mode;recoveryMode=false;$('newPasswordForm').classList.add('hidden');$('authForm').classList.remove('hidden');hideMessage('authMessage');
  $('nameField').classList.toggle('hidden',mode!=='signup');$('passwordField').classList.toggle('hidden',mode==='reset');$('authPassword').required=mode!=='reset';$('authPassword').autocomplete=mode==='signup'?'new-password':'current-password';
@@ -481,7 +563,7 @@ $('checkoutForm').addEventListener('submit',async e=>{
    method:'POST',
    headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':`Bearer ${session.access_token}`},
    body:JSON.stringify({
-    items:cart.map(line=>({id:line.id,qty:line.qty})),
+    items:cart.map(line=>({id:line.id,qty:line.qty,size:line.size})),
     buyer:{name:$('buyerName').value.trim(),email:$('buyerEmail').value.trim(),address:$('buyerAddress').value.trim()},
     locale:lang
    })
