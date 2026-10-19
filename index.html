@@ -91,7 +91,7 @@ footer .links button:hover{color:var(--lime)}
 .pdesc{color:var(--gray);font-size:14px;margin-bottom:12px}
 .pprice{font-size:22px;font-weight:900;color:var(--lime);margin-bottom:20px}
 .sizes{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
-.size{background:transparent;color:var(--white);border:1px solid #444;padding:10px 14px;min-width:48px}
+.size{background:transparent;color:var(--white);border:1px solid #444;padding:10px 12px;min-width:52px}
 .size:hover{background:transparent;border-color:var(--lime)}
 .size.active,.size.active:hover{background:var(--lime);color:#080808;border-color:var(--lime)}
 .field{margin:14px 0}
@@ -169,7 +169,7 @@ footer .links button:hover{color:var(--lime)}
 <h2 id="pName"></h2>
 <p class="pdesc" id="pDesc"></p>
 <div class="pprice" id="pPrice"></div>
-<div class="label" data-i="size_label"></div>
+<div class="label" id="pSizeLabel"></div>
 <div class="sizes" id="pSizes" role="group"></div>
 <div id="pMsg" class="status hidden" role="status"></div>
 <button id="pAdd" class="full" type="button" data-i="add_cart"></button>
@@ -239,9 +239,9 @@ const CONTACT_EMAIL = '3loria12@gmail.com'; // à remplacer par ton adresse (ell
 
 const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
-// Tailles proposées
-const TEE_SIZES=['S','M','L','XL'];
-const SHOE_SIZES=['38','39','40','41','42','43','44','45'];
+// Tailles proposées (modifie ces deux lignes pour changer les tailles)
+const TEE_SIZES=['98','104','110','116','122','128','134','140','146','152','158','164','170','176']; // tailles européennes en cm
+const SHOE_SIZES=['38','39','40','41','42','43','44','45']; // pointures européennes
 
 // Les id doivent rester identiques à ceux acceptés par ta fonction create-checkout
 const products=[
@@ -260,7 +260,7 @@ login:'Connexion',account:'Mon compte',hero_label:'PAS COMME LES AUTRES.',h1a:'B
 hero_p:'Une attitude. Une identité. Un mouvement. Bienvenue dans l\'univers TCMEX.',see_col:'Voir la collection',
 col_label:'LE STYLE TCMEX',col_title:'La collection.',prices:'Prix en CHF',test_note:'Mode test : aucun paiement réel n\'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.',
 d1:'T-shirt noir • Logo signature',d2:'T-shirt gris • Détails fluo',d3:'T-shirt blanc • Minimal',d4:'Chaussures • Monochrome',
-view:'Choisir la taille',size_label:'TAILLE',size_label_shoe:'POINTURE (EU)',pick_size:'Choisis une taille avant d\'ajouter au panier.',add_cart:'Ajouter au panier',added:'Ajouté au panier',size_cart:'Taille : ',size_cart_shoe:'Pointure : ',
+view:'Choisir la taille',size_label:'TAILLE (cm)',size_label_shoe:'POINTURE (EU)',pick_size:'Choisis une taille avant d\'ajouter au panier.',add_cart:'Ajouter au panier',added:'Ajouté au panier',size_cart:'Taille : ',size_cart_shoe:'Pointure : ',
 about_label:'NOTRE IDENTITÉ',about_t:'Pas besoin de suivre.',about_p:'TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.',
 faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Clique sur un article, choisis ta taille et ajoute-le au panier. Connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.',
 q2:'Quels moyens de paiement ?',a2:'Ceux proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).',
@@ -290,7 +290,7 @@ login:'Log in',account:'My account',hero_label:'NOT LIKE THE OTHERS.',h1a:'MOVE'
 hero_p:'An attitude. An identity. A movement. Welcome to the TCMEX universe.',see_col:'View the collection',
 col_label:'THE TCMEX STYLE',col_title:'The collection.',prices:'Prices in CHF',test_note:'Test mode: no real payment is taken. Stripe test card: 4242 4242 4242 4242.',
 d1:'Black tee • Signature logo',d2:'Grey tee • Neon details',d3:'White tee • Minimal',d4:'Shoes • Monochrome',
-view:'Choose a size',size_label:'SIZE',size_label_shoe:'SHOE SIZE (EU)',pick_size:'Choose a size before adding to cart.',add_cart:'Add to cart',added:'Added to cart',size_cart:'Size: ',size_cart_shoe:'Size (EU): ',
+view:'Choose a size',size_label:'SIZE (cm)',size_label_shoe:'SHOE SIZE (EU)',pick_size:'Choose a size before adding to cart.',add_cart:'Add to cart',added:'Added to cart',size_cart:'Size: ',size_cart_shoe:'Size (EU): ',
 about_label:'OUR IDENTITY',about_t:'No need to follow.',about_p:'TCMEX blends character, simplicity and energy. Stay yourself. Create your own movement.',
 faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Click an item, choose your size and add it to your cart. Log in or create an account, enter your delivery address, then pay on the secure Stripe page.',
 q2:'Which payment methods?',a2:'Those offered by Stripe Checkout at the time of your order (credit and debit cards in particular).',
@@ -320,7 +320,7 @@ login:'Anmelden',account:'Mein Konto',hero_label:'NICHT WIE DIE ANDEREN.',h1a:'B
 hero_p:'Eine Haltung. Eine Identität. Eine Bewegung. Willkommen in der Welt von TCMEX.',see_col:'Kollektion ansehen',
 col_label:'DER TCMEX-STIL',col_title:'Die Kollektion.',prices:'Preise in CHF',test_note:'Testmodus: Es wird keine echte Zahlung belastet. Stripe-Testkarte: 4242 4242 4242 4242.',
 d1:'Schwarzes T-Shirt • Signatur-Logo',d2:'Graues T-Shirt • Neon-Details',d3:'Weisses T-Shirt • Minimal',d4:'Schuhe • Monochrom',
-view:'Grösse wählen',size_label:'GRÖSSE',size_label_shoe:'SCHUHGRÖSSE (EU)',pick_size:'Wähle eine Grösse, bevor du in den Warenkorb legst.',add_cart:'In den Warenkorb',added:'Zum Warenkorb hinzugefügt',size_cart:'Grösse: ',size_cart_shoe:'Grösse (EU): ',
+view:'Grösse wählen',size_label:'GRÖSSE (cm)',size_label_shoe:'SCHUHGRÖSSE (EU)',pick_size:'Wähle eine Grösse, bevor du in den Warenkorb legst.',add_cart:'In den Warenkorb',added:'Zum Warenkorb hinzugefügt',size_cart:'Grösse: ',size_cart_shoe:'Grösse (EU): ',
 about_label:'UNSERE IDENTITÄT',about_t:'Du musst niemandem folgen.',about_p:'TCMEX verbindet Charakter, Einfachheit und Energie. Bleib du selbst. Schaffe deine eigene Bewegung.',
 faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Klicke auf einen Artikel, wähle deine Grösse und lege ihn in den Warenkorb. Melde dich an oder erstelle ein Konto, gib deine Lieferadresse ein und bezahle auf der sicheren Stripe-Seite.',
 q2:'Welche Zahlungsmethoden gibt es?',a2:'Die Methoden, die Stripe Checkout bei der Bestellung anbietet (insbesondere Kreditkarte).',
@@ -403,7 +403,7 @@ function openProduct(id){
  $('pDesc').textContent=t(p.d);
  $('pPrice').textContent=money(p.price);
  $('pLabel').textContent='TCMEX';
- document.querySelector('#productOverlay [data-i="size_label"]').textContent=t(p.shoe?'size_label_shoe':'size_label');
+ $('pSizeLabel').textContent=t(p.shoe?'size_label_shoe':'size_label');
  hideMessage('pMsg');
  $('pSizes').innerHTML=p.sizes.map(s=>`<button type="button" class="size" data-size="${s}" aria-pressed="false">${s}</button>`).join('');
  document.querySelectorAll('.size').forEach(b=>b.onclick=()=>{
@@ -442,7 +442,8 @@ function renderCart(){
  $('cartItems').innerHTML=cart.map(line=>{
   const p=products.find(x=>x.id===line.id);
   const d=`data-id="${p.id}" data-size="${line.size}"`;
-  return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${safeText(t(p.shoe?'size_cart_shoe':'size_cart'))}${safeText(line.size)}</p><p>${money(p.price)} ${safeText(t('per_item'))}</p><div class="quantity"><button data-act="minus" ${d} type="button" aria-label="${safeText(t('minus'))}">−</button><span>${line.qty}</span><button data-act="plus" ${d} type="button" aria-label="${safeText(t('plus'))}">+</button></div><button class="remove" data-act="remove" ${d} type="button">${safeText(t('remove'))}</button></div><strong>${money(p.price*line.qty)}</strong></div>`;
+  const sizeTxt=line.size+(p.shoe?'':' cm');
+  return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${safeText(t(p.shoe?'size_cart_shoe':'size_cart'))}${safeText(sizeTxt)}</p><p>${money(p.price)} ${safeText(t('per_item'))}</p><div class="quantity"><button data-act="minus" ${d} type="button" aria-label="${safeText(t('minus'))}">−</button><span>${line.qty}</span><button data-act="plus" ${d} type="button" aria-label="${safeText(t('plus'))}">+</button></div><button class="remove" data-act="remove" ${d} type="button">${safeText(t('remove'))}</button></div><strong>${money(p.price*line.qty)}</strong></div>`;
  }).join('');
  document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
   const {id,size}=b.dataset;
