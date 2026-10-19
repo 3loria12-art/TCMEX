@@ -1,88 +1,128 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080808">
-<title>TCMEX — Bouge autrement</title>
+<title>TCMEX — Streetwear suisse, bouge autrement</title>
+<meta name="description" content="TCMEX : t-shirts et chaussures streetwear. Paiement sécurisé, prix en CHF.">
+<meta property="og:title" content="TCMEX — Bouge autrement">
+<meta property="og:description" content="Streetwear : t-shirts et chaussures de la collection TCMEX.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://3loria12-art.github.io/TCMEX/images/tshirt-noir.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23080808'/%3E%3Ctext x='32' y='44' font-size='34' font-weight='900' text-anchor='middle' fill='%23c8ff00' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080808;--card:#121212;--lime:#c8ff00;--white:#f5f5f5;--gray:#999;--line:#292929}
+:root{--bg:#080808;--card:#121212;--lime:#c8ff00;--white:#f5f5f5;--gray:#a3a3a3;--line:#2a2a2a;--red:#ff7979}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--bg);color:var(--white);font-family:Archivo,Arial,Helvetica,sans-serif;line-height:1.5}
 button,input,textarea{font:inherit}
 button,a{cursor:pointer}
 a{color:inherit;text-decoration:none}
 button{border:0}
-header{position:sticky;top:0;z-index:10;background:#080808ed;border-bottom:1px solid var(--line);padding:17px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.logo{font-size:30px;font-weight:1000;letter-spacing:-2px}
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+header{position:sticky;top:0;z-index:10;background:#080808ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-size:30px;font-weight:900;letter-spacing:-2px}
 .logo span{color:var(--lime)}
-nav{display:flex;gap:18px;flex-wrap:wrap}
-nav a{font-size:11px;font-weight:bold}
+nav{display:flex;gap:22px;flex-wrap:wrap}
+nav a{font-size:13px;font-weight:700}
 nav a:hover{color:var(--lime)}
-button,.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;background:var(--lime);color:#080808;font-weight:900;font-size:12px}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;background:var(--lime);color:#080808;font-weight:900;font-size:13px;transition:transform .15s,background .15s}
+button:hover,.btn:hover{background:#d8ff4d}
+button:active{transform:scale(.97)}
 button:disabled{opacity:.5;cursor:wait}
 .outline{background:transparent;color:var(--lime);border:1px solid var(--lime)}
-.hero{min-height:70vh;padding:85px 8%;display:flex;align-items:center;background:radial-gradient(ellipse at 83% 50%,#293500,transparent 42%)}
+.outline:hover{background:#c8ff0018}
+.topbar{background:var(--lime);color:#080808;text-align:center;padding:9px;font-size:12px;font-weight:700}
+.hero{min-height:72vh;padding:85px 8%;display:flex;align-items:center;background:radial-gradient(ellipse at 83% 50%,#293500,transparent 42%)}
 .hero-content{max-width:760px}
-.label{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:3px}
-h1{font-size:clamp(55px,10vw,110px);line-height:.9;letter-spacing:-4px;margin:22px 0}
+.label{color:var(--lime);font-size:12px;font-weight:700;letter-spacing:2px}
+h1{font-size:clamp(55px,10vw,110px);line-height:.9;letter-spacing:-4px;margin:22px 0;font-weight:900}
 h1 span{display:block;color:var(--lime)}
-.hero p{max-width:430px;color:#bbb;line-height:1.8;margin:25px 0}
-section{padding:65px 7%}
-h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;margin:12px 0 25px}
+.hero p{max-width:440px;color:#bbb;line-height:1.8;margin:25px 0}
+.hero .btn+.btn{margin-left:8px}
+section{padding:70px 7%}
+h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;margin:12px 0 25px;font-weight:900;line-height:1}
 .section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px;gap:15px}
-.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.product{border:1px solid var(--line);background:var(--card);min-width:0}
-.art{height:260px;background:radial-gradient(circle,#292929,#101010 70%);display:flex;align-items:center;justify-content:center}
+.section-head>span{color:var(--gray);font-size:13px}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.product{border:1px solid var(--line);background:var(--card);min-width:0;transition:border-color .2s}
+.product:hover{border-color:var(--lime)}
+.art{height:260px;background:radial-gradient(circle,#2a2a2a,#101010 70%);display:flex;align-items:center;justify-content:center}
 .product-photo{width:100%;height:100%;object-fit:contain;display:block;padding:12px}
 .product-info{padding:16px}
 .product-info h3{font-size:14px;text-transform:uppercase}
-.product-info p{color:var(--gray);font-size:12px;margin-top:6px}
+.product-info p{color:var(--gray);font-size:13px;margin-top:6px}
 .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
-.price{font-weight:bold;color:var(--lime)}
-.add{padding:10px;font-size:11px}
+.price{font-weight:700;color:var(--lime)}
+.add{padding:10px 12px;font-size:12px}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;border-block:1px solid var(--line);padding-block:40px}
+.perks h3{font-size:15px;margin-bottom:6px}
+.perks p{color:var(--gray);font-size:14px;max-width:34ch}
 .air{background:var(--lime);color:#080808;text-align:center}
 .air .label{color:#394800}
 .air h2{font-size:clamp(45px,9vw,90px)}
 .air p{max-width:480px;margin:20px auto;line-height:1.7}
 .dark{background:#080808;color:var(--lime)}
+.dark:hover{background:#1a1a1a}
 .about{text-align:center;max-width:850px;margin:auto}
 .about p{max-width:620px;margin:20px auto;color:var(--gray);line-height:1.9}
-footer{border-top:1px solid var(--line);padding:25px 7%;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--gray);font-size:11px}
-footer strong{color:var(--lime)}
+.faq{max-width:780px;margin:auto}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--lime);font-size:22px;line-height:1}
+details[open] summary::after{content:"−"}
+details p{color:var(--gray);margin-top:12px;font-size:14px;max-width:62ch}
+.contact{text-align:center}
+.contact p{color:var(--gray);margin:0 auto 22px;max-width:46ch}
+footer{border-top:1px solid var(--line);padding:30px 7%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;color:var(--gray);font-size:12px}
+footer .links{display:flex;gap:18px;flex-wrap:wrap}
+footer .links button{background:none;color:var(--gray);padding:0;font-weight:400;font-size:12px;text-decoration:underline}
+footer .links button:hover{color:var(--lime)}
 .overlay{display:none;position:fixed;inset:0;background:#000c;z-index:30;align-items:center;justify-content:center;padding:15px}
 .overlay.open{display:flex}
 .modal{background:#111;border:1px solid #383838;width:min(500px,100%);max-height:90vh;overflow:auto;padding:25px;position:relative}
 .modal h2{font-size:29px;margin:12px 0 20px}
-.close{position:absolute;right:12px;top:10px;background:none;color:white;font-size:25px;padding:0}
+.modal h3{font-size:14px;margin:18px 0 6px;color:var(--lime)}
+.legal p{color:#ccc;font-size:13px;line-height:1.7}
+.close{position:absolute;right:12px;top:10px;background:none;color:white;font-size:25px;padding:0 6px}
+.close:hover{background:none;color:var(--lime)}
 .field{margin:14px 0}
 .field label{display:block;color:#ccc;font-size:12px;margin-bottom:7px}
 .field input,.field textarea{width:100%;padding:12px;background:#080808;border:1px solid #444;color:white}
-.field input:focus,.field textarea:focus{outline:1px solid var(--lime)}
 .full{width:100%}
-.small-btn{display:block;background:none;color:var(--lime);padding:10px 0;text-decoration:underline}
-.notice,.status{font-size:12px;line-height:1.7;color:#ccc;margin:12px 0;overflow-wrap:anywhere}
+.small-btn{display:block;background:none;color:var(--lime);padding:10px 0;text-decoration:underline;font-weight:700}
+.small-btn:hover{background:none;color:#fff}
+.notice,.status{font-size:13px;line-height:1.7;color:#ccc;margin:12px 0;overflow-wrap:anywhere}
 .status{padding:12px;background:#1b1b1b;border-left:3px solid var(--lime)}
 .hidden{display:none!important}
-.cart-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:14px 0;border-bottom:1px solid #333}
-.cart-row p{font-size:12px;color:var(--gray);margin-top:5px}
+.cart-row{display:grid;grid-template-columns:64px 1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid #333;align-items:start}
+.cart-row img{width:64px;height:64px;object-fit:contain;background:#1a1a1a}
+.cart-row p{font-size:12px;color:var(--gray);margin-top:3px}
 .quantity{display:flex;align-items:center;gap:10px;margin-top:8px}
-.quantity button{background:#292929;color:white;padding:5px 10px}
-.remove{background:none;color:#ff7979;padding:8px 0}
-.total{display:flex;justify-content:space-between;padding:20px 0;font-weight:bold}
-@media(max-width:760px){header{padding:15px 5%}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}}
-@media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}.product-bottom{flex-direction:row;align-items:center}}
+.quantity button{background:#2a2a2a;color:white;padding:5px 11px}
+.remove{background:none;color:var(--red);padding:8px 0;font-weight:400;font-size:12px}
+.remove:hover{background:none;text-decoration:underline}
+.total{display:flex;justify-content:space-between;padding:20px 0;font-weight:700}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:var(--lime);color:#080808;padding:12px 18px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:40}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media(max-width:980px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.perks{grid-template-columns:1fr}}
+@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.product-bottom{align-items:start;flex-direction:column}.hero .btn+.btn{margin:10px 0 0}}
+@media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}.product-bottom{flex-direction:row;align-items:center}nav{gap:14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div style="background:var(--lime);color:#080808;text-align:center;padding:9px;font-size:11px;font-weight:bold;letter-spacing:2px">TCMEX — BOUGE AUTREMENT.</div>
+<div class="topbar">Streetwear TCMEX — Bouge autrement.</div>
 <header>
-<a class="logo" href="#accueil">TCM<span>EX</span></a>
-<nav><a href="#accueil">Accueil</a><a href="#collection">Collection</a><a href="#air">TCMEX Air</a></nav>
+<a class="logo" href="#accueil" aria-label="TCMEX, accueil">TCM<span>EX</span></a>
+<nav aria-label="Navigation principale"><a href="#accueil">Accueil</a><a href="#collection">Collection</a><a href="#air">TCMEX Air</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></nav>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
 <button id="accountButton" class="outline">Connexion</button>
-<button id="cartButton">Panier (<span id="cartCount">0</span>)</button>
+<button id="cartButton" aria-label="Ouvrir le panier">Panier (<span id="cartCount">0</span>)</button>
 </div>
 </header>
 <main>
@@ -90,26 +130,47 @@ footer strong{color:var(--lime)}
 <div class="label">PAS COMME LES AUTRES.</div>
 <h1>BOUGE <span>AUTREMENT.</span></h1>
 <p>Une attitude. Une identité. Un mouvement. Bienvenue dans l'univers TCMEX.</p>
-<a class="btn" href="#collection">Découvrir la collection ↗</a>
+<a class="btn" href="#collection">Voir la collection</a><a class="btn outline" href="#air">Découvrir TCMEX Air</a>
 </div></section>
-<section id="collection">
-<div class="section-head"><div><div class="label">LE STYLE TCMEX</div><h2>La collection.</h2></div><span style="color:#999">Prix en CHF</span></div>
-<div class="products" id="products"></div>
-<p class="notice">Paiement en mode test à vérifier avant toute vente.</p>
-</section>
-<section class="air" id="air"><div class="label">LÉGER. LIBRE. TCMEX.</div><h2>TCMEX AIR.</h2><p>Le mouvement ne s'arrête jamais. Découvre une autre façon de vivre le streetwear.</p><a class="btn dark" href="#collection">Explorer la collection</a></section>
-<section class="about"><div class="label">NOTRE IDENTITÉ</div><h2>Pas besoin de suivre.</h2><p>TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.</p></section>
-</main>
-<footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span>© 2026 TCMEX — Tous droits réservés.</span><strong>BOUGE AUTREMENT.</strong></footer>
 
-<div class="overlay" id="accountOverlay" role="dialog" aria-modal="true"><div class="modal">
+<section id="collection">
+<div class="section-head"><div><div class="label">LE STYLE TCMEX</div><h2>La collection.</h2></div><span>Prix en CHF</span></div>
+<div class="products" id="products"></div>
+<p class="notice test-only">Mode test : aucun paiement réel n'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.</p>
+</section>
+
+<section class="perks" aria-label="Nos engagements">
+<div><h3>Paiement sécurisé</h3><p>Le paiement se fait sur Stripe. TCMEX ne voit jamais ta carte bancaire.</p></div>
+<div><h3>Compte client</h3><p>Crée un compte pour commander et retrouver ton panier d'une visite à l'autre.</p></div>
+<div><h3>Prix clairs</h3><p>Tous les prix sont affichés en francs suisses (CHF).</p></div>
+</section>
+
+<section class="air" id="air"><div class="label">LÉGER. LIBRE. TCMEX.</div><h2>TCMEX AIR.</h2><p>Le mouvement ne s'arrête jamais. Découvre une autre façon de vivre le streetwear : un t-shirt blanc et des chaussures assorties.</p><a class="btn dark" href="#collection">Explorer la collection</a></section>
+
+<section class="about" id="about"><div class="label">NOTRE IDENTITÉ</div><h2>Pas besoin de suivre.</h2><p>TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.</p></section>
+
+<section id="faq"><div class="faq"><div class="label">QUESTIONS FRÉQUENTES</div><h2>FAQ.</h2>
+<details><summary>Comment passer commande ?</summary><p>Ajoute tes articles au panier, connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.</p></details>
+<details><summary>Quels moyens de paiement sont acceptés ?</summary><p>Les moyens de paiement proposés par Stripe Checkout au moment de la commande (carte bancaire notamment).</p></details>
+<details><summary>Où livrez-vous et en combien de temps ?</summary><p>Les délais et frais de livraison te sont communiqués lors de la commande. Pour toute question avant d'acheter, écris-nous.</p></details>
+<details><summary>Puis-je retourner un article ?</summary><p>Oui, contacte-nous rapidement après réception avec ton numéro de commande. Nous te répondons avec la marche à suivre.</p></details>
+<details><summary>J'ai oublié mon mot de passe.</summary><p>Clique sur « Connexion » puis « Mot de passe oublié ? ». Tu recevras un lien par e-mail (pense à vérifier tes courriers indésirables).</p></details>
+</div></section>
+
+<section class="contact" id="contact"><div class="label">UNE QUESTION ?</div><h2>Contact.</h2><p>Écris-nous pour une commande, un retour ou une collaboration. Nous répondons dès que possible.</p><a class="btn" id="mailLink" href="mailto:contact@tcmex.ch">Envoyer un e-mail</a></section>
+</main>
+
+<footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span>© 2026 TCMEX — Tous droits réservés.</span>
+<div class="links"><button data-legal="cgv">CGV</button><button data-legal="mentions">Mentions légales</button><button data-legal="privacy">Confidentialité</button></div></footer>
+
+<div class="overlay" id="accountOverlay" role="dialog" aria-modal="true" aria-label="Compte"><div class="modal">
 <button class="close" data-close="accountOverlay" aria-label="Fermer">×</button>
 <div class="label">TON ESPACE TCMEX</div><h2 id="authTitle">Connexion</h2>
 <div id="authMessage" class="status hidden" role="status"></div>
 <form id="authForm">
 <div class="field hidden" id="nameField"><label for="authName">Prénom (facultatif)</label><input id="authName" autocomplete="given-name" maxlength="80"></div>
 <div class="field"><label for="authEmail">Adresse e-mail</label><input id="authEmail" type="email" autocomplete="email" required></div>
-<div class="field" id="passwordField"><label for="authPassword">Mot de passe</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required></div>
+<div class="field" id="passwordField"><label for="authPassword">Mot de passe (6 caractères minimum)</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required></div>
 <button id="authSubmit" class="full" type="submit">Se connecter</button>
 </form>
 <button class="small-btn" id="forgotButton">Mot de passe oublié ?</button>
@@ -123,28 +184,35 @@ footer strong{color:var(--lime)}
 </form>
 </div></div>
 
-<div class="overlay" id="cartOverlay" role="dialog" aria-modal="true"><div class="modal">
+<div class="overlay" id="cartOverlay" role="dialog" aria-modal="true" aria-label="Panier"><div class="modal">
 <button class="close" data-close="cartOverlay" aria-label="Fermer">×</button>
 <div class="label">TA SÉLECTION</div><h2>Mon panier</h2>
 <div id="cartItems"></div>
 <div class="total"><span>Total</span><span id="cartTotal">CHF 0.00</span></div>
-<p class="notice">Le paiement Stripe est en mode test.</p>
-<button id="checkoutStartButton" class="full">Continuer vers la commande</button>
+<p class="notice">Frais de livraison éventuels précisés à l'étape de paiement.</p>
+<button id="checkoutStartButton" class="full">Passer la commande</button>
 <button class="small-btn" data-close="cartOverlay">Continuer mes achats</button>
 </div></div>
 
-<div class="overlay" id="checkoutOverlay" role="dialog" aria-modal="true"><div class="modal">
+<div class="overlay" id="checkoutOverlay" role="dialog" aria-modal="true" aria-label="Commande"><div class="modal">
 <button class="close" data-close="checkoutOverlay" aria-label="Fermer">×</button>
 <div class="label">DERNIÈRE ÉTAPE</div><h2>Ta commande</h2>
-<p class="notice">Tu seras redirigé vers Stripe Checkout en mode test.</p>
+<p class="notice">Tu seras redirigé vers la page de paiement sécurisée Stripe.</p>
 <div id="checkoutMessage" class="status hidden" role="status"></div>
 <form id="checkoutForm">
 <div class="field"><label for="buyerName">Nom complet</label><input id="buyerName" required autocomplete="name" maxlength="120"></div>
 <div class="field"><label for="buyerEmail">Adresse e-mail</label><input id="buyerEmail" type="email" required autocomplete="email"></div>
 <div class="field"><label for="buyerAddress">Adresse de livraison</label><textarea id="buyerAddress" required rows="3" autocomplete="street-address" maxlength="1000"></textarea></div>
-<button id="checkoutSubmit" class="full" type="submit">Continuer vers le paiement</button>
+<button id="checkoutSubmit" class="full" type="submit">Payer avec Stripe</button>
 </form>
 </div></div>
+
+<div class="overlay" id="legalOverlay" role="dialog" aria-modal="true" aria-label="Informations légales"><div class="modal legal">
+<button class="close" data-close="legalOverlay" aria-label="Fermer">×</button>
+<div id="legalContent"></div>
+</div></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
@@ -153,40 +221,59 @@ const SUPABASE_URL = 'https://rbjekzjoyiyesiinsliw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ';
 const SITE_URL = 'https://3loria12-art.github.io/TCMEX/';
 const CONFIRM_URL = SITE_URL + '?confirmed=true';
+const TEST_MODE = true; // passe à false quand Stripe est en mode réel
+const CONTACT_EMAIL = 'contact@tcmex.ch'; // à remplacer par ton adresse
 
-const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{
- auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-});
+const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
-
+// Les id doivent rester identiques à ceux acceptés par ta fonction create-checkout
 const products=[
 {id:'tee-essential',name:'TCMEX Essential',description:'T-shirt noir • Logo signature',price:29.75,image:'./images/tshirt-noir.png'},
 {id:'tee-neon',name:'Neon Edition',description:'T-shirt gris • Détails fluo',price:29.75,image:'./images/tshirt-gris.png'},
 {id:'tee-air',name:'TCMEX Air',description:'T-shirt blanc • Collection Air',price:29.75,image:'./images/tshirt-blanc.png'},
-{id:'hoodie-street',name:'TCMEX Air',description:'Chaussures • Collection Air',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
+{id:'hoodie-street',name:'TCMEX Air 1',description:'Chaussures • Collection Air',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png'}
 ];
 
+const legal={
+cgv:['Conditions générales de vente',[['Commandes','Toute commande passée sur ce site vaut acceptation des présentes conditions. Les prix sont indiqués en francs suisses (CHF).'],['Paiement','Le paiement est traité par Stripe. TCMEX n\'a jamais accès à tes données de carte bancaire.'],['Livraison','Les frais et délais de livraison sont précisés lors de la commande.'],['Retours','Contacte-nous à '+CONTACT_EMAIL+' après réception avec ton numéro de commande.']]],
+mentions:['Mentions légales',[['Éditeur','TCMEX — [nom de l\'entreprise ou du responsable, adresse, pays].'],['Contact',CONTACT_EMAIL],['Hébergement','GitHub Pages (GitHub, Inc.).']]],
+privacy:['Politique de confidentialité',[['Données collectées','Adresse e-mail, prénom (facultatif) et adresse de livraison, uniquement pour gérer ton compte et tes commandes.'],['Stockage','Ton compte est géré par Supabase. Ton panier est conservé dans ton navigateur (localStorage).'],['Paiement','Les paiements sont traités par Stripe selon sa propre politique de confidentialité.'],['Tes droits','Pour consulter ou supprimer tes données, écris à '+CONTACT_EMAIL+'.']]]
+};
 
 const $=id=>document.getElementById(id);
 const money=n=>'CHF '+Number(n).toFixed(2);
 let cart=[];
 try{const saved=JSON.parse(localStorage.getItem('tcmex_cart')||'[]');if(Array.isArray(saved))cart=saved;}catch{}
-let authMode='login',currentSession=null,recoveryMode=false;
+let authMode='login',currentSession=null,recoveryMode=false,toastTimer;
 
 function safeText(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function message(id,text,error=false){const el=$(id);el.textContent=text;el.classList.remove('hidden');el.style.borderLeftColor=error?'#ff7979':'var(--lime)';}
+function message(id,text,error=false){const el=$(id);el.textContent=text;el.classList.remove('hidden');el.style.borderLeftColor=error?'var(--red)':'var(--lime)';}
 function hideMessage(id){$(id).classList.add('hidden');}
-function open(id){$(id).classList.add('open');}
-function close(id){$(id).classList.remove('open');}
+function open(id){$(id).classList.add('open');document.body.style.overflow='hidden';}
+function close(id){$(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
+function toast(text){const t=$('toast');t.textContent=text;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
+
+// Image de remplacement : s'affiche automatiquement si une photo ne charge pas
+function placeholder(name){
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="#1a1a1a"/><text x="150" y="140" text-anchor="middle" font-family="Arial" font-weight="900" font-size="48" fill="#c8ff00">TCMEX</text><text x="150" y="180" text-anchor="middle" font-family="Arial" font-weight="700" font-size="18" fill="#f5f5f5">${safeText(name)}</text></svg>`;
+ return 'data:image/svg+xml,'+encodeURIComponent(svg);
+}
+document.addEventListener('error',e=>{
+ const img=e.target;
+ if(img&&img.tagName==='IMG'&&img.dataset.name&&!img.dataset.fb){img.dataset.fb='1';img.src=placeholder(img.dataset.name);}
+},true);
+
+if(!TEST_MODE)document.querySelectorAll('.test-only').forEach(e=>e.remove());
+$('mailLink').href='mailto:'+CONTACT_EMAIL;
 
 function renderProducts(){
  $('products').innerHTML=products.map(p=>`
  <article class="product">
- <div class="art"><img class="product-photo" src="${p.image}" alt="${safeText(p.name)}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='#252525'"></div>
+ <div class="art"><img class="product-photo" src="${p.image}" data-name="${safeText(p.name)}" alt="${safeText(p.name)} — ${safeText(p.description)}" loading="lazy"></div>
  <div class="product-info"><h3>${safeText(p.name)}</h3><p>${safeText(p.description)}</p>
- <div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" data-add="${p.id}" type="button">Ajouter +</button></div>
+ <div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" data-add="${p.id}" type="button" aria-label="Ajouter ${safeText(p.name)} au panier">Ajouter +</button></div>
  </div></article>`).join('');
- document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>addToCart(b.dataset.add));
+ document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{addToCart(b.dataset.add);toast('Ajouté au panier');});
 }
 function saveCart(){try{localStorage.setItem('tcmex_cart',JSON.stringify(cart));}catch{}renderCart();}
 function addToCart(id){const p=products.find(p=>p.id===id);if(!p)return;const line=cart.find(x=>x.id===id);if(line)line.qty=Math.min(20,line.qty+1);else cart.push({id,qty:1});saveCart();}
@@ -194,9 +281,10 @@ function changeQty(id,delta){const line=cart.find(x=>x.id===id);if(!line)return;
 function renderCart(){
  cart=cart.filter(x=>products.some(p=>p.id===x.id)&&Number.isInteger(x.qty)&&x.qty>0);
  $('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);
+ $('checkoutStartButton').disabled=!cart.length;
  if(!cart.length)$('cartItems').innerHTML='<p class="notice">Ton panier est vide. Ajoute un article depuis la collection.</p>';
  else{
- $('cartItems').innerHTML=cart.map(line=>{const p=products.find(x=>x.id===line.id);return `<div class="cart-row"><div><strong>${safeText(p.name)}</strong><p>${money(p.price)} / article</p><div class="quantity"><button data-minus="${p.id}" type="button">−</button><span>${line.qty}</span><button data-plus="${p.id}" type="button">+</button></div><button class="remove" data-remove="${p.id}" type="button">Retirer</button></div><strong>${money(p.price*line.qty)}</strong></div>`}).join('');
+ $('cartItems').innerHTML=cart.map(line=>{const p=products.find(x=>x.id===line.id);return `<div class="cart-row"><img src="${p.image}" data-name="${safeText(p.name)}" alt=""><div><strong>${safeText(p.name)}</strong><p>${money(p.price)} / article</p><div class="quantity"><button data-minus="${p.id}" type="button" aria-label="Diminuer la quantité">−</button><span>${line.qty}</span><button data-plus="${p.id}" type="button" aria-label="Augmenter la quantité">+</button></div><button class="remove" data-remove="${p.id}" type="button">Retirer</button></div><strong>${money(p.price*line.qty)}</strong></div>`}).join('');
  document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));
  document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));
  document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.id!==b.dataset.remove);saveCart()});
@@ -218,15 +306,20 @@ function updateAccountUI(){
  else if(!recoveryMode){$('accountInfo').classList.add('hidden');setAuthMode(authMode);}
 }
 async function refreshSession(){
- const params=new URLSearchParams(window.location.search);
- const confirmed=params.get('confirmed')==='true';
  const {data,error}=await supabase.auth.getSession();
  if(error)throw error;
  currentSession=data.session;updateAccountUI();
- if(confirmed){
-  window.history.replaceState({},document.title,window.location.pathname);
-  if(currentSession)message('authMessage','Adresse confirmée et connexion réussie.');
-  else message('authMessage','Adresse confirmée ! Connecte-toi pour continuer.');
+}
+function handleReturnParams(){
+ const params=new URLSearchParams(window.location.search);
+ const clean=()=>window.history.replaceState({},document.title,window.location.pathname);
+ if(params.get('confirmed')==='true'){
+  clean();open('accountOverlay');
+  message('authMessage',currentSession?'Adresse confirmée et connexion réussie.':'Adresse confirmée ! Connecte-toi pour continuer.');
+ }else if(params.has('success')||params.get('checkout')==='success'||params.get('paid')==='true'){
+  clean();cart=[];saveCart();toast('Merci ! Ta commande est confirmée.');
+ }else if(params.has('canceled')||params.has('cancel')||params.get('checkout')==='cancel'){
+  clean();toast('Paiement annulé. Ton panier est conservé.');
  }
 }
 $('accountButton').onclick=async()=>{try{await refreshSession();}catch(e){message('authMessage',e.message||'Erreur de session.',true)}if(!currentSession?.user&&!recoveryMode)setAuthMode('login');open('accountOverlay');};
@@ -250,7 +343,7 @@ $('authForm').addEventListener('submit',async e=>{
    const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});if(error)throw error;
    message('authMessage','Si cette adresse existe, un lien de récupération a été envoyé. Vérifie tes courriers indésirables.');
   }
- }catch(err){console.error(err);message('authMessage',err.message||'Erreur Supabase.',true);}
+ }catch(err){console.error(err);message('authMessage',err.message||'Erreur de connexion.',true);}
  finally{btn.disabled=false;}
 });
 $('logoutButton').onclick=async()=>{
@@ -275,6 +368,7 @@ $('checkoutStartButton').onclick=async()=>{
  open('checkoutOverlay');
 };
 
+// Ouvre la page de paiement Stripe
 $('checkoutForm').addEventListener('submit',async e=>{
  e.preventDefault();
  if(!cart.length){message('checkoutMessage','Panier vide.',true);return;}
@@ -283,24 +377,38 @@ $('checkoutForm').addEventListener('submit',async e=>{
   const {data,error}=await supabase.auth.getSession();
   if(error)throw error;
   const session=data.session;
-  if(!session?.access_token)throw new Error('Reconnecte-toi avant de payer.');
+  if(!session?.access_token)throw new Error('Session expirée : reconnecte-toi avant de payer.');
+  message('checkoutMessage','Préparation du paiement…');
   const response=await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`,{
    method:'POST',
    headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':`Bearer ${session.access_token}`},
-   body:JSON.stringify({items:cart.map(line=>({id:line.id,qty:line.qty}))})
+   body:JSON.stringify({
+    items:cart.map(line=>({id:line.id,qty:line.qty})),
+    buyer:{name:$('buyerName').value.trim(),email:$('buyerEmail').value.trim(),address:$('buyerAddress').value.trim()}
+   })
   });
-  const result=await response.json();
-  if(!response.ok)throw new Error(result.error||'Impossible de préparer le paiement.');
+  const result=await response.json().catch(()=>({}));
+  if(response.status===401)throw new Error('Session expirée : déconnecte-toi puis reconnecte-toi.');
+  if(response.status===404)throw new Error('La fonction de paiement "create-checkout" est introuvable sur Supabase.');
+  if(!response.ok)throw new Error(result.error||result.message||'Impossible de préparer le paiement.');
   if(!result.url||!result.url.startsWith('https://checkout.stripe.com/'))throw new Error('Stripe n’a pas renvoyé de lien valide.');
+  message('checkoutMessage','Redirection vers Stripe…');
   window.location.href=result.url;
  }catch(err){console.error(err);message('checkoutMessage',err.message||'Erreur de paiement.',true);btn.disabled=false;}
 });
 
+document.querySelectorAll('[data-legal]').forEach(b=>b.onclick=()=>{
+ const [title,blocks]=legal[b.dataset.legal];
+ $('legalContent').innerHTML=`<div class="label">TCMEX</div><h2>${safeText(title)}</h2>`+blocks.map(([h,t])=>`<h3>${safeText(h)}</h3><p>${safeText(t)}</p>`).join('');
+ open('legalOverlay');
+});
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)close(el.id)}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay').forEach(el=>el.classList.remove('open'))});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.overlay').forEach(el=>el.classList.remove('open'));document.body.style.overflow='';}});
+
 async function initAuth(){
  try{await refreshSession();}catch(err){console.error('Supabase session:',err);}
+ handleReturnParams();
  supabase.auth.onAuthStateChange((event,session)=>{
   currentSession=session;
   if(event==='PASSWORD_RECOVERY'){
