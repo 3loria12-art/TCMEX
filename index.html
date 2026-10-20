@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080808;--card:#121212;--lime:#c8ff00;--white:#f5f5f5;--gray:#a3a3a3;--line:#2a2a2a;--red:#ff7979}
+:root{--bg:#080808;--card:#121212;--lime:#c8ff00;--white:#f5f5f5;--gray:#a3a3a3;--line:#2a2a2a;--red:#ff7979;--green:#3ddc84;--orange:#ffb020}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{background:var(--bg);color:var(--white);font-family:Archivo,Arial,Helvetica,sans-serif;line-height:1.5}
@@ -59,6 +59,10 @@ h2{font-size:clamp(32px,5vw,55px);letter-spacing:-2px;text-transform:uppercase;m
 .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
 .price{font-weight:700;color:var(--lime)}
 .view{font-size:12px;color:var(--gray);text-decoration:underline}
+.stock-tag{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;margin-top:12px;color:var(--white)}
+.stock-tag::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--green);flex:none}
+.stock-tag.prep::before{background:var(--orange)}
+.stock-tag.out::before{background:var(--red)}
 .about{text-align:center;max-width:850px;margin:auto}
 .about p{max-width:620px;margin:20px auto;color:var(--gray);line-height:1.9}
 .faq{max-width:780px;margin:auto}
@@ -89,11 +93,14 @@ footer .links button:hover{color:var(--lime)}
 .pimg img{width:100%;height:100%;object-fit:contain;padding:14px}
 .pmodal h2{font-size:30px;margin:0 0 8px}
 .pdesc{color:var(--gray);font-size:14px;margin-bottom:12px}
-.pprice{font-size:22px;font-weight:900;color:var(--lime);margin-bottom:20px}
+.pprice{font-size:22px;font-weight:900;color:var(--lime);margin-bottom:8px}
+.pmodal .stock-tag{margin:0 0 20px}
 .sizes{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
 .size{background:transparent;color:var(--white);border:1px solid #444;padding:10px 12px;min-width:52px}
 .size:hover{background:transparent;border-color:var(--lime)}
 .size.active,.size.active:hover{background:var(--lime);color:#080808;border-color:var(--lime)}
+.size:disabled,.size:disabled:hover{opacity:.35;cursor:not-allowed;border-color:#444}
+#pAdd:disabled,#pAdd:disabled:hover{background:#2a2a2a;color:#999;opacity:1;cursor:not-allowed;transform:none}
 .field{margin:14px 0}
 .field label{display:block;color:#ccc;font-size:12px;margin-bottom:7px}
 .field input,.field textarea{width:100%;padding:12px;background:#080808;border:1px solid #444;color:white}
@@ -160,7 +167,7 @@ footer .links button:hover{color:var(--lime)}
 <footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span data-i="copy"></span>
 <div class="links"><button data-legal="cgv" data-i="cgv"></button><button data-legal="mentions" data-i="mentions"></button><button data-legal="privacy" data-i="privacy"></button></div></footer>
 
-<!-- Fenêtre produit : image, taille, ajout au panier -->
+<!-- Fenêtre produit : image, statut, taille, ajout au panier -->
 <div class="overlay" id="productOverlay" role="dialog" aria-modal="true"><div class="modal pmodal">
 <button class="close" data-close="productOverlay" data-ia="close">×</button>
 <div class="pimg"><img id="pImg" src="" alt=""></div>
@@ -169,10 +176,11 @@ footer .links button:hover{color:var(--lime)}
 <h2 id="pName"></h2>
 <p class="pdesc" id="pDesc"></p>
 <div class="pprice" id="pPrice"></div>
+<div class="stock-tag" id="pStock"></div>
 <div class="label" id="pSizeLabel"></div>
 <div class="sizes" id="pSizes" role="group"></div>
 <div id="pMsg" class="status hidden" role="status"></div>
-<button id="pAdd" class="full" type="button" data-i="add_cart"></button>
+<button id="pAdd" class="full" type="button"></button>
 </div>
 </div></div>
 
@@ -235,7 +243,7 @@ const SUPABASE_KEY = 'sb_publishable_4IVE_9o-VZCvBQ6ka8oTYw_OlRM14xZ';
 const SITE_URL = 'https://3loria12-art.github.io/TCMEX/';
 const CONFIRM_URL = SITE_URL + '?confirmed=true';
 const TEST_MODE = true; // passe à false quand Stripe est en mode réel
-const CONTACT_EMAIL = 'tcmex@contact.com'; // à remplacer par ton adresse (elle est affichée sur le site)
+const CONTACT_EMAIL = 'contact@tcmex.ch'; // à remplacer par ton adresse (elle est affichée sur le site)
 
 const supabase = createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
@@ -244,11 +252,12 @@ const TEE_SIZES=['98','104','110','116','122','128','134','140','146','152','158
 const SHOE_SIZES=['38','39','40','41','42','43','44','45']; // pointures européennes
 
 // Les id doivent rester identiques à ceux acceptés par ta fonction create-checkout
+// status : 'stock' = En stock (vert) / 'prep' = En préparation (orange) / 'out' = Ce n'est pas en stock (rouge, non commandable)
 const products=[
-{id:'tee-essential',name:'TCMEX Essential',d:'d1',price:29.75,image:'./images/tshirt-noir.png',sizes:TEE_SIZES,shoe:false},
-{id:'tee-neon',name:'Neon Edition',d:'d2',price:29.75,image:'./images/tshirt-gris.png',sizes:TEE_SIZES,shoe:false},
-{id:'tee-air',name:'TCMEX White',d:'d3',price:29.75,image:'./images/tshirt-blanc.png',sizes:TEE_SIZES,shoe:false},
-{id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png',sizes:SHOE_SIZES,shoe:true}
+{id:'tee-essential',name:'TCMEX Essential',d:'d1',price:29.75,image:'./images/tshirt-noir.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
+{id:'tee-neon',name:'Neon Edition',d:'d2',price:29.75,image:'./images/tshirt-gris.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
+{id:'tee-air',name:'TCMEX White',d:'d3',price:29.75,image:'./images/tshirt-blanc.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
+{id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png',sizes:SHOE_SIZES,shoe:true,status:'prep'}
 ];
 
 /* ====== TRADUCTIONS (FR / EN / DE) ====== */
@@ -260,6 +269,7 @@ login:'Connexion',account:'Mon compte',hero_label:'PAS COMME LES AUTRES.',h1a:'B
 hero_p:'Une attitude. Une identité. Un mouvement. Bienvenue dans l\'univers TCMEX.',see_col:'Voir la collection',
 col_label:'LE STYLE TCMEX',col_title:'La collection.',prices:'Prix en CHF',test_note:'Mode test : aucun paiement réel n\'est prélevé. Carte de test Stripe : 4242 4242 4242 4242.',
 d1:'T-shirt noir • Logo signature',d2:'T-shirt gris • Détails fluo',d3:'T-shirt blanc • Minimal',d4:'Chaussures • Monochrome',
+st_stock:'En stock',st_prep:'En préparation',st_out:'Ce n\'est pas en stock',add_unavail:'Indisponible',
 view:'Choisir la taille',size_label:'TAILLE (cm)',size_label_shoe:'POINTURE (EU)',pick_size:'Choisis une taille avant d\'ajouter au panier.',add_cart:'Ajouter au panier',added:'Ajouté au panier',size_cart:'Taille : ',size_cart_shoe:'Pointure : ',
 about_label:'NOTRE IDENTITÉ',about_t:'Pas besoin de suivre.',about_p:'TCMEX mélange caractère, simplicité et énergie. Reste toi-même. Crée ton propre mouvement.',
 faq_label:'QUESTIONS FRÉQUENTES',q1:'Comment passer commande ?',a1:'Clique sur un article, choisis ta taille et ajoute-le au panier. Connecte-toi ou crée un compte, indique ton adresse de livraison, puis paie sur la page sécurisée Stripe.',
@@ -290,6 +300,7 @@ login:'Log in',account:'My account',hero_label:'NOT LIKE THE OTHERS.',h1a:'MOVE'
 hero_p:'An attitude. An identity. A movement. Welcome to the TCMEX universe.',see_col:'View the collection',
 col_label:'THE TCMEX STYLE',col_title:'The collection.',prices:'Prices in CHF',test_note:'Test mode: no real payment is taken. Stripe test card: 4242 4242 4242 4242.',
 d1:'Black tee • Signature logo',d2:'Grey tee • Neon details',d3:'White tee • Minimal',d4:'Shoes • Monochrome',
+st_stock:'In stock',st_prep:'In preparation',st_out:'Out of stock',add_unavail:'Unavailable',
 view:'Choose a size',size_label:'SIZE (cm)',size_label_shoe:'SHOE SIZE (EU)',pick_size:'Choose a size before adding to cart.',add_cart:'Add to cart',added:'Added to cart',size_cart:'Size: ',size_cart_shoe:'Size (EU): ',
 about_label:'OUR IDENTITY',about_t:'No need to follow.',about_p:'TCMEX blends character, simplicity and energy. Stay yourself. Create your own movement.',
 faq_label:'FREQUENTLY ASKED QUESTIONS',q1:'How do I place an order?',a1:'Click an item, choose your size and add it to your cart. Log in or create an account, enter your delivery address, then pay on the secure Stripe page.',
@@ -320,6 +331,7 @@ login:'Anmelden',account:'Mein Konto',hero_label:'NICHT WIE DIE ANDEREN.',h1a:'B
 hero_p:'Eine Haltung. Eine Identität. Eine Bewegung. Willkommen in der Welt von TCMEX.',see_col:'Kollektion ansehen',
 col_label:'DER TCMEX-STIL',col_title:'Die Kollektion.',prices:'Preise in CHF',test_note:'Testmodus: Es wird keine echte Zahlung belastet. Stripe-Testkarte: 4242 4242 4242 4242.',
 d1:'Schwarzes T-Shirt • Signatur-Logo',d2:'Graues T-Shirt • Neon-Details',d3:'Weisses T-Shirt • Minimal',d4:'Schuhe • Monochrom',
+st_stock:'Auf Lager',st_prep:'In Vorbereitung',st_out:'Nicht auf Lager',add_unavail:'Nicht verfügbar',
 view:'Grösse wählen',size_label:'GRÖSSE (cm)',size_label_shoe:'SCHUHGRÖSSE (EU)',pick_size:'Wähle eine Grösse, bevor du in den Warenkorb legst.',add_cart:'In den Warenkorb',added:'Zum Warenkorb hinzugefügt',size_cart:'Grösse: ',size_cart_shoe:'Grösse (EU): ',
 about_label:'UNSERE IDENTITÄT',about_t:'Du musst niemandem folgen.',about_p:'TCMEX verbindet Charakter, Einfachheit und Energie. Bleib du selbst. Schaffe deine eigene Bewegung.',
 faq_label:'HÄUFIGE FRAGEN',q1:'Wie bestelle ich?',a1:'Klicke auf einen Artikel, wähle deine Grösse und lege ihn in den Warenkorb. Melde dich an oder erstelle ein Konto, gib deine Lieferadresse ein und bezahle auf der sicheren Stripe-Seite.',
@@ -362,6 +374,13 @@ function open(id){$(id).classList.add('open');document.body.style.overflow='hidd
 function close(id){$(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
 function toast(text){const el=$('toast');el.textContent=text;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
 
+// Statut d'un produit : classe CSS (couleur du point) + clé de traduction
+function stockInfo(status){
+ if(status==='out')return {cls:'out',key:'st_out'};
+ if(status==='prep')return {cls:'prep',key:'st_prep'};
+ return {cls:'',key:'st_stock'};
+}
+
 // Image de remplacement si une photo ne charge pas
 function placeholder(name){
  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="#1a1a1a"/><text x="150" y="140" text-anchor="middle" font-family="Arial" font-weight="900" font-size="48" fill="#c8ff00">TCMEX</text><text x="150" y="180" text-anchor="middle" font-family="Arial" font-weight="700" font-size="18" fill="#f5f5f5">${safeText(name)}</text></svg>`;
@@ -380,14 +399,18 @@ $('copyMail').onclick=async()=>{
  toast(t('copied'));
 };
 
-/* ====== Collection : cartes cliquables (sans bouton d'ajout) ====== */
+/* ====== Collection : cartes cliquables avec statut ====== */
 function renderProducts(){
- $('products').innerHTML=products.map(p=>`
+ $('products').innerHTML=products.map(p=>{
+  const st=stockInfo(p.status);
+  return `
  <article class="product" data-open="${p.id}" tabindex="0" role="button" aria-label="${safeText(p.name)} — ${safeText(t('view'))}">
  <div class="art"><img class="product-photo" src="${p.image}" data-name="${safeText(p.name)}" alt="${safeText(p.name)} — ${safeText(t(p.d))}" loading="lazy"></div>
  <div class="product-info"><h3>${safeText(p.name)}</h3><p>${safeText(t(p.d))}</p>
  <div class="product-bottom"><span class="price">${money(p.price)}</span><span class="view">${safeText(t('view'))}</span></div>
- </div></article>`).join('');
+ <div class="stock-tag ${st.cls}">${safeText(t(st.key))}</div>
+ </div></article>`;
+ }).join('');
  document.querySelectorAll('[data-open]').forEach(c=>{
   c.onclick=()=>openProduct(c.dataset.open);
   c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProduct(c.dataset.open);}};
@@ -397,22 +420,30 @@ function renderProducts(){
 /* ====== Fenêtre produit : choix de la taille ====== */
 function openProduct(id){
  const p=products.find(x=>x.id===id);if(!p)return;
+ const out=p.status==='out';
+ const st=stockInfo(p.status);
  selected={id,size:null};
  const img=$('pImg');img.dataset.name=p.name;img.removeAttribute('data-fb');img.src=p.image;img.alt=p.name;
  $('pName').textContent=p.name;
  $('pDesc').textContent=t(p.d);
  $('pPrice').textContent=money(p.price);
+ $('pStock').className='stock-tag '+st.cls;
+ $('pStock').textContent=t(st.key);
  $('pLabel').textContent='TCMEX';
  $('pSizeLabel').textContent=t(p.shoe?'size_label_shoe':'size_label');
  hideMessage('pMsg');
- $('pSizes').innerHTML=p.sizes.map(s=>`<button type="button" class="size" data-size="${s}" aria-pressed="false">${s}</button>`).join('');
+ $('pSizes').innerHTML=p.sizes.map(s=>`<button type="button" class="size" data-size="${s}" aria-pressed="false"${out?' disabled':''}>${s}</button>`).join('');
  document.querySelectorAll('.size').forEach(b=>b.onclick=()=>{
   selected.size=b.dataset.size;hideMessage('pMsg');
   document.querySelectorAll('.size').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on);});
  });
+ $('pAdd').disabled=out;
+ $('pAdd').textContent=t(out?'add_unavail':'add_cart');
  open('productOverlay');
 }
 $('pAdd').onclick=()=>{
+ const p=products.find(x=>x.id===selected.id);
+ if(!p||p.status==='out')return;
  if(!selected.size){message('pMsg',t('pick_size'),true);return;}
  addToCart(selected.id,selected.size);
  close('productOverlay');
@@ -422,7 +453,7 @@ $('pAdd').onclick=()=>{
 /* ====== Panier (une ligne par article + taille) ====== */
 function saveCart(){try{localStorage.setItem('tcmex_cart',JSON.stringify(cart));}catch{}renderCart();}
 function addToCart(id,size){
- const p=products.find(p=>p.id===id);if(!p||!p.sizes.includes(size))return;
+ const p=products.find(p=>p.id===id);if(!p||p.status==='out'||!p.sizes.includes(size))return;
  const line=cart.find(x=>x.id===id&&x.size===size);
  if(line)line.qty=Math.min(20,line.qty+1);else cart.push({id,size,qty:1});
  saveCart();
@@ -434,7 +465,8 @@ function changeQty(id,size,delta){
  saveCart();
 }
 function renderCart(){
- cart=cart.filter(x=>{const p=products.find(p=>p.id===x.id);return p&&p.sizes.includes(x.size)&&Number.isInteger(x.qty)&&x.qty>0;});
+ // On retire du panier les articles inconnus, hors stock ou avec une taille invalide
+ cart=cart.filter(x=>{const p=products.find(p=>p.id===x.id);return p&&p.status!=='out'&&p.sizes.includes(x.size)&&Number.isInteger(x.qty)&&x.qty>0;});
  $('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);
  $('checkoutStartButton').disabled=!cart.length;
  if(!cart.length)$('cartItems').innerHTML=`<p class="notice">${safeText(t('empty'))}</p>`;
@@ -484,7 +516,7 @@ function applyLang(){
  if(recoveryMode)$('authTitle').textContent=t('t_newpw');else updateAccountUI();
 }
 $('langSelect').value=lang;
-$('langSelect').onchange=e=>{lang=e.target.value;try{localStorage.setItem('tcmex_lang',lang);}catch{}applyLang();};
+$('langSelect').onchange=e=>{lang=e.target.value;try{localStorage.setItem('tcmex_lang',lang);}catch{}applyLang();close('productOverlay');};
 
 async function refreshSession(){
  const {data,error}=await supabase.auth.getSession();
