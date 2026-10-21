@@ -104,6 +104,7 @@ footer .links button:hover{color:var(--lime)}
 .field{margin:14px 0}
 .field label{display:block;color:#ccc;font-size:12px;margin-bottom:7px}
 .field input,.field textarea{width:100%;padding:12px;background:#080808;border:1px solid #444;color:white}
+.field select{width:100%}
 .full{width:100%}
 .small-btn{display:block;background:none;color:var(--lime);padding:10px 0;text-decoration:underline;font-weight:700}
 .small-btn:hover{background:none;color:#fff}
@@ -120,8 +121,27 @@ footer .links button:hover{color:var(--lime)}
 .total{display:flex;justify-content:space-between;padding:20px 0;font-weight:700}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:var(--lime);color:#080808;padding:12px 18px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:40}
 .toast.show{opacity:1;transform:translateX(-50%)}
+
+/* ====== Roue hebdomadaire ====== */
+.wheel-widget{position:fixed;right:-130px;top:50%;margin-top:-130px;width:260px;z-index:9;transition:right .45s cubic-bezier(.2,.8,.2,1)}
+.wheel-widget.open{right:18px}
+.wheel-box{position:relative;width:260px;height:260px;cursor:pointer}
+.wheel-box canvas{width:260px;height:260px;border-radius:50%;border:4px solid var(--lime);box-shadow:0 0 30px #c8ff0033;transition:transform 5s cubic-bezier(.12,.67,.1,1)}
+.wheel-pointer{position:absolute;left:-14px;top:50%;margin-top:-13px;width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-right:24px solid var(--lime);z-index:2;filter:drop-shadow(0 0 4px #000)}
+.wheel-hub{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px;border-radius:50%;background:#080808;border:3px solid var(--lime);color:var(--lime);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px}
+.wheel-tag{position:absolute;left:-4px;top:-34px;background:var(--lime);color:#080808;font-weight:900;font-size:11px;padding:6px 10px;white-space:nowrap}
+.wheel-widget.open .wheel-tag{display:none}
+.wheel-panel{display:none;margin-top:14px;background:#111;border:1px solid #383838;padding:14px;font-size:13px;color:#ccc;text-align:center}
+.wheel-widget.open .wheel-panel{display:block}
+.wheel-panel button{width:100%;margin-top:10px}
+.wheel-panel .stars{font-size:20px;color:var(--orange);letter-spacing:3px;margin:6px 0}
+.wheel-panel .stars i{font-style:normal;color:#444}
+.wheel-panel .wheel-close{background:none;color:var(--gray);font-weight:400;font-size:12px;text-decoration:underline;padding:6px 0 0}
+.wheel-panel .wheel-close:hover{background:none;color:var(--lime)}
+
 @media(max-width:980px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.pmodal{grid-template-columns:1fr;gap:16px;padding-top:40px}.pimg{aspect-ratio:4/3}}
+@media(max-width:760px){header{padding:12px 5%}.art{height:210px}.hero{padding:65px 6%}section{padding:50px 6%}.product-info{padding:12px}.pmodal{grid-template-columns:1fr;gap:16px;padding-top:40px}.pimg{aspect-ratio:4/3}
+.wheel-widget{width:200px;right:-100px;margin-top:-100px}.wheel-widget.open{right:10px}.wheel-box,.wheel-box canvas{width:200px;height:200px}}
 @media(max-width:430px){.products{grid-template-columns:1fr}.art{height:250px}nav{gap:14px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -166,6 +186,23 @@ footer .links button:hover{color:var(--lime)}
 
 <footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span data-i="copy"></span>
 <div class="links"><button data-legal="cgv" data-i="cgv"></button><button data-legal="mentions" data-i="mentions"></button><button data-legal="privacy" data-i="privacy"></button></div></footer>
+
+<!-- Roue de la semaine : visible à moitié sur le bord droit de l'écran -->
+<div class="wheel-widget" id="wheelWidget">
+  <div class="wheel-box" id="wheelBox">
+    <span class="wheel-tag" data-i="w_tag"></span>
+    <div class="wheel-pointer"></div>
+    <canvas id="wheelCanvas" width="520" height="520" aria-hidden="true"></canvas>
+    <div class="wheel-hub">TCMEX</div>
+  </div>
+  <div class="wheel-panel">
+    <strong data-i="w_title"></strong>
+    <div class="stars" id="wheelStars" aria-live="polite"></div>
+    <div id="wheelInfo"></div>
+    <button id="wheelSpin" type="button"></button>
+    <button class="wheel-close" id="wheelClose" type="button" data-i="close"></button>
+  </div>
+</div>
 
 <!-- Fenêtre produit : image, statut, taille, ajout au panier -->
 <div class="overlay" id="productOverlay" role="dialog" aria-modal="true"><div class="modal pmodal">
@@ -224,6 +261,7 @@ footer .links button:hover{color:var(--lime)}
 <div class="field"><label for="buyerName" data-i="full_name"></label><input id="buyerName" required autocomplete="name" maxlength="120"></div>
 <div class="field"><label for="buyerEmail" data-i="email"></label><input id="buyerEmail" type="email" required autocomplete="email"></div>
 <div class="field"><label for="buyerAddress" data-i="address"></label><textarea id="buyerAddress" required rows="3" autocomplete="street-address" maxlength="1000"></textarea></div>
+<div class="field"><label for="buyerReward" data-i="w_use"></label><select id="buyerReward"></select></div>
 <button id="checkoutSubmit" class="full" type="submit" data-i="pay"></button>
 </form>
 </div></div>
@@ -289,6 +327,10 @@ m_logged:'Connexion réussie.',m_reset:'Si cette adresse existe, un lien de réc
 m_need_login:'Connecte-toi ou crée un compte avant la commande.',m_empty:'Panier vide.',m_prep:'Préparation du paiement…',m_redirect:'Redirection vers Stripe…',
 e_session:'Session expirée : déconnecte-toi puis reconnecte-toi.',e_notfound:'La fonction de paiement "create-checkout" est introuvable sur Supabase.',e_prep:'Impossible de préparer le paiement.',e_stripe:'Stripe n’a pas renvoyé de lien valide.',e_login:'Session expirée : reconnecte-toi avant de payer.',
 e_generic:'Une erreur est survenue.',thanks:'Merci ! Ta commande est confirmée.',canceled:'Paiement annulé. Ton panier est conservé.',
+w_tag:'🎡 ROUE DE LA SEMAINE',w_title:'Roue de la semaine',w_spin:'Tourner la roue',w_login:'Connecte-toi pour tourner',w_done:'Tu as déjà tourné cette semaine. Reviens lundi !',w_ready:'Un tirage gratuit t\'attend cette semaine.',w_spinning:'Ça tourne…',
+w_stars:'Étoiles : ',w_reward:'Récompense : ',w_none:'Aucune récompense en attente.',w_err:'Impossible de tourner la roue pour le moment.',w_already:'Tu as déjà tourné cette semaine.',
+w_discount5:'5% de réduction',w_discount10:'10% de réduction',w_discount15:'15% de réduction',w_star:'Une étoile',w_free_order:'Une commande gratuite',
+w_won:'Tu as gagné : ',w_bonus:'5 étoiles ! Commande gratuite débloquée 🎁',w_use:'Récompense à utiliser (facultatif)',w_no_reward:'Aucune',
 lg_cgv:['Conditions générales de vente',[['Commandes','Toute commande vaut acceptation des présentes conditions. Les prix sont en francs suisses (CHF).'],['Paiement','Le paiement est traité par Stripe. TCMEX n\'a jamais accès à ta carte bancaire.'],['Livraison et retours','Frais et délais précisés lors de la commande. Pour un retour, écris à {m} avec ton numéro de commande.']]],
 lg_mentions:['Mentions légales',[['Éditeur','TCMEX — [nom de l\'entreprise ou du responsable, adresse, pays].'],['Contact','{m}'],['Hébergement','GitHub Pages (GitHub, Inc.).']]],
 lg_privacy:['Politique de confidentialité',[['Données collectées','E-mail, prénom (facultatif) et adresse de livraison, uniquement pour gérer ton compte et tes commandes.'],['Stockage','Compte géré par Supabase. Panier conservé dans ton navigateur. Paiements traités par Stripe.'],['Tes droits','Pour consulter ou supprimer tes données, écris à {m}.']]]
@@ -320,6 +362,10 @@ m_logged:'Logged in.',m_reset:'If this address exists, a recovery link has been 
 m_need_login:'Log in or create an account before ordering.',m_empty:'Cart is empty.',m_prep:'Preparing payment…',m_redirect:'Redirecting to Stripe…',
 e_session:'Session expired: log out and log back in.',e_notfound:'The "create-checkout" payment function was not found on Supabase.',e_prep:'Unable to prepare the payment.',e_stripe:'Stripe did not return a valid link.',e_login:'Session expired: log in again before paying.',
 e_generic:'An error occurred.',thanks:'Thank you! Your order is confirmed.',canceled:'Payment canceled. Your cart is saved.',
+w_tag:'🎡 WEEKLY WHEEL',w_title:'Weekly wheel',w_spin:'Spin the wheel',w_login:'Log in to spin',w_done:'You already spun this week. Come back Monday!',w_ready:'A free spin is waiting for you this week.',w_spinning:'Spinning…',
+w_stars:'Stars: ',w_reward:'Reward: ',w_none:'No reward pending.',w_err:'Unable to spin the wheel right now.',w_already:'You already spun this week.',
+w_discount5:'5% off',w_discount10:'10% off',w_discount15:'15% off',w_star:'One star',w_free_order:'A free order',
+w_won:'You won: ',w_bonus:'5 stars! Free order unlocked 🎁',w_use:'Reward to use (optional)',w_no_reward:'None',
 lg_cgv:['Terms of sale',[['Orders','Placing an order means accepting these terms. Prices are in Swiss francs (CHF).'],['Payment','Payment is processed by Stripe. TCMEX never has access to your card details.'],['Delivery and returns','Fees and delivery times are shown when you order. For a return, email {m} with your order number.']]],
 lg_mentions:['Legal notice',[['Publisher','TCMEX — [company or person name, address, country].'],['Contact','{m}'],['Hosting','GitHub Pages (GitHub, Inc.).']]],
 lg_privacy:['Privacy policy',[['Data collected','Email, first name (optional) and delivery address, only to manage your account and orders.'],['Storage','Account managed by Supabase. Cart kept in your browser. Payments processed by Stripe.'],['Your rights','To view or delete your data, email {m}.']]]
@@ -351,6 +397,10 @@ m_logged:'Anmeldung erfolgreich.',m_reset:'Falls diese Adresse existiert, wurde 
 m_need_login:'Melde dich an oder erstelle ein Konto, bevor du bestellst.',m_empty:'Warenkorb leer.',m_prep:'Zahlung wird vorbereitet…',m_redirect:'Weiterleitung zu Stripe…',
 e_session:'Sitzung abgelaufen: melde dich ab und wieder an.',e_notfound:'Die Zahlungsfunktion "create-checkout" wurde auf Supabase nicht gefunden.',e_prep:'Zahlung konnte nicht vorbereitet werden.',e_stripe:'Stripe hat keinen gültigen Link geliefert.',e_login:'Sitzung abgelaufen: melde dich vor der Zahlung erneut an.',
 e_generic:'Ein Fehler ist aufgetreten.',thanks:'Danke! Deine Bestellung ist bestätigt.',canceled:'Zahlung abgebrochen. Dein Warenkorb bleibt erhalten.',
+w_tag:'🎡 WOCHENRAD',w_title:'Rad der Woche',w_spin:'Rad drehen',w_login:'Melde dich an, um zu drehen',w_done:'Du hast diese Woche schon gedreht. Komm am Montag wieder!',w_ready:'Diese Woche wartet ein Gratis-Dreh auf dich.',w_spinning:'Es dreht sich…',
+w_stars:'Sterne: ',w_reward:'Belohnung: ',w_none:'Keine offene Belohnung.',w_err:'Das Rad kann gerade nicht gedreht werden.',w_already:'Du hast diese Woche schon gedreht.',
+w_discount5:'5% Rabatt',w_discount10:'10% Rabatt',w_discount15:'15% Rabatt',w_star:'Ein Stern',w_free_order:'Eine Gratis-Bestellung',
+w_won:'Du hast gewonnen: ',w_bonus:'5 Sterne! Gratis-Bestellung freigeschaltet 🎁',w_use:'Belohnung einlösen (optional)',w_no_reward:'Keine',
 lg_cgv:['Allgemeine Geschäftsbedingungen',[['Bestellungen','Mit einer Bestellung akzeptierst du diese Bedingungen. Preise in Schweizer Franken (CHF).'],['Zahlung','Die Zahlung wird von Stripe abgewickelt. TCMEX hat nie Zugriff auf deine Kartendaten.'],['Lieferung und Rückgabe','Kosten und Lieferzeiten siehst du bei der Bestellung. Für eine Rückgabe schreib an {m} mit deiner Bestellnummer.']]],
 lg_mentions:['Impressum',[['Herausgeber','TCMEX — [Name des Unternehmens oder der verantwortlichen Person, Adresse, Land].'],['Kontakt','{m}'],['Hosting','GitHub Pages (GitHub, Inc.).']]],
 lg_privacy:['Datenschutzerklärung',[['Erhobene Daten','E-Mail, Vorname (optional) und Lieferadresse, nur zur Verwaltung von Konto und Bestellungen.'],['Speicherung','Konto bei Supabase. Warenkorb in deinem Browser. Zahlungen über Stripe.'],['Deine Rechte','Um deine Daten einzusehen oder zu löschen, schreib an {m}.']]]
@@ -501,6 +551,9 @@ function updateAccountUI(){
  $('accountInfo').classList.toggle('hidden',!logged);$('logoutButton').classList.toggle('hidden',!logged);
  if(logged){$('accountInfo').textContent=t('connected_with')+(user.email||'');$('authTitle').textContent=t('account');$('authForm').classList.add('hidden');$('newPasswordForm').classList.add('hidden');$('forgotButton').classList.add('hidden');$('signupButton').classList.add('hidden');$('loginButton').classList.add('hidden');}
  else if(!recoveryMode){$('accountInfo').classList.add('hidden');setAuthMode(authMode);}
+ // Roue : recharger l'état quand l'utilisateur connecté change
+ const uid=user?.id||null;
+ if(uid!==wheelUser){wheelUser=uid;loadWheel();}
 }
 
 /* ====== Application de la langue ====== */
@@ -512,7 +565,7 @@ function applyLang(){
  document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
  document.querySelectorAll('[data-ia]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.ia)));
  hideMessage('authMessage');hideMessage('checkoutMessage');
- renderProducts();renderCart();
+ renderProducts();renderCart();renderWheelPanel();
  if(recoveryMode)$('authTitle').textContent=t('t_newpw');else updateAccountUI();
 }
 $('langSelect').value=lang;
@@ -578,6 +631,9 @@ $('checkoutStartButton').onclick=async()=>{
  if(!currentSession?.user){open('accountOverlay');setAuthMode('login');message('authMessage',t('m_need_login'));return;}
  hideMessage('checkoutMessage');$('buyerEmail').value=currentSession.user.email||'';
  if(currentSession.user.user_metadata?.first_name&&!$('buyerName').value)$('buyerName').value=currentSession.user.user_metadata.first_name;
+ // Liste des récompenses disponibles (roue)
+ await loadWheel();
+ $('buyerReward').innerHTML=`<option value="">${safeText(t('w_no_reward'))}</option>`+wheelState.rewards.map(r=>`<option value="${safeText(r.id)}">${safeText(t('w_'+r.kind))}</option>`).join('');
  open('checkoutOverlay');
 };
 
@@ -598,6 +654,7 @@ $('checkoutForm').addEventListener('submit',async e=>{
    body:JSON.stringify({
     items:cart.map(line=>({id:line.id,qty:line.qty,size:line.size})),
     buyer:{name:$('buyerName').value.trim(),email:$('buyerEmail').value.trim(),address:$('buyerAddress').value.trim()},
+    reward_id:$('buyerReward').value||null,
     locale:lang
    })
   });
@@ -619,6 +676,80 @@ document.querySelectorAll('[data-legal]').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)close(el.id)}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.overlay').forEach(el=>el.classList.remove('open'));document.body.style.overflow='';}});
+
+/* ====== Roue hebdomadaire ======
+   Le tirage est fait côté serveur (fonction SQL spin_wheel sur Supabase).
+   Les angles ci-dessous sont proportionnels aux probabilités, uniquement pour l'affichage. */
+const WHEEL=[
+ {k:'discount5', p:50,label:'5%', bg:'#2a2a2a',fg:'#f5f5f5'},
+ {k:'discount10',p:25,label:'10%',bg:'#c8ff00',fg:'#080808'},
+ {k:'discount15',p:15,label:'15%',bg:'#3d3d3d',fg:'#f5f5f5'},
+ {k:'star',      p:8, label:'★',  bg:'#ffb020',fg:'#080808'},
+ {k:'free_order',p:2, label:'🎁', bg:'#f5f5f5',fg:'#080808'}
+];
+let wheelState={can_spin:false,stars:0,rewards:[]},wheelRot=0,wheelBusy=false,wheelUser=null;
+{let a0=0;WHEEL.forEach(s=>{s.start=a0;s.end=a0+s.p*3.6;a0=s.end;});} // en degrés, depuis 3h, sens horaire
+
+function drawWheel(){
+ const c=$('wheelCanvas'),x=c.getContext('2d'),R=c.width/2,rad=d=>d*Math.PI/180;
+ x.clearRect(0,0,c.width,c.height);
+ WHEEL.forEach(s=>{
+  x.beginPath();x.moveTo(R,R);x.arc(R,R,R-4,rad(s.start),rad(s.end));x.closePath();
+  x.fillStyle=s.bg;x.fill();x.strokeStyle='#080808';x.lineWidth=3;x.stroke();
+  const mid=rad((s.start+s.end)/2);
+  x.save();x.translate(R,R);x.rotate(mid);x.textAlign='right';x.textBaseline='middle';
+  x.fillStyle=s.fg;x.font=`900 ${s.p<5?26:s.p<10?34:44}px Archivo,Arial`;
+  x.fillText(s.label,R-26,0);x.restore();
+ });
+}
+function wheelLoggedIn(){return !!currentSession?.user;}
+function renderWheelPanel(){
+ const st=wheelState,btn=$('wheelSpin');
+ $('wheelStars').innerHTML=Array.from({length:5},(_,i)=>i<st.stars?'★':'<i>★</i>').join('');
+ let info=safeText(t('w_stars'))+st.stars+'/5';
+ if(wheelLoggedIn()){
+  info+='<br>'+(st.rewards.length?safeText(t('w_reward'))+st.rewards.map(r=>safeText(t('w_'+r.kind))).join(', '):safeText(t('w_none')));
+  info+='<br><br>'+safeText(t(st.can_spin?'w_ready':'w_done'));
+ }
+ $('wheelInfo').innerHTML=info;
+ if(!wheelLoggedIn()){btn.textContent=t('w_login');btn.disabled=false;}
+ else{btn.textContent=t(wheelBusy?'w_spinning':'w_spin');btn.disabled=wheelBusy||!st.can_spin;}
+}
+async function loadWheel(){
+ if(!wheelLoggedIn()){wheelState={can_spin:false,stars:0,rewards:[]};renderWheelPanel();return;}
+ const {data,error}=await supabase.rpc('wheel_status');
+ if(error){console.error(error);return;}
+ wheelState=data;renderWheelPanel();
+}
+function spinTo(key){
+ const s=WHEEL.find(w=>w.k===key);
+ const a=s.start+(s.end-s.start)*(0.15+Math.random()*0.7); // point dans la part gagnante
+ const want=((180-a)%360+360)%360;                          // le repère est à 9h (180°)
+ const base=wheelRot-(wheelRot%360);
+ wheelRot=base+360*6+want;
+ $('wheelCanvas').style.transform=`rotate(${wheelRot}deg)`;
+}
+$('wheelBox').onclick=()=>{$('wheelWidget').classList.add('open');loadWheel();};
+$('wheelClose').onclick=()=>$('wheelWidget').classList.remove('open');
+$('wheelSpin').onclick=async()=>{
+ if(!wheelLoggedIn()){open('accountOverlay');setAuthMode('login');message('authMessage',t('m_need_login'));return;}
+ if(wheelBusy||!wheelState.can_spin)return;
+ wheelBusy=true;renderWheelPanel();
+ const {data,error}=await supabase.rpc('spin_wheel');
+ if(error){
+  wheelBusy=false;
+  toast(t(String(error.message).includes('already_spun')?'w_already':'w_err'));
+  await loadWheel();return;
+ }
+ spinTo(data.result);
+ setTimeout(async()=>{
+  wheelBusy=false;
+  toast(t('w_won')+t('w_'+data.result));
+  if(data.bonus_free_order)setTimeout(()=>toast(t('w_bonus')),2400);
+  await loadWheel();
+ },5200);
+};
+drawWheel();
 
 async function initAuth(){
  try{await refreshSession();}catch(err){console.error('Supabase session:',err);}
