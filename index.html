@@ -25,7 +25,9 @@ button{border:0}
 :focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 header{position:sticky;top:0;z-index:10;background:#080808ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
 .logo{font-size:30px;font-weight:900;letter-spacing:-2px}
+.logo b{color:#8a8a8a;font-weight:900}
 .logo span{color:var(--lime)}
+.logo sup{font-size:.38em;font-weight:700;color:var(--white);letter-spacing:0;margin-left:2px;vertical-align:super}
 nav{display:flex;gap:22px;flex-wrap:wrap}
 nav a{font-size:13px;font-weight:700}
 nav a:hover{color:var(--lime)}
@@ -150,7 +152,7 @@ footer .links button:hover{color:var(--lime)}
 </head>
 <body>
 <header>
-<a class="logo" href="#accueil">TCM<span>EX</span></a>
+<a class="logo" href="#accueil"><b>TC</b><span>MEX</span><sup>®</sup></a>
 <nav><a href="#accueil" data-i="nav_home"></a><a href="#collection" data-i="nav_col"></a><a href="#faq" data-i="nav_faq"></a><a href="#contact" data-i="nav_ct"></a></nav>
 <div class="tools">
 <select id="langSelect" data-ia="lang_label"><option value="fr">FR</option><option value="en">EN</option><option value="de">DE</option></select>
@@ -186,7 +188,7 @@ footer .links button:hover{color:var(--lime)}
 </section>
 </main>
 
-<footer><a class="logo" href="#accueil">TCM<span>EX</span></a><span data-i="copy"></span>
+<footer><a class="logo" href="#accueil"><b>TC</b><span>MEX</span><sup>®</sup></a><span data-i="copy"></span>
 <div class="links"><button data-legal="cgv" data-i="cgv"></button><button data-legal="mentions" data-i="mentions"></button><button data-legal="privacy" data-i="privacy"></button></div></footer>
 
 <!-- Roue de la semaine : visible à moitié sur le bord droit de l'écran -->
