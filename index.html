@@ -294,6 +294,37 @@ const SHOE_SIZES=['38','39','40','41','42','43','44','45']; // pointures europé
 // Les id doivent rester identiques à ceux acceptés par ta fonction create-checkout
 // status : 'stock' = En stock (vert) / 'prep' = En préparation (orange) / 'out' = Ce n'est pas en stock (rouge, non commandable)
 const products=[
+  // T-shirts
+  {id:'tee-essential',name:'T-shirt TCMEX noir',d:'d1',price:29.75,image:'./images/tshirt-noir.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
+  {id:'tee-neon',name:'T-shirt TCMEX gris',d:'d2',price:29.75,image:'./images/tshirt-gris.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
+  {id:'tee-air',name:'T-shirt TCMEX blanc',d:'d3',price:29.75,image:'./images/tshirt-blanc.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
+
+  // Hoodie et sweats
+  {id:'hoodie-street',name:'TCMEX Air 1',d:'d4',price:69.75,image:'./images/TCMEX%20Air%201%2C%20%C3%A9l%C3%A9gance%20monochrome.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'hoodie-gris',name:'Hoodie gris TCMEX',d:'d4',price:69.75,image:'./images/Hoodie%20gris%20avec%20logo%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'hoodie-noir',name:'Hoodie noir TCMEX',d:'d4',price:69.75,image:'./images/Hoodie%20noir%20TCMEX%20sur%20fond%20blanc.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'sweat-blanc',name:'Sweat à capuche blanc TCMEX',d:'d4',price:69.75,image:'./images/Sweat%20%C3%A0%20capuche%20blanc%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+
+  // Joggings et pantalons
+  {id:'jogging-blanc',name:'Jogging blanc TCMEX',d:'d4',price:49.75,image:'./images/Jogging%20blanc%20TCMEX%20embl%C3%A9matique.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'jogging-gris',name:'Jogging gris TCMEX',d:'d4',price:49.75,image:'./images/Jogging%20gris%20avec%20logo%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'jogging-noir',name:'Pantalon de jogging noir TCMEX',d:'d4',price:49.75,image:'./images/Pantalon%20de%20jogging%20noir%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+
+  // Shorts
+  {id:'short-gris',name:'Short gris chiné TCMEX',d:'d4',price:29.75,image:'./images/Short%20gris%20chin%C3%A9%20avec%20logo%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'short-noir',name:'Short noir TCMEX',d:'d4',price:29.75,image:'./images/Short%20noir%20TCMEX%20sur%20fond%20blanc.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'short-blanc',name:'Short blanc TCMEX',d:'d4',price:29.75,image:'./images/Shorts%20blancs%20TCMEX%20en%20studio.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+
+  // Vestes
+  {id:'veste-blanche',name:'Veste de sport blanche TCMEX',d:'d4',price:59.75,image:'./images/Veste%20de%20sport%20blanche%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'veste-grise',name:'Veste de sport grise TCMEX',d:'d4',price:59.75,image:'./images/Veste%20de%20sport%20grise%20TCMEX.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+  {id:'veste-noire',name:'Veste noire TCMEX',d:'d4',price:59.75,image:'./images/Veste%20noire%20TCMEX%20sur%20fond%20blanc.png',sizes:TEE_SIZES,shoe:false,status:'prep'},
+
+  // Casquettes
+  {id:'cap-black',name:'Casquette TCMEX noire',d:'d5',price:5.75,image:'./images/Casquette%20noire%20brod%C3%A9e%20TCMEX.png',sizes:CAP_SIZES,shoe:false,cap:true,status:'stock'},
+  {id:'cap-white',name:'Casquette TCMEX blanche',d:'d6',price:5.75,image:'./images/Casquette%20blanche%20brod%C3%A9e%20TCMEX.png',sizes:CAP_SIZES,shoe:false,cap:true,status:'stock'},
+  {id:'cap-grey',name:'Casquette TCMEX grise',d:'d7',price:5.75,image:'./images/Casquette%20grise%20TCMEX%20brod%C3%A9e.png',sizes:CAP_SIZES,shoe:false,cap:true,status:'stock'}
+];
 {id:'tee-essential',name:'T-shirt TCMEX noir',d:'d1',price:29.75,image:'./images/tshirt-noir.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
 {id:'tee-neon',name:'T-shirt TCMEX gris',d:'d2',price:29.75,image:'./images/tshirt-gris.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
 {id:'tee-air',name:'T-shirt TCMEX blanc',d:'d3',price:29.75,image:'./images/tshirt-blanc.png',sizes:TEE_SIZES,shoe:false,status:'stock'},
